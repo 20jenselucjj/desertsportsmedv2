@@ -1,0 +1,83 @@
+/* ===== TYPOGRAPHY ===== */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  color: var(--light-text);
+}
+
+p {
+  margin-bottom: 1rem;
+  color: var(--text-color);
+  font-weight: 400;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+a:hover {
+  color: var(--secondary-color);
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 60px;
+  position: relative;
+}
+
+.section-title h2 {
+  font-size: 36px;
+  text-transform: uppercase;
+  display: inline-block;
+  position: relative;
+  padding: 0 15px;
+  margin: 0 70px; /* Add margin to make space for the lines */
+}
+
+.section-title h2:before,
+.section-title h2:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 50px;
+  height: 2px;
+  background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+  transform: translateY(-50%);
+}
+
+.section-title h2:before {
+  left: -70px; /* Increased distance from text */
+}
+
+.section-title h2:after {
+  right: -70px; /* Increased distance from text */
+}
+
+.section-title p {
+  max-width: 600px;
+  margin: 20px auto 0;
+  color: var(--text-color);
+  font-size: 18px;
+  position: relative;
+}
+
+/* Use border-bottom instead of ::after for the bottom line */
+.section-title p {
+  position: relative;
+  padding-bottom: 20px;
+}
+
+.section-title p:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(to right, var(--primary-color), var(--secondary-color), var(--accent-color));
+}

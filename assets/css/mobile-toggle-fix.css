@@ -1,0 +1,15 @@
+/* Desert Sports Med - Mobile Toggle Fix */
+
+/* Ensure mobile toggle is hidden on desktop screens */
+@media (min-width: 992px) {
+  .mobile-toggle {
+    display: none !important;
+  }
+}
+
+/* Ensure mobile toggle is visible on mobile screens */
+@media (max-width: 991.98px) {
+  .mobile-toggle {
+    display: flex !important;
+  }
+}

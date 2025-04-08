@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Online | Desert Sports Med</title>
+    <meta name="description" content="Schedule your appointment with Desert Sports Med. We offer athletic training, sports performance, team services, and event coverage in St. George, Utah.">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="Logo.png" type="image/x-icon">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/main.css">
+
+    <!-- Cal.com Embed Scripts -->
+    <link rel="preconnect" href="https://app.cal.com">
+    <link rel="dns-prefetch" href="https://app.cal.com">
+
+    <script type="text/javascript">
+        // Cal.com initialization
+        (function (C, A, L) {
+            let p = function (a, ar) { a.q.push(ar); };
+            let d = C.document;
+            C.Cal = C.Cal || function () {
+                let cal = C.Cal;
+                let ar = arguments;
+                if (!cal.loaded) {
+                    cal.ns = {};
+                    cal.q = cal.q || [];
+                    d.head.appendChild(d.createElement("script")).src = A;
+                    cal.loaded = true;
+                }
+                if (ar[0] === L) {
+                    const api = function () { p(api, arguments); };
+                    const namespace = ar[1];
+                    api.q = api.q || [];
+                    if(typeof namespace === "string"){
+                        cal.ns[namespace] = cal.ns[namespace] || api;
+                        p(cal.ns[namespace], ar);
+                        p(cal, ["initNamespace", namespace]);
+                    } else p(cal, ar);
+                    return;
+                }
+                p(cal, ar);
+            };
+        })(window, "https://app.cal.com/embed/embed.js", "init");
+    </script>
+
+    <!-- EmailJS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+    <style>
+        /* Booking Tabs Styling */
+        .booking-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .booking-tab {
+            flex: 1;
+            min-width: 200px;
+            background-color: var(--card-background);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            padding: 25px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .booking-tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .booking-tab:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            border-color: var(--primary-color);
+        }
+
+        .booking-tab:hover::before {
+            transform: scaleX(1);
+        }
+
+        .booking-tab.active {
+            background: linear-gradient(135deg, rgba(var(--primary-color-rgb), 0.15), rgba(var(--secondary-color-rgb), 0.15));
+            border-color: var(--primary-color);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .booking-tab.active::before {
+            transform: scaleX(1);
+        }
+
+        .booking-tab i {
+            font-size: 2.2rem;
+            margin-bottom: 18px;
+            color: var(--primary-color);
+            transition: transform 0.3s ease;
+        }
+
+        .booking-tab:hover i {
+            transform: scale(1.1);
+        }
+
+        .booking-tab h3 {
+            margin-bottom: 12px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .booking-tab:hover h3 {
+            color: var(--primary-color);
+        }
+
+        .booking-tab p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        /* Booking Content Styling */
+        .booking-content {
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .booking-content.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .cal-embed-container {
+            height: 700px;
+            overflow: hidden;
+            background-color: var(--card-background);
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .cal-embed-container:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            border-color: rgba(255, 107, 0, 0.3);
+        }
+
+        .cal-embed-container h4 {
+            margin-bottom: 15px;
+            padding: 12px 15px;
+            background-color: rgba(255, 107, 0, 0.1);
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease;
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .cal-embed-container:hover h4 {
+            background-color: rgba(255, 107, 0, 0.2);
+        }
+
+        /* Calendar iframe styling */
+        .cal-embed-container div[style*="overflow:scroll"] {
+            transition: all 0.3s ease;
+            border-radius: var(--border-radius);
+        }
+
+        /* Assistance Box Styling */
+        .assistance-box {
+            background-color: var(--card-background);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-top: 40px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .assistance-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(var(--primary-color-rgb), 0.05), rgba(var(--secondary-color-rgb), 0.05));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .assistance-box:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            border-color: rgba(255, 107, 0, 0.3);
+        }
+
+        .assistance-box:hover::before {
+            opacity: 1;
+        }
+
+        .assistance-box h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            font-weight: 600;
+            position: relative;
+        }
+
+        .assistance-box p {
+            margin-bottom: 0;
+            font-size: 1.05rem;
+            position: relative;
+        }
+
+        /* Loading animation for calendars */
+        .calendar-loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--card-background);
+            z-index: 10;
+            transition: opacity 0.5s ease;
+        }
+
+        .calendar-loading.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 107, 0, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+    <!-- Chatbot Position Fix - Ensures consistent positioning across all pages -->
+    <script src="assets/js/chatbot-position-fix.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="Logo.png" alt="Desert Sports Med Logo">
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <div class="mobile-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li class="dropdown">
+                        <a href="#">Services</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="athletic-training.html">Athletic Training</a></li>
+                            <li><a href="sports-performance.html">Sports Performance</a></li>
+                            <li><a href="team-services.html">Team Services</a></li>
+                            <li><a href="event-coverage.html">Event Coverage</a></li>
+                            <li><a href="performance-therapy.html">Performance Therapy</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="pricing-request.html">Pricing</a></li>
+                    <li><a href="book-online.html" class="active">Book Online</a></li>
+                </ul>
+
+                <a href="free-intro.html" class="btn btn-book-now">FREE INTRO</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Banner -->
+    <section class="page-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80'); background-size: cover; background-position: center;">
+        <div class="container">
+            <h1>Book Your Appointment</h1>
+            <p>Schedule your session with Desert Sports Med</p>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Schedule Your Session</h2>
+                <p>Select a service below to book your appointment online. Our scheduling system allows you to choose the perfect time that works for you.</p>
+            </div>
+
+            <!-- Booking Tabs -->
+            <div class="booking-tabs">
+                <div class="booking-tab active" data-tab="athletic-training">
+                    <i class="fas fa-running"></i>
+                    <h3>Athletic Training</h3>
+                    <p>Expert care from certified athletic trainers for injury prevention and performance</p>
+                </div>
+                <div class="booking-tab" data-tab="sports-performance">
+                    <i class="fas fa-dumbbell"></i>
+                    <h3>Sports Performance</h3>
+                    <p>Specialized training to enhance athletic performance and skills</p>
+                </div>
+                <div class="booking-tab" data-tab="team-services">
+                    <i class="fas fa-users"></i>
+                    <h3>Team Services</h3>
+                    <p>Athletic training services for teams and organizations</p>
+                </div>
+                <div class="booking-tab" data-tab="event-coverage">
+                    <i class="fas fa-calendar-check"></i>
+                    <h3>Event Coverage</h3>
+                    <p>Professional medical coverage for sporting events</p>
+                </div>
+                <div class="booking-tab" data-tab="performance-therapy">
+                    <i class="fas fa-hand-holding-medical"></i>
+                    <h3>Performance Therapy</h3>
+                    <p>Targeted treatment for pain relief and improved function</p>
+                </div>
+            </div>
+
+            <!-- Booking Content -->
+            <div class="booking-content active" id="athletic-training-content">
+                <div class="cal-embed-container">
+                    <h4 style="margin-bottom: 15px; padding: 10px; background-color: rgba(255, 107, 0, 0.1); border-radius: 5px;">Athletic Training Assessment (60 min)</h4>
+                    <!-- Cal inline embed code begins -->
+                    <div style="width:100%;height:500px;overflow:hidden;border-radius:8px;" id="cal-athletic-assessment"></div>
+                    <!-- Cal inline embed code ends -->
+                </div>
+
+                <div class="cal-embed-container">
+                    <h4 style="margin-bottom: 15px; padding: 10px; background-color: rgba(255, 107, 0, 0.1); border-radius: 5px;">Athletic Training Session (45 min)</h4>
+                    <!-- Cal inline embed code begins -->
+                    <div style="width:100%;height:500px;overflow:hidden;border-radius:8px;" id="cal-athletic-session"></div>
+                    <!-- Cal inline embed code ends -->
+                </div>
+            </div>
+
+            <div class="booking-content" id="sports-performance-content">
+                <div class="cal-embed-container" style="margin-bottom: 20px;">
+                    <h4 style="margin-bottom: 15px; padding: 10px; background-color: rgba(255, 107, 0, 0.1); border-radius: 5px;">Sports Performance Assessment (60 min)</h4>
+                    <!-- Cal inline embed code begins -->
+                    <div style="width:100%;height:500px;overflow:hidden;border-radius:8px;" id="cal-performance-assessment"></div>
+                    <!-- Cal inline embed code ends -->
+                </div>
+
+                <div class="cal-embed-container">
+                    <h4 style="margin-bottom: 15px; padding: 10px; background-color: rgba(255, 107, 0, 0.1); border-radius: 5px;">Performance Training Session (60 min)</h4>
+                    <!-- Cal inline embed code begins -->
+                    <div style="width:100%;height:500px;overflow:hidden;border-radius:8px;" id="cal-performance-session"></div>
+                    <!-- Cal inline embed code ends -->
+                </div>
+            </div>
+
+            <div class="booking-content" id="team-services-content">
+                <div class="cal-embed-container">
+                    <h4 style="margin-bottom: 15px; padding: 10px; background-color: rgba(255, 107, 0, 0.1); border-radius: 5px;">Team Services Consultation (45 min)</h4>
+                    <!-- Cal inline embed code begins -->
+                    <div style="width:100%;height:500px;overflow:hidden;border-radius:8px;" id="cal-team-consultation"></div>
+                    <!-- Cal inline embed code ends -->
+                </div>
+            </div>
+
+            <div class="booking-content" id="event-coverage-content">
+                <div class="cal-embed-container">
+                    <h4 style="margin-bottom: 15px; padding: 10px; background-color: rgba(255, 107, 0, 0.1); border-radius: 5px;">Event Coverage Consultation (30 min)</h4>
+                    <!-- Cal inline embed code begins -->
+                    <div style="width:100%;height:500px;overflow:hidden;border-radius:8px;" id="cal-event-consultation"></div>
+                    <!-- Cal inline embed code ends -->
+                </div>
+            </div>
+
+            <div class="booking-content" id="performance-therapy-content">
+                <div class="cal-embed-container">
+                    <h4 style="margin-bottom: 15px; padding: 10px; background-color: rgba(255, 107, 0, 0.1); border-radius: 5px;">Performance Therapy Session (60 min)</h4>
+                    <!-- Cal inline embed code begins -->
+                    <div style="width:100%;height:500px;overflow:hidden;border-radius:8px;" id="cal-therapy-60"></div>
+                    <!-- Cal inline embed code ends -->
+                </div>
+            </div>
+
+            <div class="assistance-box">
+                <h3>Need Immediate Assistance?</h3>
+                <p>Call us at (801) 797-4043 or email us at desertsportsmed@gmail.com</p>
+            </div>
+
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-about">
+                    <div class="footer-logo">
+                        <img src="Logo.png" alt="Desert Sports Med Logo">
+                    </div>
+                    <p>Desert Sports Med provides expert athletic training services in St. George, Utah. Our certified athletic trainers help athletes and teams prevent injuries, enhance performance, and provide professional medical coverage for events.</p>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/desertsportsmed/" target="_blank" rel="noopener noreferrer" aria-label="Visit our Instagram page"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="athletic-training.html">Athletic Training</a></li>
+                        <li><a href="pricing-request.html">Pricing</a></li>
+                        <li><a href="book-online.html">Book Online</a></li>
+                        <li><a href="free-intro.html">Free Intro</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h3>Services</h3>
+                    <ul>
+                        <li><a href="athletic-training.html">Athletic Training</a></li>
+                        <li><a href="sports-performance.html">Sports Performance</a></li>
+                        <li><a href="team-services.html">Team Services</a></li>
+                        <li><a href="event-coverage.html">Event Coverage</a></li>
+                        <li><a href="performance-therapy.html">Performance Therapy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-contact">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> St. George, UT 84770</p>
+                    <p><i class="fas fa-phone"></i> (801) 797-4043</p>
+                    <p><i class="fas fa-envelope"></i> desertsportsmed@gmail.com</p>
+                    <p><i class="fas fa-clock"></i> Mon-Fri: 7am-7pm, Sat: 8am-2pm</p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 Desert Sports Med. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chatbot -->
+    <div class="chatbot-toggle">
+        <i class="fas fa-comments"></i>
+    </div>
+
+    <div class="chatbot-container">
+        <div class="chatbot-header">
+            <h3>Desert Sports Med Assistant</h3>
+            <div class="chatbot-close">
+                <i class="fas fa-times"></i>
+            </div>
+        </div>
+
+        <div class="chatbot-messages">
+            <div class="message bot">
+                <div class="message-content">
+                    <p>👋 Hi there! I'm the Desert Sports Med virtual assistant. How can I help you today?</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="chatbot-input">
+            <input type="text" placeholder="Type your message..." id="chatbot-input-field">
+            <button id="chatbot-send">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Custom JS -->
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/chatbot.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Cal.com embeds
+            initializeCalEmbeds();
+
+            // Initialize booking tabs
+            initializeBookingTabs();
+        });
+
+        function initializeCalEmbeds() {
+            // Initialize Cal.com with your public page and API key
+
+            // Set UI configuration for each calendar
+            const calendarConfig = {
+                theme: "dark",
+                styles: {
+                    branding: {
+                        brandColor: "#ff6b00"
+                    }
+                },
+                hideEventTypeDetails: false,
+                hideBranding: true,
+                layout: "month_view"
+            };
+
+            // Initial Evaluation Calendar
+            Cal("init", "initial-evaluation", {origin: "https://cal.com"});
+            Cal.ns["initial-evaluation"]("inline", {
+                elementOrSelector: "#cal-initial-evaluation",
+                calLink: "lucas-jensen-rlhgc8/initial-evaluation",
+                config: {layout: "month_view"}
+            });
+
+            Cal.ns["initial-evaluation"]("ui", {
+                hideEventTypeDetails: false,
+                layout: "month_view",
+                theme: "dark",
+                styles: {
+                    branding: { brandColor: "#ff6b00" }
+                }
+            });
+
+            // Therapy Calendars
+            // 60-minute Therapy Session
+            Cal("init", "therapy-60", {origin: "https://cal.com"});
+            Cal.ns["therapy-60"]("inline", {
+                elementOrSelector: "#cal-therapy-60",
+                calLink: "lucas-jensen-rlhgc8/therapy-60-minute",
+                config: {layout: "month_view"}
+            });
+
+            Cal.ns["therapy-60"]("ui", {
+                hideEventTypeDetails: false,
+                layout: "month_view",
+                theme: "dark",
+                styles: {
+                    branding: { brandColor: "#ff6b00" }
+                }
+            });
+
+            // 30-minute Therapy Session
+            Cal("init", "therapy-30", {origin: "https://cal.com"});
+            Cal.ns["therapy-30"]("inline", {
+                elementOrSelector: "#cal-therapy-30",
+                calLink: "lucas-jensen-rlhgc8/therapy",
+                config: {layout: "month_view"}
+            });
+
+            Cal.ns["therapy-30"]("ui", {
+                hideEventTypeDetails: false,
+                layout: "month_view",
+                theme: "dark",
+                styles: {
+                    branding: { brandColor: "#ff6b00" }
+                }
+            });
+
+            // Corrective Movement Coaching
+            Cal("init", "corrective-movement", {origin: "https://cal.com"});
+            Cal.ns["corrective-movement"]("inline", {
+                elementOrSelector: "#cal-corrective-movement",
+                calLink: "lucas-jensen-rlhgc8/tmu-performance-therapy-corrective-movement-coaching",
+                config: {layout: "month_view"}
+            });
+
+            Cal.ns["corrective-movement"]("ui", {
+                hideEventTypeDetails: false,
+                layout: "month_view",
+                theme: "dark",
+                styles: {
+                    branding: { brandColor: "#ff6b00" }
+                }
+            });
+
+
+
+            // Virtual Session Calendars
+            // Assessment & Program Design (60 min)
+            Cal("init", "virtual-assessment", {origin: "https://cal.com"});
+            Cal.ns["virtual-assessment"]("inline", {
+                elementOrSelector: "#cal-virtual-assessment",
+                calLink: "lucas-jensen-rlhgc8/virtual-session-assessment-program-design",
+                config: {layout: "month_view"}
+            });
+
+            Cal.ns["virtual-assessment"]("ui", {
+                hideEventTypeDetails: false,
+                layout: "month_view",
+                theme: "dark",
+                styles: {
+                    branding: { brandColor: "#ff6b00" }
+                }
+            });
+
+            // Follow-up Session (30 min)
+            Cal("init", "virtual-followup", {origin: "https://cal.com"});
+            Cal.ns["virtual-followup"]("inline", {
+                elementOrSelector: "#cal-virtual-followup",
+                calLink: "lucas-jensen-rlhgc8/virtual-session-30-minute",
+                config: {layout: "month_view"}
+            });
+
+            Cal.ns["virtual-followup"]("ui", {
+                hideEventTypeDetails: false,
+                layout: "month_view",
+                theme: "dark",
+                styles: {
+                    branding: { brandColor: "#ff6b00" }
+                }
+            });
+
+            // Add error handling for each calendar
+            const namespaces = ["initial-evaluation", "therapy-60", "therapy-30", "corrective-movement", "virtual-assessment", "virtual-followup"];
+            namespaces.forEach(namespace => {
+                Cal.ns[namespace]("on", {
+                    action: "error",
+                    callback: (e) => {
+                        console.error(`Cal.com Error (${namespace}):`, e);
+                        document.getElementById(`cal-${namespace}`).innerHTML = `
+                            <div style="padding: 20px; text-align: center; background-color: rgba(30, 30, 30, 0.8); border-radius: 8px;">
+                                <h3 style="margin-bottom: 15px; color: var(--primary-color);">Calendar Error</h3>
+                                <p>There was an error loading the calendar. Please try again later.</p>
+                                <button onclick="window.location.reload()" class="btn" style="margin-top: 15px;">Retry</button>
+                            </div>
+                        `;
+                    }
+                });
+            });
+        }
+
+        function initializeBookingTabs() {
+            const tabs = document.querySelectorAll('.booking-tab');
+            const contents = document.querySelectorAll('.booking-content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // If the tab is already active, do nothing
+                    if (tab.classList.contains('active')) return;
+
+                    // Remove active class from all tabs and contents
+                    tabs.forEach(t => t.classList.remove('active'));
+                    contents.forEach(c => {
+                        c.classList.remove('active');
+                    });
+
+                    // Add active class to clicked tab and corresponding content
+                    tab.classList.add('active');
+                    const tabId = tab.getAttribute('data-tab');
+                    const activeContent = document.getElementById(`${tabId}-content`);
+                    activeContent.classList.add('active');
+                });
+            });
+
+            // Add loading indicators to all calendar containers
+            document.querySelectorAll('.cal-embed-container').forEach(container => {
+                const calendarDiv = container.querySelector('div[style*="overflow:scroll"]');
+                if (calendarDiv) {
+                    // Create loading overlay
+                    const loadingOverlay = document.createElement('div');
+                    loadingOverlay.className = 'calendar-loading';
+                    loadingOverlay.innerHTML = '<div class="loading-spinner"></div>';
+                    container.style.position = 'relative';
+                    container.appendChild(loadingOverlay);
+
+                    // Hide loading overlay when calendar is loaded
+                    // This is a simple approach - in a production environment, you might want to use
+                    // the Cal.com API's onLoad callback for more precise timing
+                    setTimeout(() => {
+                        loadingOverlay.classList.add('hidden');
+                        setTimeout(() => loadingOverlay.remove(), 500);
+                    }, 2500);
+                }
+            });
+        }
+    </script>
+
+    <!-- Calendar Scrolling Fix -->
+    <script src="assets/js/calendar-fix.js"></script>
+</body>
+</html>

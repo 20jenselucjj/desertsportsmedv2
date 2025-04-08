@@ -1,0 +1,81 @@
+/* Desert Sports Med - Text Color Fix for Light Background Sections */
+
+/* Fix for "Who's It For" section text color */
+.light-bg .for-whom-card p,
+.light-bg .for-whom-card h3 {
+  color: #ffffff !important; /* White text for better visibility */
+}
+
+/* Fix for "Athlete Success Stories" section text color */
+.light-bg .testimonial-content p,
+.light-bg .testimonial-author p {
+  color: #333333 !important; /* Dark text for light backgrounds */
+}
+
+/* Fix for any other text in light background sections that might be too dark */
+.light-bg .for-whom-note p {
+  color: #ffffff !important;
+}
+
+/* Ensure all paragraph text in light background sections is visible */
+.light-bg p {
+  color: #333333 !important;
+}
+
+/* Special styling for sections with busy professionals, frequent travelers, home gym enthusiasts, and remote clients */
+.for-whom-card.busy-professionals h3,
+.for-whom-card.frequent-travelers h3,
+.for-whom-card.home-gym-enthusiasts h3,
+.for-whom-card.remote-clients h3 {
+  color: #ffffff !important;
+}
+
+.for-whom-card.busy-professionals p,
+.for-whom-card.frequent-travelers p,
+.for-whom-card.home-gym-enthusiasts p,
+.for-whom-card.remote-clients p {
+  color: #ffffff !important;
+}
+
+/* Ensure text in dark background sections is white */
+.dark-bg h1, .dark-bg h2, .dark-bg h3, .dark-bg h4, .dark-bg h5, .dark-bg h6,
+.dark-bg p, .dark-bg li, .dark-bg span {
+  color: #ffffff !important;
+}
+
+/* Fix for pricing features in dark backgrounds */
+.dark-bg .pricing-features li,
+.pricing-cta.dark-bg .pricing-features li,
+.section.dark-bg .pricing-features li {
+  color: #ffffff !important;
+}
+
+/* Fix for testimonials in dark backgrounds */
+.dark-bg .testimonial-content p,
+.dark-bg .testimonial-author p,
+.testimonials.dark-bg .testimonial-content p,
+.testimonials.dark-bg .testimonial-author p,
+.section.dark-bg .testimonial-content p,
+.section.dark-bg .testimonial-author p {
+  color: #ffffff !important;
+}
+
+/* Fix for approach cards in dark backgrounds */
+.dark-bg .approach-card h3,
+.dark-bg .approach-card p,
+.section.dark-bg .approach-card h3,
+.section.dark-bg .approach-card p,
+.light-bg.dark-bg .approach-card h3,
+.light-bg.dark-bg .approach-card p,
+.section.light-bg.dark-bg .approach-card h3,
+.section.light-bg.dark-bg .approach-card p {
+  color: #ffffff !important;
+}
+
+/* Specific fix for Our Approach section title */
+.section.light-bg.dark-bg .section-title h2,
+.light-bg.dark-bg .section-title h2,
+.section.dark-bg .section-title h2,
+.dark-bg .section-title h2 {
+  color: #ffffff !important;
+}

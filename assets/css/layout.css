@@ -1,0 +1,155 @@
+/* ===== LAYOUT ===== */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+.section {
+  padding: 80px 0;
+}
+
+/* Light background sections */
+.light-bg {
+  background-color: #f8f9fa;
+}
+
+.light-bg h2,
+.light-bg h3,
+.light-bg h4,
+.light-bg p,
+.light-bg li,
+.light-bg .section-title h2,
+.light-bg .service-content h3,
+.light-bg .service-content p,
+.light-bg .mission-content p,
+.light-bg .mission-content li,
+.light-bg ul li {
+  color: #333333 !important; /* Dark text for light backgrounds with higher specificity */
+}
+
+/* Ensure service cards in light backgrounds have dark text */
+.light-bg .service-card .service-content h3,
+.light-bg .service-card .service-content p {
+  color: #333333 !important;
+}
+
+/* Mission content in light backgrounds */
+.light-bg .mission-content {
+  color: #333333 !important;
+}
+
+/* Approach cards in light backgrounds */
+.light-bg .approach-card h3,
+.light-bg .approach-card p {
+  color: #333333 !important;
+}
+
+/* Override for section titles in light backgrounds */
+.light-bg .section-title h2 {
+  color: #333333 !important;
+}
+
+/* Page header */
+.page-header {
+  height: 40vh;
+  width: 100%;
+  max-width: 100vw;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-top: 80px;
+  overflow: hidden;
+  box-sizing: border-box;
+  left: 0;
+  right: 0;
+}
+
+.page-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(255, 107, 0, 0.6), rgba(74, 0, 114, 0.8));
+  z-index: 1;
+}
+
+.page-header .container {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: var(--light-text);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.page-header h1 {
+  font-size: 48px;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.page-header p {
+  font-size: 20px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Page banner */
+.page-banner {
+  height: 60vh;
+  width: 100%;
+  max-width: 100vw;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-top: 80px;
+  overflow: hidden;
+  box-sizing: border-box;
+  left: 0;
+  right: 0;
+}
+
+.page-banner:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(255, 107, 0, 0.6), rgba(74, 0, 114, 0.8));
+}
+
+.page-banner .container {
+  position: relative;
+  z-index: 1;
+  color: var(--light-text);
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.page-banner h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+  color: var(--light-text);
+}
+
+.page-banner p {
+  font-size: 18px;
+  margin-bottom: 30px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}

@@ -1,0 +1,49 @@
+/* Desert Sports Med - Page Header Fix for Mobile View */
+
+/* Fix for page headers being covered by the navigation header */
+.page-header,
+.page-banner {
+  /* Ensure proper spacing from fixed header */
+  margin-top: 80px !important;
+  padding-top: 30px !important;
+  position: relative !important;
+  z-index: 1 !important;
+  box-sizing: border-box !important;
+}
+
+/* Specific adjustments for mobile view */
+@media (max-width: 991.98px) {
+  .page-header,
+  .page-banner {
+    margin-top: 80px !important; /* Match the header height */
+    padding-top: 40px !important; /* Additional padding for better spacing */
+  }
+}
+
+/* Extra adjustments for very small screens */
+@media (max-width: 576px) {
+  .page-header,
+  .page-banner {
+    margin-top: 90px !important; /* Slightly more margin for smaller screens */
+    padding-top: 50px !important; /* More padding to ensure content is visible */
+    min-height: 40vh !important; /* Ensure minimum height for content visibility */
+  }
+  
+  /* Adjust heading sizes for better mobile display */
+  .page-header h1,
+  .page-banner h1 {
+    font-size: 28px !important;
+    margin-top: 0 !important;
+  }
+  
+  .page-header p,
+  .page-banner p {
+    font-size: 16px !important;
+  }
+  
+  /* Ensure the first section after the header doesn't overlap */
+  .page-header + section,
+  .page-banner + section {
+    padding-top: 40px !important;
+  }
+}

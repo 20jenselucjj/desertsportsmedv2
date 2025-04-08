@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing Request | Desert Sports Med</title>
+    <meta name="description" content="Request pricing information for Desert Sports Med services and programs in St. George, Utah.">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="Logo.png" type="image/x-icon">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/main.css">
+
+    <!-- EmailJS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <!-- Chatbot Position Fix - Ensures consistent positioning across all pages -->
+    <script src="assets/js/chatbot-position-fix.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="Logo.png" alt="Desert Sports Med Logo">
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li class="dropdown">
+                        <a href="#">Services</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="athletic-training.html">Athletic Training</a></li>
+                            <li><a href="sports-performance.html">Sports Performance</a></li>
+                            <li><a href="team-services.html">Team Services</a></li>
+                            <li><a href="event-coverage.html">Event Coverage</a></li>
+                            <li><a href="performance-therapy.html">Performance Therapy</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="pricing-request.html" class="active">Pricing</a></li>
+                    <li><a href="book-online.html">Book Online</a></li>
+                </ul>
+
+                <div class="mobile-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <a href="free-intro.html" class="btn btn-book-now">FREE INTRO</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header" style="background-image: url('https://images.unsplash.com/photo-1594737625785-a6cbdabd333c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80'); background-size: cover; background-position: center;">
+        <div class="container">
+            <h1>Pricing Request</h1>
+            <p>Get information about our pricing options</p>
+        </div>
+    </section>
+
+    <!-- Pricing Request Form Section -->
+    <section class="section pricing-request-section">
+        <div class="container">
+            <div class="pricing-request-container">
+                <h2>Pricing Request</h2>
+                <p class="pricing-intro">Please let us know where to send the pricing info.</p>
+
+                <div class="pricing-benefits">
+                    <div class="benefit-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Personalized athletic training pricing based on your specific needs</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Flexible athletic training packages and team service options</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Event coverage and team service pricing available</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>No obligation consultation with a certified athletic trainer included</span>
+                    </div>
+                </div>
+
+                <form id="pricing-form" class="pricing-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <input type="text" id="first-name" name="first-name" placeholder="First Name*" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="last-name" name="last-name" placeholder="Last Name*" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <input type="tel" id="phone" name="phone" placeholder="Phone*" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" placeholder="Email*" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group checkbox-group">
+                        <p class="interest-label">I'm interested in:</p>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="athletic-training" name="interest" value="Athletic Training">
+                            <label for="athletic-training">Athletic Training</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="sports-performance" name="interest" value="Sports Performance">
+                            <label for="sports-performance">Sports Performance</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="team-services" name="interest" value="Team Services">
+                            <label for="team-services">Team Services</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="event-coverage" name="interest" value="Event Coverage">
+                            <label for="event-coverage">Event Coverage</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="performance-therapy" name="interest" value="Performance Therapy">
+                            <label for="performance-therapy">Performance Therapy</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group checkbox-group terms-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="terms" name="terms" required>
+                            <label for="terms">I agree to <a href="#" class="terms-link">terms & conditions</a> provided by Desert Sports Med. By providing my phone number, I agree to receive text messages.</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group submit-group">
+                        <button type="submit" class="btn submit-btn">Submit</button>
+                    </div>
+                </form>
+
+                <div class="pricing-testimonial">
+                    <div class="testimonial-quote">
+                        <i class="fas fa-quote-left"></i>
+                        <p>The athletic training services at Desert Sports Med are incredibly valuable for our team. Their certified athletic trainers provide expert care at a reasonable price, and their flexible packages fit our budget perfectly.</p>
+                        <i class="fas fa-quote-right"></i>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Coach Thompson">
+                        <div>
+                            <h4>Coach Thompson</h4>
+                            <p>High School Football</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-about">
+                    <div class="footer-logo">
+                        <img src="Logo.png" alt="Desert Sports Med Logo">
+                    </div>
+                    <p>Desert Sports Med provides expert athletic training services in St. George, Utah. Our certified athletic trainers help athletes and teams prevent injuries, enhance performance, and provide professional medical coverage for events.</p>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/desertsportsmed/" target="_blank" rel="noopener noreferrer" aria-label="Visit our Instagram page"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="athletic-training.html">Athletic Training</a></li>
+                        <li><a href="pricing-request.html">Pricing</a></li>
+                        <li><a href="book-online.html">Book Online</a></li>
+                        <li><a href="free-intro.html">Free Intro</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h3>Services</h3>
+                    <ul>
+                        <li><a href="athletic-training.html">Athletic Training</a></li>
+                        <li><a href="sports-performance.html">Sports Performance</a></li>
+                        <li><a href="team-services.html">Team Services</a></li>
+                        <li><a href="event-coverage.html">Event Coverage</a></li>
+                        <li><a href="performance-therapy.html">Performance Therapy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-contact">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> St. George, UT 84770</p>
+                    <p><i class="fas fa-phone"></i> (801) 797-4043</p>
+                    <p><i class="fas fa-envelope"></i> desertsportsmed@gmail.com</p>
+                    <p><i class="fas fa-clock"></i> Mon-Fri: 7am-7pm, Sat: 8am-2pm</p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 Desert Sports Med. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chatbot -->
+    <div class="chatbot-toggle">
+        <i class="fas fa-comments"></i>
+    </div>
+
+    <div class="chatbot-container">
+        <div class="chatbot-header">
+            <h3>Desert Sports Med Assistant</h3>
+            <div class="chatbot-close">
+                <i class="fas fa-times"></i>
+            </div>
+        </div>
+        <div class="chatbot-messages"></div>
+        <div class="chatbot-input">
+            <input type="text" placeholder="Type your message...">
+            <button><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/chatbot.js"></script>
+    <script src="assets/js/emailjs.js"></script>
+    <script>
+        // Form submission handling
+        document.getElementById('pricing-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Get form data
+            const firstName = document.getElementById('first-name').value;
+            const lastName = document.getElementById('last-name').value;
+            const phone = document.getElementById('phone').value;
+            const email = document.getElementById('email').value;
+
+            // Get selected interests
+            const interests = [];
+            if (document.getElementById('athletic-training').checked) interests.push('Athletic Training');
+            if (document.getElementById('sports-performance').checked) interests.push('Sports Performance');
+            if (document.getElementById('team-services').checked) interests.push('Team Services');
+            if (document.getElementById('event-coverage').checked) interests.push('Event Coverage');
+            if (document.getElementById('performance-therapy').checked) interests.push('Performance Therapy');
+
+            // Here you would typically send this data to your server or email service
+            console.log('Form submitted:', { firstName, lastName, phone, email, interests });
+
+            // Show success message
+            alert('Thank you for your request! We will send pricing information to you shortly.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
+

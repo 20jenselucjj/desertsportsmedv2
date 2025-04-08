@@ -1,0 +1,22 @@
+/* ===== VARIABLES ===== */
+:root {
+  --primary-color: #ff6b00; /* Bright orange from logo */
+  --primary-color-rgb: 255, 107, 0; /* RGB values for primary color */
+  --secondary-color: #ff3e3e; /* Red from logo */
+  --secondary-color-rgb: 255, 62, 62; /* RGB values for secondary color */
+  --accent-color: #b30046; /* Deep burgundy from logo */
+  --accent-color-rgb: 179, 0, 70; /* RGB values for accent color */
+  --light-color: #ffebcc; /* Light orange for backgrounds */
+  --dark-color: #4a0072; /* Deep purple from logo */
+  --text-color: #ffffff; /* White for better visibility */
+  --light-text: #ffffff;
+  --background-color: #121212; /* Dark background */
+  --card-background: #1e1e1e; /* Slightly lighter than background */
+  --footer-color: #0a0a0a; /* Very dark for footer */
+  --success-color: #28a745;
+  --warning-color: #ffc107;
+  --danger-color: #dc3545;
+  --border-radius: 5px;
+  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  --transition: all 0.3s ease;
+}
