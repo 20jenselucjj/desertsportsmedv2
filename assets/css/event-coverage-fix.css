@@ -1,0 +1,82 @@
+/* Desert Sports Med - Event Coverage Page Fix */
+
+/* Fix for process steps in event coverage page */
+.process-steps {
+  position: relative;
+  z-index: 1;
+}
+
+.process-step {
+  display: flex;
+  margin-bottom: 40px;
+  position: relative;
+  z-index: 2;
+}
+
+.process-step-number {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  margin-right: 25px;
+  flex-shrink: 0;
+  font-size: 22px;
+  box-shadow: 0 4px 15px rgba(var(--primary-color-rgb), 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.process-step-content {
+  flex: 1;
+}
+
+.process-step-content h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #ffffff !important;
+  font-weight: 600;
+}
+
+.process-step-content p {
+  color: #ffffff !important;
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* Ensure section title is white */
+.section.light-bg.dark-bg .section-title h2 {
+  color: #ffffff !important;
+}
+
+/* Add a vertical line connecting the steps */
+.process-steps::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 25px;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+  opacity: 0.3;
+  z-index: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .process-step {
+    flex-direction: column;
+  }
+  
+  .process-step-number {
+    margin-bottom: 15px;
+    margin-right: 0;
+  }
+  
+  .process-steps::before {
+    display: none;
+  }
+}

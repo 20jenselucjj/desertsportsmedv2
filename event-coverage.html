@@ -24,6 +24,28 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <!-- Chatbot Position Fix - Ensures consistent positioning across all pages -->
     <script src="assets/js/chatbot-position-fix.js"></script>
+
+    <!-- Inline styles for process steps text color -->
+    <style>
+        .process-steps .process-step-content h3,
+        .process-steps .process-step-content p,
+        .section.light-bg.dark-bg .section-title h2,
+        .section.light-bg.dark-bg .process-step-content h3,
+        .section.light-bg.dark-bg .process-step-content p {
+            color: #ffffff !important;
+        }
+
+        .process-steps {
+            background-color: rgba(30, 30, 30, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .section.light-bg.dark-bg {
+            background-color: #1a1a1a !important;
+        }
+    </style>
 </head>
 <body>
     <!-- Header -->
@@ -138,7 +160,7 @@
     </section>
 
     <!-- Coverage Options Section -->
-    <section class="section light-bg">
+    <section class="section light-bg dark-bg">
         <div class="container">
             <div class="section-title">
                 <h2>Event Coverage Options</h2>
@@ -276,50 +298,50 @@
     </section>
 
     <!-- Planning Process Section -->
-    <section class="section light-bg">
+    <section class="section light-bg dark-bg" style="background-color: #1a1a1a !important;">
         <div class="container">
             <div class="section-title">
-                <h2>Our Event Coverage Process</h2>
+                <h2 style="color: #ffffff !important;">Our Event Coverage Process</h2>
             </div>
 
-            <div class="process-steps">
+            <div class="process-steps" style="background-color: rgba(30, 30, 30, 0.8); padding: 30px; border-radius: 10px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);">
                 <div class="process-step">
                     <div class="process-step-number">1</div>
                     <div class="process-step-content">
-                        <h3>Initial Consultation</h3>
-                        <p>We begin with a detailed discussion about your event, including the type of event, number of participants, venue details, and specific medical coverage needs.</p>
+                        <h3 style="color: #ffffff !important;">Initial Consultation</h3>
+                        <p style="color: #ffffff !important;">We begin with a detailed discussion about your event, including the type of event, number of participants, venue details, and specific medical coverage needs.</p>
                     </div>
                 </div>
 
                 <div class="process-step">
                     <div class="process-step-number">2</div>
                     <div class="process-step-content">
-                        <h3>Coverage Plan Development</h3>
-                        <p>Based on your event details, we develop a comprehensive coverage plan that includes staffing requirements, equipment needs, and emergency action plans.</p>
+                        <h3 style="color: #ffffff !important;">Coverage Plan Development</h3>
+                        <p style="color: #ffffff !important;">Based on your event details, we develop a comprehensive coverage plan that includes staffing requirements, equipment needs, and emergency action plans.</p>
                     </div>
                 </div>
 
                 <div class="process-step">
                     <div class="process-step-number">3</div>
                     <div class="process-step-content">
-                        <h3>Pre-Event Coordination</h3>
-                        <p>We coordinate with your event staff, venue management, and local emergency services to ensure seamless integration of our athletic training services.</p>
+                        <h3 style="color: #ffffff !important;">Pre-Event Coordination</h3>
+                        <p style="color: #ffffff !important;">We coordinate with your event staff, venue management, and local emergency services to ensure seamless integration of our athletic training services.</p>
                     </div>
                 </div>
 
                 <div class="process-step">
                     <div class="process-step-number">4</div>
                     <div class="process-step-content">
-                        <h3>Event Coverage</h3>
-                        <p>Our certified athletic trainers provide professional medical coverage throughout your event, managing injuries, making return-to-play decisions, and ensuring participant safety.</p>
+                        <h3 style="color: #ffffff !important;">Event Coverage</h3>
+                        <p style="color: #ffffff !important;">Our certified athletic trainers provide professional medical coverage throughout your event, managing injuries, making return-to-play decisions, and ensuring participant safety.</p>
                     </div>
                 </div>
 
                 <div class="process-step">
                     <div class="process-step-number">5</div>
                     <div class="process-step-content">
-                        <h3>Post-Event Reporting</h3>
-                        <p>After your event, we provide a detailed report of injuries, treatments provided, and recommendations for future events.</p>
+                        <h3 style="color: #ffffff !important;">Post-Event Reporting</h3>
+                        <p style="color: #ffffff !important;">After your event, we provide a detailed report of injuries, treatments provided, and recommendations for future events.</p>
                     </div>
                 </div>
             </div>
@@ -463,5 +485,15 @@
     <script src="assets/js/main.js"></script>
     <script src="assets/js/chatbot.js"></script>
     <script src="assets/js/emailjs.js"></script>
+
+    <!-- Background Brightness Fix - Makes background images easier to see -->
+    <script src="assets/js/background-brightness-fix.js"></script>
+    <!-- Card Text Visibility Fix - Ensures text is visible on all backgrounds -->
+    <script src="assets/js/card-text-visibility-fix.js"></script>
+
+    <!-- Event Coverage Page Specific Styles -->
+    <link rel="stylesheet" href="assets/css/event-coverage-fix.css">
 </body>
 </html>
+
+

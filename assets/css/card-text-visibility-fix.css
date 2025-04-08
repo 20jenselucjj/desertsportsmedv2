@@ -1,0 +1,168 @@
+/* Desert Sports Med - Card Text Visibility Fix */
+
+/* Fix for component cards in light-bg sections */
+.light-bg .component-card {
+  background: rgba(30, 30, 30, 0.8); /* Ensure dark background for better contrast */
+}
+
+/* Ensure all text in component cards is white for better visibility */
+.light-bg .component-card h3,
+.light-bg .component-card p,
+.light-bg .component-card li,
+.light-bg .component-content h3,
+.light-bg .component-content p,
+.light-bg .component-content li,
+.light-bg .component-features li {
+  color: #ffffff !important; /* White text for better visibility on dark backgrounds */
+}
+
+/* Fix for component features list items */
+.light-bg .component-features li:before {
+  color: var(--primary-color) !important; /* Keep the checkmark icon orange */
+}
+
+/* Fix for team-type-card in light-bg sections */
+.light-bg .team-type-card {
+  background: rgba(30, 30, 30, 0.8);
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.light-bg .team-type-card h3,
+.light-bg .team-type-card p {
+  color: #ffffff !important;
+}
+
+/* Fix for event-type-card in light-bg sections */
+.light-bg .event-type-card {
+  background: rgba(30, 30, 30, 0.8);
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.light-bg .event-type-card h3,
+.light-bg .event-type-card p {
+  color: #ffffff !important;
+}
+
+/* Fix for benefit-card in light-bg sections */
+.light-bg .benefit-card {
+  background: rgba(30, 30, 30, 0.8);
+}
+
+.light-bg .benefit-card h3,
+.light-bg .benefit-card h4,
+.light-bg .benefit-card p {
+  color: #ffffff !important;
+}
+
+/* Fix for approach-card in light-bg sections */
+.light-bg .approach-card {
+  background: rgba(30, 30, 30, 0.8);
+}
+
+.light-bg .approach-card h3,
+.light-bg .approach-card p {
+  color: #ffffff !important;
+}
+
+/* Fix for technique-card in light-bg sections */
+.light-bg .technique-card {
+  background: rgba(30, 30, 30, 0.8);
+}
+
+.light-bg .technique-card h3,
+.light-bg .technique-card p {
+  color: #ffffff !important;
+}
+
+/* Fix for feature-card in light-bg sections */
+.light-bg .feature-card {
+  background: rgba(30, 30, 30, 0.8);
+}
+
+.light-bg .feature-card h3,
+.light-bg .feature-card p {
+  color: #ffffff !important;
+}
+
+/* Fix for for-whom-card in light-bg sections */
+.light-bg .for-whom-card {
+  background: rgba(30, 30, 30, 0.8);
+}
+
+.light-bg .for-whom-card h3,
+.light-bg .for-whom-card p {
+  color: #ffffff !important;
+}
+
+/* Fix for testimonial-card in light-bg sections */
+.light-bg .testimonial-card {
+  background: rgba(30, 30, 30, 0.8);
+}
+
+.light-bg .testimonial-card .testimonial-content p,
+.light-bg .testimonial-card .testimonial-author h4,
+.light-bg .testimonial-card .testimonial-author p {
+  color: #ffffff !important;
+}
+
+/* Fix for section titles in light-bg sections */
+.light-bg.dark-bg .section-title h2 {
+  color: #ffffff !important;
+}
+
+/* Fix for process-step in light-bg sections */
+.light-bg .process-step-content h3,
+.light-bg .process-step-content p {
+  color: #333333 !important; /* Keep dark text for light backgrounds */
+}
+
+/* Fix for process-step in light-bg.dark-bg sections */
+.light-bg.dark-bg .process-step-content h3,
+.light-bg.dark-bg .process-step-content p,
+.section.light-bg.dark-bg .process-step-content h3,
+.section.light-bg.dark-bg .process-step-content p {
+  color: #ffffff !important; /* White text for dark backgrounds */
+}
+
+/* Specific fix for event coverage process steps */
+.process-steps .process-step .process-step-content h3,
+.process-steps .process-step .process-step-content p {
+  color: #ffffff !important; /* White text for better visibility */
+}
+
+/* Fix for light-bg sections that have dark backgrounds */
+.light-bg[style*="background-color: #1a1a1a"] h2,
+.light-bg[style*="background-color: #1a1a1a"] h3,
+.light-bg[style*="background-color: #1a1a1a"] p,
+.light-bg[style*="background-color: #1a1a1a"] li,
+.light-bg[style*="background-color: #222"] h2,
+.light-bg[style*="background-color: #222"] h3,
+.light-bg[style*="background-color: #222"] p,
+.light-bg[style*="background-color: #222"] li {
+  color: #ffffff !important;
+}
+
+/* Fix for specific sections in event-coverage.html */
+.section.light-bg .section-title h2 {
+  color: #333333 !important; /* Dark text for light backgrounds */
+}
+
+/* Override for light-bg sections that have the dark-bg class */
+.light-bg.dark-bg .section-title h2,
+.section.light-bg.dark-bg .section-title h2 {
+  color: #ffffff !important; /* White text for dark backgrounds */
+}
+
+/* Fix for component cards in light-bg sections that have the dark-bg class */
+.light-bg.dark-bg .component-card h3,
+.light-bg.dark-bg .component-card p,
+.light-bg.dark-bg .component-card li,
+.section.light-bg.dark-bg .component-card h3,
+.section.light-bg.dark-bg .component-card p,
+.section.light-bg.dark-bg .component-card li {
+  color: #ffffff !important;
+}

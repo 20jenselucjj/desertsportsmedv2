@@ -39,3 +39,5 @@
 @import url('chatbot-text-fix.css'); /* Fix for chatbot message text color */
 @import url('dark-theme-enhancement.css'); /* Enhanced dark theme for all pages */
 @import url('approach-heading-fix.css'); /* Fix for approach headings in dark sections */
+@import url('background-brightness-fix.css'); /* Fix for background image brightness */
+@import url('card-text-visibility-fix.css'); /* Fix for card text visibility issues */

@@ -193,7 +193,7 @@ section.light-bg.dark-bg .approach-card p {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.85));
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6));
   z-index: 1;
   pointer-events: none;
 }

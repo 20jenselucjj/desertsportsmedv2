@@ -18,7 +18,7 @@
 }
 
 /* Ensure all paragraph text in light background sections is visible */
-.light-bg p {
+.light-bg p:not(.component-card p):not(.component-content p):not(.benefit-card p):not(.approach-card p):not(.technique-card p):not(.feature-card p):not(.for-whom-card p):not(.team-type-card p):not(.event-type-card p) {
   color: #333333 !important;
 }
 

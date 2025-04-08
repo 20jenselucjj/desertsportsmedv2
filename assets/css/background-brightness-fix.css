@@ -1,0 +1,61 @@
+/* Desert Sports Med - Background Brightness Fix */
+
+/* Override inline styles for page headers and banners */
+.page-header[style*="linear-gradient"],
+.page-banner[style*="linear-gradient"] {
+  position: relative;
+  z-index: 1;
+}
+
+/* Create a pseudo-element to override the dark overlay */
+.page-header[style*="linear-gradient"]::before,
+.page-banner[style*="linear-gradient"]::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5));
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Hide the original background overlay */
+.page-header[style*="linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6))"],
+.page-banner[style*="linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6))"] {
+  background-image: none !important;
+}
+
+/* Apply the actual background image with reduced overlay */
+.page-header[style*="linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6))"]::after,
+.page-banner[style*="linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6))"]::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: inherit;
+  background-size: cover;
+  background-position: center;
+  z-index: -2;
+  filter: brightness(1.3);
+}
+
+/* Ensure text remains visible */
+.page-header .container,
+.page-banner .container {
+  position: relative;
+  z-index: 2;
+}
+
+/* Fix for specific pages with inline styles */
+section[style*="background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7))"] {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)) !important;
+}
+
+/* Increase brightness for all background images */
+[style*="background-image"] {
+  filter: brightness(1.2);
+}
