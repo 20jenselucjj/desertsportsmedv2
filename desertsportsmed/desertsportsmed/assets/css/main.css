@@ -1,0 +1,41 @@
+/* Desert Sports Med - Main Stylesheet */
+/* This file imports all the modular CSS files */
+
+/* Base Styles */
+@import url('variables.css');
+@import url('reset.css');
+@import url('typography.css');
+@import url('buttons.css');
+@import url('layout.css');
+
+/* Components */
+@import url('header.css');
+@import url('hero.css');
+@import url('about.css');
+@import url('services.css');
+@import url('programs.css');
+@import url('pricing.css');
+@import url('testimonials.css');
+@import url('contact.css');
+@import url('forms.css');
+@import url('footer.css');
+@import url('cards.css');
+@import url('booking.css');
+@import url('utilities.css');
+
+/* Existing Specialized CSS */
+@import url('responsive.css');
+@import url('chatbot.css');
+@import url('modern-programs.css');
+@import url('program-dark-theme.css'); /* Modern dark theme for program pages (2025) */
+@import url('header-fix.css');
+@import url('hamburger-animation.css');
+@import url('icon-fix.css');
+@import url('hamburger-animation-fix.css');
+@import url('page-header-fix.css');
+@import url('calendar-fix.css');
+@import url('mobile-toggle-fix.css'); /* Fix for mobile toggle display issues */
+@import url('text-color-fix.css'); /* Fix for text color in light background sections */
+@import url('chatbot-text-fix.css'); /* Fix for chatbot message text color */
+@import url('dark-theme-enhancement.css'); /* Enhanced dark theme for all pages */
+@import url('approach-heading-fix.css'); /* Fix for approach headings in dark sections */

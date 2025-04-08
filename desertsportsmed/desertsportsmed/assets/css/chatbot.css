@@ -1,0 +1,484 @@
+/* Desert Sports Med - Chatbot Stylesheet */
+
+.chatbot-toggle {
+  position: fixed;
+  bottom: 30px;
+  right: 30px; /* Default position for desktop */
+  width: 60px;
+  height: 60px;
+  background-color: var(--primary-color);
+  color: var(--light-text);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+  transition: all 0.3s ease;
+}
+
+.chatbot-toggle:hover {
+  background-color: var(--secondary-color);
+  transform: scale(1.1);
+}
+
+.chatbot-toggle i {
+  font-size: 24px;
+}
+
+.chatbot-container {
+  position: fixed;
+  bottom: 100px;
+  right: 30px;
+  width: 350px;
+  height: 500px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+  z-index: 998;
+  overflow: hidden;
+  display: none;
+  flex-direction: column;
+  transition: all 0.3s ease;
+}
+
+.chatbot-container.active {
+  display: flex;
+}
+
+.chatbot-header {
+  background-color: var(--primary-color);
+  color: var(--light-text);
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.chatbot-header h3 {
+  margin-bottom: 0;
+  color: var(--light-text);
+  font-size: 18px;
+}
+
+.chatbot-close {
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.chatbot-messages {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.message {
+  margin-bottom: 15px;
+  display: flex;
+}
+
+.message.bot {
+  justify-content: flex-start;
+}
+
+.message.user {
+  justify-content: flex-end;
+}
+
+.message-content {
+  max-width: 80%;
+  padding: 10px 15px;
+  border-radius: 15px;
+  word-wrap: break-word;
+}
+
+.message.bot .message-content {
+  background-color: #f1f1f1;
+  color: #333;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.message.user .message-content {
+  background-color: var(--primary-color);
+  color: var(--light-text);
+}
+
+.chatbot-input {
+  display: flex;
+  padding: 10px;
+  border-top: 1px solid #eee;
+}
+
+.chatbot-input input {
+  flex: 1;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  margin-right: 10px;
+  font-size: 14px;
+}
+
+.chatbot-input input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.chatbot-input button {
+  background-color: var(--primary-color);
+  color: var(--light-text);
+  border: none;
+  border-radius: 20px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.chatbot-input button:hover {
+  background-color: var(--secondary-color);
+}
+
+.chatbot-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.chatbot-option {
+  background-color: #f1f1f1;
+  color: #333;
+  padding: 8px 15px;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.chatbot-option:hover {
+  background-color: #e0e0e0;
+  transform: translateY(-2px);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.typing-indicator span {
+  height: 8px;
+  width: 8px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 5px;
+  animation: typing 1s infinite;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typing {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* Welcome Bubble Styles */
+.welcome-bubble {
+  position: fixed;
+  bottom: 100px;
+  right: 20px;
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 997;
+  padding: 12px 20px;
+  max-width: 220px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #333; /* Ensure text is visible on white background */
+}
+
+.welcome-bubble:before {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  right: 25px;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid #fff;
+}
+
+.welcome-bubble.active {
+  opacity: 1;
+  transform: translateY(0);
+  animation: popupBubble 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Popup Animation */
+@keyframes popupBubble {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) translateY(10px);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1) translateY(-5px);
+  }
+  70% {
+    transform: scale(0.95) translateY(2px);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+  }
+}
+
+.welcome-bubble-icon {
+  margin-right: 10px;
+  color: var(--primary-color);
+  font-size: 18px;
+  animation: pulseIcon 1.5s ease-in-out infinite;
+}
+
+@keyframes pulseIcon {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.welcome-bubble-content {
+  color: #333;
+  font-size: 14px;
+  margin-right: 10px;
+  min-height: 20px;
+}
+
+/* Typing cursor animation */
+.typing-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 14px;
+  background-color: var(--primary-color);
+  margin-left: 2px;
+  animation: blink 1s infinite;
+  vertical-align: middle;
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.welcome-bubble-close {
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 14px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  animation: fadeInClose 0.8s ease 0.5s both;
+}
+
+.welcome-bubble-close:hover {
+  color: #555;
+  transform: rotate(90deg);
+}
+
+@keyframes fadeInClose {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Chatbot Forms */
+.chatbot-form {
+  background-color: #f8f8f8;
+  border-radius: 10px;
+  padding: 15px;
+  margin-top: 10px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.chatbot-form h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #333;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.chatbot-form-field {
+  margin-bottom: 10px;
+}
+
+.chatbot-form-field label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #555;
+}
+
+.chatbot-form-field input,
+.chatbot-form-field textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  color: #333;
+  background-color: #fff;
+}
+
+.chatbot-form-field input:focus,
+.chatbot-form-field textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.chatbot-form-submit {
+  background-color: var(--primary-color);
+  color: var(--light-text);
+  border: none;
+  border-radius: 5px;
+  padding: 8px 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.chatbot-form-submit:hover {
+  background-color: var(--secondary-color);
+}
+
+/* Responsive Styles */
+@media (max-width: 576px) {
+  /* Use !important to ensure these styles take precedence across all pages */
+  .chatbot-toggle {
+    right: 20px !important; /* Position from the right */
+    left: auto !important; /* Keep left positioning as auto */
+    bottom: 30px !important; /* Lowered position on mobile */
+    z-index: 1001 !important; /* Ensure it's above other elements */
+    position: fixed !important; /* Ensure fixed positioning */
+  }
+
+  /* Ensure consistent positioning of free intro button and mobile toggle */
+  .btn-book-now {
+    right: 20px !important; /* Match positioning across all pages */
+    margin-right: 40px !important; /* Reduced spacing from mobile toggle */
+    z-index: 1001 !important; /* Ensure it's above other elements */
+    position: absolute !important; /* Ensure absolute positioning */
+  }
+
+  .mobile-toggle {
+    right: 20px !important; /* Match positioning across all pages */
+    z-index: 1001 !important; /* Ensure it's above other elements */
+    position: absolute !important; /* Ensure absolute positioning */
+  }
+
+  .chatbot-container {
+    width: 300px !important;
+    right: 20px !important; /* Consistent positioning */
+    bottom: 100px !important; /* Adjust to match new toggle position */
+    z-index: 1000 !important; /* Ensure proper stacking */
+    position: fixed !important; /* Ensure fixed positioning */
+  }
+
+  .welcome-bubble {
+    right: 20px !important; /* Match the chatbot toggle position */
+    left: auto !important;
+    bottom: 100px !important; /* Position above the chatbot toggle */
+    max-width: 180px !important;
+    padding: 10px 15px !important;
+    font-size: 13px !important;
+    z-index: 999 !important; /* Ensure proper stacking */
+    position: fixed !important; /* Ensure fixed positioning */
+  }
+
+  /* Important: These styles ensure consistent positioning across all pages */
+  /* Do not modify these values without updating all related elements */
+
+  /* Adjust the welcome bubble arrow to point to the chatbot toggle */
+  .welcome-bubble:before {
+    right: 25px !important; /* Center the arrow relative to the chatbot toggle */
+    left: auto !important;
+  }
+
+  /* Ensure header elements don't interfere with positioning */
+  .header-container {
+    position: relative !important;
+    z-index: 998 !important;
+    width: 100% !important; /* Ensure full width */
+    padding: 10px 15px !important; /* Consistent padding */
+    box-sizing: border-box !important;
+  }
+
+  /* Ensure consistent nav-section positioning */
+  .nav-section {
+    position: relative !important;
+    z-index: 999 !important;
+    width: auto !important;
+  }
+
+  /* Fix for hero section and page-banner to not affect button positioning */
+  .hero, .page-banner, .page-header {
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+    width: 100vw !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+  }
+
+  /* Ensure body and html don't cause overflow */
+  html, body {
+    overflow-x: hidden !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}

@@ -1,0 +1,139 @@
+/* Desert Sports Med - Header Fix CSS */
+
+/* Fix for unnecessary scrolling in header area */
+html, body {
+  overflow-x: hidden !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Fix header container */
+.header {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: visible !important;
+  box-sizing: border-box !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  z-index: 1000 !important;
+}
+
+.header-container {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: visible !important;
+  box-sizing: border-box !important;
+  padding: 10px 15px !important;
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+
+/* Fix navigation section */
+.nav-section {
+  overflow: visible !important;
+}
+
+/* Fix hero section */
+.hero, .page-banner, .page-header {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+}
+
+/* Fix container class */
+.container {
+  width: 100% !important;
+  max-width: 1200px !important;
+  overflow: visible !important;
+  box-sizing: border-box !important;
+  padding: 0 15px !important;
+}
+
+/* Fix for sections */
+section, .section {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Fix for mobile toggle and free intro button */
+.mobile-toggle, .btn-book-now {
+  position: relative !important;
+  z-index: 1001 !important;
+}
+
+/* Ensure consistent chatbot positioning across all pages */
+.chatbot-toggle {
+  position: fixed !important;
+  bottom: 30px !important;
+  right: 30px !important;
+  z-index: 999 !important;
+}
+
+.chatbot-container {
+  position: fixed !important;
+  bottom: 100px !important;
+  right: 30px !important;
+  z-index: 998 !important;
+}
+
+.welcome-bubble {
+  position: fixed !important;
+  bottom: 100px !important;
+  right: 20px !important;
+  z-index: 997 !important;
+}
+
+/* Mobile adjustments */
+@media (max-width: 576px) {
+  .chatbot-toggle {
+    bottom: 30px !important;
+    right: 20px !important;
+  }
+
+  .chatbot-container {
+    bottom: 100px !important;
+    right: 20px !important;
+    width: 300px !important;
+  }
+
+  .welcome-bubble {
+    bottom: 100px !important;
+    right: 20px !important;
+  }
+
+  /* Ensure free intro button is closer to sandwich icon */
+  .btn-book-now {
+    margin-right: 40px !important;
+  }
+
+  /* Ensure nav section has proper spacing */
+  .nav-section {
+    margin-right: 10px !important;
+  }
+}
+
+/* Ensure dropdown menus don't cause overflow */
+.dropdown-menu {
+  overflow: visible !important;
+}
+
+/* Ensure mobile toggle is hidden on desktop */
+@media (min-width: 992px) {
+  .mobile-toggle {
+    display: none !important;
+  }
+}

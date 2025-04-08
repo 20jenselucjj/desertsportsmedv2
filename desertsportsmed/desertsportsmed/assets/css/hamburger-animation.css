@@ -1,0 +1,112 @@
+/* Desert Sports Med - Hamburger Menu Animation */
+
+/* Hamburger Icon Container */
+.mobile-toggle {
+  cursor: pointer;
+  width: 30px;
+  height: 25px;
+  position: relative;
+  transition: all 0.3s ease;
+  /* Remove display: flex from here as it's overriding the display: none in desktop view */
+  align-items: center;
+  justify-content: center;
+  color: #ffffff !important; /* Ensure icon color is white */
+}
+
+/* Apply display: flex only in mobile view */
+@media (max-width: 991.98px) {
+  .mobile-toggle {
+    display: flex;
+  }
+}
+
+/* Style the default icon */
+.mobile-toggle .fas {
+  color: #ffffff !important; /* Ensure icon color is white */
+  font-size: 24px !important;
+}
+
+/* Create the hamburger icon using spans */
+.mobile-toggle .hamburger-icon {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform: rotate(0deg);
+  transition: 0.5s ease-in-out;
+  display: none; /* Hide custom hamburger initially */
+}
+
+.mobile-toggle .hamburger-icon span {
+  display: block;
+  position: absolute;
+  height: 3px;
+  width: 100%;
+  background: #ffffff; /* Explicitly white */
+  border-radius: 3px;
+  opacity: 1;
+  left: 0;
+  transform: rotate(0deg);
+  transition: 0.25s ease-in-out;
+}
+
+/* Position the three lines */
+.mobile-toggle .hamburger-icon span:nth-child(1) {
+  top: 0px;
+}
+
+.mobile-toggle .hamburger-icon span:nth-child(2),
+.mobile-toggle .hamburger-icon span:nth-child(3) {
+  top: 10px;
+}
+
+.mobile-toggle .hamburger-icon span:nth-child(4) {
+  top: 20px;
+}
+
+/* Animation for the X transformation */
+.mobile-toggle.active .hamburger-icon span:nth-child(1) {
+  top: 10px;
+  width: 0%;
+  left: 50%;
+  opacity: 0;
+}
+
+.mobile-toggle.active .hamburger-icon span:nth-child(2) {
+  transform: rotate(45deg);
+}
+
+.mobile-toggle.active .hamburger-icon span:nth-child(3) {
+  transform: rotate(-45deg);
+}
+
+.mobile-toggle.active .hamburger-icon span:nth-child(4) {
+  top: 10px;
+  width: 0%;
+  left: 50%;
+  opacity: 0;
+}
+
+/* Add a subtle hover effect */
+.mobile-toggle:hover .hamburger-icon span {
+  background: var(--primary-color);
+}
+
+/* Ensure white color for the original font awesome icon during transition */
+.mobile-toggle i {
+  color: #ffffff !important;
+}
+
+/* Ensure proper positioning in mobile view */
+@media (max-width: 576px) {
+  .mobile-toggle {
+    right: 20px !important;
+    z-index: 1001 !important;
+    position: absolute !important;
+    color: #ffffff !important;
+  }
+
+  .mobile-toggle i,
+  .mobile-toggle .fas {
+    color: #ffffff !important;
+  }
+}

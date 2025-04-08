@@ -1,0 +1,107 @@
+/* Desert Sports Med - Calendar Scrolling Fix for Mobile */
+
+/* Fix for Cal.com calendar containers */
+@media (max-width: 991.98px) {
+  /* Target all Cal.com calendar containers */
+  [id^="cal-"] {
+    overflow: auto !important; /* Override inline style */
+    -webkit-overflow-scrolling: touch !important; /* Smooth scrolling on iOS */
+    height: 600px !important; /* Taller height for mobile */
+    width: 100% !important;
+    max-width: 100% !important;
+    touch-action: auto !important; /* Enable touch actions */
+    position: relative !important;
+    z-index: 5 !important;
+  }
+
+  /* Target the iframe that Cal.com creates */
+  [id^="cal-"] iframe {
+    height: 100% !important;
+    width: 100% !important;
+    overflow: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    touch-action: auto !important;
+    position: relative !important;
+    z-index: 5 !important;
+  }
+
+  /* Make calendar containers scrollable */
+  .cal-embed-container {
+    overflow: visible !important;
+    height: auto !important;
+    min-height: 650px !important;
+    position: relative !important;
+  }
+
+  /* Calendar container on free-intro page */
+  .calendar-container {
+    overflow: visible !important;
+    height: auto !important;
+    min-height: 650px !important;
+  }
+
+  /* Fix for any Cal.com generated elements */
+  .cal-embed-container div[style*="overflow:hidden"],
+  .calendar-container div[style*="overflow:hidden"] {
+    overflow: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    touch-action: auto !important;
+  }
+
+  /* Target Cal.com's internal elements */
+  .cal-embed-container iframe,
+  .calendar-container iframe,
+  [id^="cal-"] iframe,
+  iframe[src*="cal.com"] {
+    overflow: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    touch-action: auto !important;
+    height: 100% !important;
+    width: 100% !important;
+    position: relative !important;
+    z-index: 5 !important;
+  }
+
+  /* Fix for Cal.com's internal scrollable elements */
+  div[data-cal-namespace],
+  div[data-cal-namespace] div,
+  div[data-cal-namespace] div[style*="overflow"],
+  div[data-cal-namespace] div[style*="height"] {
+    max-height: none !important;
+    overflow: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    touch-action: auto !important;
+  }
+}
+
+/* Additional fixes for very small screens */
+@media (max-width: 576px) {
+  [id^="cal-"] {
+    height: 550px !important; /* Slightly shorter for very small screens */
+  }
+
+  .cal-embed-container,
+  .calendar-container {
+    min-height: 600px !important;
+  }
+
+  /* Ensure the calendar is visible and scrollable on small screens */
+  body.cal-embed-open {
+    overflow: auto !important;
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+  }
+}
+
+/* Fix for any potential body scroll locking that Cal.com might apply */
+body.cal-embed-open,
+body.cal-embed-open .cal-embed-container,
+body.cal-embed-open .calendar-container,
+body.cal-embed-open [id^="cal-"] {
+  overflow: auto !important;
+  position: relative !important;
+  height: auto !important;
+  touch-action: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+}

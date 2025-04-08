@@ -1,0 +1,119 @@
+/* ===== CARDS ===== */
+/* Team Cards */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+.team-card {
+  background-color: var(--card-background);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: var(--box-shadow);
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+.team-card:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 15px 30px rgba(var(--primary-color-rgb), 0.3);
+  opacity: 0;
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  z-index: -1;
+  border-radius: var(--border-radius);
+}
+
+.team-card:hover {
+  transform: translateY(-10px) scale(1.02);
+}
+
+.team-card:hover:after {
+  opacity: 1;
+}
+
+.team-image {
+  height: 300px;
+  overflow: hidden;
+}
+
+.team-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: var(--transition);
+}
+
+.team-card:hover .team-image img {
+  transform: scale(1.1);
+}
+
+.team-content {
+  padding: 20px;
+  text-align: center;
+}
+
+.team-content h3 {
+  font-size: 22px;
+  margin-bottom: 5px;
+}
+
+.team-position {
+  color: var(--primary-color);
+  font-weight: 600;
+  margin-bottom: 15px;
+  display: block;
+}
+
+.team-social {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.team-social a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  color: var(--text-color);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.team-social a:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  z-index: -1;
+  opacity: 0;
+  transform: scale(0);
+  transition: all 0.3s ease;
+  border-radius: 50%;
+}
+
+.team-social a:hover {
+  color: var(--light-text);
+  transform: translateY(-3px);
+}
+
+.team-social a:hover:before {
+  opacity: 1;
+  transform: scale(1);
+}
