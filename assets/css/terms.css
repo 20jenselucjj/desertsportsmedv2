@@ -1,0 +1,65 @@
+/* ===== TERMS & CONDITIONS PAGE ===== */
+.terms-section {
+  padding: 60px 0;
+}
+
+.terms-content {
+  background-color: var(--card-background);
+  border-radius: var(--border-radius);
+  padding: 40px;
+  box-shadow: var(--box-shadow);
+  color: var(--light-text);
+}
+
+.terms-content h2 {
+  color: var(--light-text);
+  margin-bottom: 10px;
+  font-size: 32px;
+}
+
+.last-updated {
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+  margin-bottom: 30px;
+  font-size: 14px;
+}
+
+.terms-content .terms-section {
+  margin-bottom: 30px;
+  padding: 0;
+}
+
+.terms-content h3 {
+  color: var(--primary-color);
+  margin-bottom: 15px;
+  font-size: 22px;
+}
+
+.terms-content p {
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
+
+.terms-content ul, .terms-content ol {
+  margin-left: 20px;
+  margin-bottom: 15px;
+}
+
+.terms-content li {
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .terms-content {
+    padding: 25px;
+  }
+  
+  .terms-content h2 {
+    font-size: 28px;
+  }
+  
+  .terms-content h3 {
+    font-size: 20px;
+  }
+}

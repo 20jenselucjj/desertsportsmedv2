@@ -35,9 +35,10 @@
 @import url('page-header-fix.css');
 @import url('calendar-fix.css');
 @import url('mobile-toggle-fix.css'); /* Fix for mobile toggle display issues */
-@import url('text-color-fix.css'); /* Fix for text color in light background sections */
+@import url('terms.css'); /* Terms & Conditions page styles */
+
 @import url('chatbot-text-fix.css'); /* Fix for chatbot message text color */
 @import url('dark-theme-enhancement.css'); /* Enhanced dark theme for all pages */
-@import url('approach-heading-fix.css'); /* Fix for approach headings in dark sections */
+
 @import url('background-brightness-fix.css'); /* Fix for background image brightness */
 @import url('card-text-visibility-fix.css'); /* Fix for card text visibility issues */
