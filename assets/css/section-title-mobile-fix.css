@@ -1,0 +1,43 @@
+/* Desert Sports Med - Section Title Mobile Fix */
+
+/* Fix for section titles in mobile view */
+@media (max-width: 576px) {
+  /* Adjust the section title for better mobile display */
+  .section-title h2 {
+    margin: 0 30px !important; /* Reduce side margins */
+    font-size: 24px !important; /* Smaller font size */
+    padding: 0 10px !important; /* Reduce padding */
+    text-align: center !important; /* Ensure text is centered */
+    width: auto !important; /* Allow natural width */
+    display: inline-block !important; /* Keep as inline-block */
+  }
+
+  /* Adjust the decorative lines */
+  .section-title h2:before,
+  .section-title h2:after {
+    width: 25px !important; /* Shorter lines */
+    left: -30px !important; /* Position closer to text */
+  }
+
+  .section-title h2:after {
+    right: -30px !important; /* Position closer to text */
+    left: auto !important; /* Reset any left value */
+  }
+
+  /* Center the entire section title container */
+  .section-title {
+    text-align: center !important;
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  /* Ensure paragraph text is also centered */
+  .section-title p {
+    text-align: center !important;
+    max-width: 100% !important;
+    padding: 0 10px !important;
+  }
+}
