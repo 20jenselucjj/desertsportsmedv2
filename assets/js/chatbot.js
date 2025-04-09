@@ -7,10 +7,10 @@ if (typeof window.chatbotInitialized === 'undefined') {
     document.addEventListener('DOMContentLoaded', function() {
         initChatbot();
 
-        // Show welcome popup after 1.5 seconds (reduced from 3 seconds)
+        // Show welcome popup after 1 second
         setTimeout(function() {
             showWelcomePopup();
-        }, 1500);
+        }, 1000);
     });
 }
 
@@ -19,24 +19,21 @@ if (typeof window.chatbotInitialized === 'undefined') {
 window.knowledgeBase = window.knowledgeBase || {
     // Services information
     services: {
-        general: "Our services:<br>• <b>Athletic Training</b><br>• <b>Sports Performance</b><br>• <b>Team Services</b><br>• <b>Event Coverage</b><br>• <b>Performance Therapy</b> (limited)",
+        general: "Our services:<br>• <b>Medical Tents</b><br>• <b>On-Field Medical Coverage</b><br>• <b>Performance Therapy</b>",
+        medicalTents: "<b>Medical Tents:</b><br>• Professional setup with treatment tables & privacy screens<br>• Certified athletic trainers<br>• Essential emergency equipment (AEDs, spine boards)<br>• Complete medical supplies<br>• Emergency planning with EMS coordination<br>• Detailed documentation",
+        onFieldCoverage: "<b>On-Field Medical Coverage:</b><br>• Sideline positioning for immediate access<br>• Portable medical kits<br>• On-site injury assessment<br>• Evidence-based return-to-play decisions<br>• Continuous monitoring throughout events<br>• Field-specific emergency plans",
+        performanceTherapy: "<b>Performance Therapy:</b><br>• Manual therapy techniques<br>• Movement pattern correction<br>• Neuromuscular re-education<br>• Recovery strategies<br>• Performance enhancement",
         athleticTraining: "<b>Athletic Training:</b><br>• Injury prevention & treatment<br>• Emergency care<br>• Rehabilitation<br>• Return-to-play protocols",
-        sportsPerformance: "<b>Sports Performance:</b><br>• Strength & conditioning<br>• Speed & agility training<br>• Sport-specific skills<br>• Personalized plans",
-        teamServices: "<b>Team Services:</b><br>• Sideline coverage<br>• Injury management<br>• Team training programs<br>• Return-to-play protocols",
-        eventCoverage: "<b>Event Coverage:</b><br>• On-site athletic trainers<br>• Injury assessment & care<br>• Emergency management<br>• Medical equipment",
-        performanceTherapy: "<b>Performance Therapy:</b><br>• Manual therapy<br>• Movement assessment<br>• Corrective exercises<br>• Recovery strategies",
         injuryPrevention: "<b>Injury Prevention:</b><br>• Risk assessment<br>• Prevention plans<br>• Corrective exercises<br>• Movement training",
         performanceEnhancement: "<b>Performance Enhancement:</b><br>• Biomechanical analysis<br>• Sport-specific training<br>• Strength & conditioning<br>• Recovery strategies"
     },
 
     // Programs information
     programs: {
-        general: "<b>Our programs:</b><br>• Injury Prevention<br>• Return to Sport<br>• Performance Optimization<br>• Team Services<br>• Event Coverage",
-        returnToSport: "<b>Return to Sport:</b><br>• Injury assessment<br>• Personalized rehab<br>• Sport-specific training<br>• Gradual return to play",
-        performanceOptimization: "<b>Performance Optimization:</b><br>• Movement analysis<br>• Personalized training<br>• Sport-specific drills<br>• Performance tracking",
-        injuryPrevention: "<b>Injury Prevention:</b><br>• Risk assessment<br>• Prevention plan<br>• Corrective exercises<br>• Technique improvement",
-        teamServices: "<b>Team Services:</b><br>• Team athletic training<br>• Injury prevention<br>• Immediate care<br>• Return-to-play management",
-        eventCoverage: "<b>Event Coverage:</b><br>• On-site athletic trainers<br>• Medical equipment<br>• Injury management<br>• Emergency protocols",
+        general: "<b>Our services:</b><br>• <b>Medical Tents</b> - Centralized treatment facilities for events<br>• <b>On-Field Coverage</b> - Immediate sideline medical response<br>• <b>Performance Therapy</b> - Specialized treatment for athletes",
+        medicalTentBenefits: "<b>Benefits of Medical Tents:</b><br>• Centralized treatment facility<br>• Multiple patient capacity<br>• Comprehensive equipment<br>• Privacy for treatments<br>• Weather protection",
+        onFieldBenefits: "<b>Benefits of On-Field Coverage:</b><br>• Instant injury response<br>• Immediate assessment at injury site<br>• Qualified return-to-play decisions<br>• Continuous monitoring<br>• Reduced injury severity",
+        performanceTherapyBenefits: "<b>Benefits of Performance Therapy:</b><br>• Enhanced athletic performance<br>• Injury prevention<br>• Faster recovery between sessions<br>• Improved body awareness<br>• Personalized treatment plans",
         assessment: "<b>Assessment includes:</b><br>• Movement analysis<br>• Strength testing<br>• Sport-specific evaluation<br>• Injury risk screening"
     },
 
@@ -57,8 +54,11 @@ window.knowledgeBase = window.knowledgeBase || {
 
     // Pricing information
     pricing: {
-        general: "Our pricing varies depending on the athletic training service you need. We offer individual sessions, team packages, and event coverage options. For detailed pricing information, please contact us directly and we'll provide you with a personalized quote based on your specific needs.",
-        insurance: "We work with most major insurance providers for athletic training services. However, coverage varies depending on your specific plan and the services you need. We recommend contacting your insurance provider to verify coverage for athletic training and sports medicine services."
+        general: "Our pricing varies depending on the service you need. We offer single event coverage, seasonal contracts, and performance therapy options. Visit our pricing page or contact us directly for a personalized quote based on your specific needs.",
+        medicalTents: "Medical Tent pricing is based on event size, duration, and specific requirements. We offer both single event coverage and seasonal contracts to meet your needs.",
+        onFieldCoverage: "On-Field Coverage pricing depends on the number of athletic trainers needed, event duration, and specific requirements. Contact us for a custom quote tailored to your event.",
+        performanceTherapy: "Performance Therapy sessions are available on a per-session basis or as part of a package. Current rates are available upon request.",
+        insurance: "We work with most major insurance providers for athletic training services. However, coverage varies depending on your specific plan and the services you need. We recommend contacting your insurance provider to verify coverage."
     },
 
     // About information
@@ -71,17 +71,17 @@ window.knowledgeBase = window.knowledgeBase || {
 
     // FAQ information
     faq: {
-        athleticTrainer: "Athletic trainers are healthcare professionals who specialize in preventing, recognizing, and treating injuries related to physical activity. They work with athletes to optimize performance and provide immediate care for injuries.",
-        difference: "Athletic trainers focus on injury prevention, immediate care, and return-to-play protocols specifically for athletes, while physical therapists typically work with a broader range of patients and conditions.",
-        insurance: "Most major insurance plans cover athletic training services. We recommend contacting your insurance provider to verify coverage for your specific plan.",
-        firstVisit: "Your first visit includes a comprehensive assessment of your movement patterns, injury history, and athletic goals. Our athletic trainer will create a personalized plan based on your specific needs.",
-        equipment: "No special equipment is needed for your first visit. Just wear comfortable clothing that allows for movement assessment. Athletic attire is ideal.",
+        athleticTrainer: "Certified Athletic Trainers are highly qualified healthcare professionals with specific education, state licensing, and continuing education requirements who can recognize injuries, provide emergency care, make return-to-play decisions, and reduce liability.",
+        difference: "Athletic trainers focus on injury prevention, immediate care, and return-to-play protocols specifically for athletes and sporting events, while physical therapists typically work with a broader range of patients and conditions.",
+        insurance: "We work with most major insurance providers for athletic training services. However, coverage varies depending on your specific plan and the services you need. We recommend contacting your insurance provider to verify coverage.",
+        medicalTents: "Medical Tents serve as centralized treatment facilities at your event - mini field hospitals strategically positioned to serve all participants with the equipment to handle multiple injuries simultaneously.",
+        onFieldCoverage: "On-field coverage brings certified athletic trainers directly to the action, providing immediate response exactly where injuries occur with zero delay.",
+        performanceTherapy: "Performance Therapy is a specialized approach that combines various manual therapy techniques, movement assessments, and corrective exercises to enhance physical performance and accelerate recovery.",
         sportsCovered: "We work with athletes from all sports including but not limited to: football, basketball, soccer, baseball, volleyball, track and field, swimming, tennis, golf, and combat sports.",
         ageGroups: "We work with athletes of all ages, from youth sports to high school, college, professional, and adult recreational athletes.",
-        teamServices: "Our team services include sideline coverage for games and practices, injury prevention programs, return-to-play protocols, and athletic performance enhancement.",
-        eventCoverage: "We provide certified athletic trainers for sporting events, tournaments, and competitions to ensure athlete safety and immediate care for injuries.",
-        remoteServices: "Yes, we offer virtual consultations for athletes who cannot visit our facility in person. These sessions are ideal for follow-ups and movement assessments.",
-        performanceTherapy: "Performance Therapy combines manual therapy techniques with corrective exercises to enhance physical performance and accelerate recovery. It's available on a limited basis."
+        eventServices: "Our event services include medical tents with full equipment and supplies, on-field coverage with certified athletic trainers, emergency planning, and detailed documentation.",
+        pricing: "Our pricing structure includes these main options:<br>• <b>Single Event:</b> One-time coverage for individual tournaments or competitions<br>• <b>Multiple Events:</b> Coverage for a series of related events<br>• <b>Seasonal Contract:</b> Ongoing coverage for teams or recurring events<br>• <b>Performance Therapy:</b> Individual sessions for athletes<br><br>For specific rates, please visit our pricing page or contact us directly.",
+        bookingProcess: "You can book our services through our website's booking system, by calling (801) 797-4043, or by emailing desertsportsmed@gmail.com. We recommend starting with a free consultation to discuss your specific needs."
     }
 };
 
@@ -158,8 +158,8 @@ function showWelcomePopup() {
         <button class="welcome-bubble-close"><i class="fas fa-times"></i></button>
     `;
 
-    // Text to type - define it here so it's available in the entire function scope
-    const textToType = '<strong>Hi there!</strong> Have a question about our services?';
+    // Text to type - shorter, more concise message
+    const textToType = '<strong>Questions?</strong> Chat with us!';
 
     // Calculate approximate typing time (average 50ms per character plus buffer)
     const typingTime = textToType.length * 50 + 1000;
@@ -228,7 +228,7 @@ function showWelcomePopup() {
             const chatbotMessages = document.querySelector('.chatbot-messages');
             if (chatbotMessages && chatbotMessages.children.length === 0) {
                 setTimeout(() => {
-                    addBotMessage("Hi there! 👋 I'm your Desert Sports Med virtual assistant. Our certified athletic trainers are here to help you prevent injuries and optimize performance. How can I help you today?");
+                    addBotMessage("👋 How can I help you today?");
                     showOptions([
                         "Tell me about athletic training",
                         "What services do you offer?",
@@ -263,7 +263,7 @@ function initChatbot() {
             if (chatbotMessages.children.length === 0) {
                 // Send welcome message if it's the first time opening
                 setTimeout(() => {
-                    addBotMessage("Hi there! 👋 I'm your Desert Sports Med virtual assistant. Our certified athletic trainers are here to help you prevent injuries and optimize performance. How can I help you today?");
+                    addBotMessage("👋 How can I help you today?");
                     showOptions([
                         "Tell me about athletic training",
                         "What services do you offer?",
@@ -405,49 +405,70 @@ function initChatbot() {
 
         // Check for keywords and respond accordingly
         if (message.includes('hello') || message.includes('hi') || message.includes('hey') || message === '') {
-            addBotMessage("Hello! I'm Desert Sports Med's chatbot. I can answer questions about our services using information from our website. How can I help you today?");
-            // Only show initial options for greeting
+            addBotMessage("Hello! How can I help you today?");
+            // Show main service options for greeting
             showOptions([
-                "What services do you offer?",
-                "Book a Free Athletic Training Consultation",
-                "Request pricing information",
-                "Contact information"
+                "Medical Tents",
+                "On-Field Coverage",
+                "Performance Therapy",
+                "Pricing Information",
+                "Book a Consultation"
             ]);
+        }
+        // Services section
+        else if (message.includes('services') || message.includes('what do you offer')) {
+            addBotMessage(window.knowledgeBase.services.general);
+            showOptions([
+                "Tell me about Medical Tents",
+                "Tell me about On-Field Coverage",
+                "Tell me about Performance Therapy"
+            ]);
+        }
+        else if (message.includes('medical tent') || message.includes('medical tents')) {
+            addBotMessage(window.knowledgeBase.faq.medicalTents);
+            addBotMessage(window.knowledgeBase.services.medicalTents);
+            showOptions([
+                "Benefits of Medical Tents",
+                "Request Medical Tent Pricing",
+                "Book a Medical Tent Consultation"
+            ]);
+        }
+        else if (message.includes('on-field') || message.includes('on field') || message.includes('sideline')) {
+            addBotMessage(window.knowledgeBase.faq.onFieldCoverage);
+            addBotMessage(window.knowledgeBase.services.onFieldCoverage);
+            showOptions([
+                "Benefits of On-Field Coverage",
+                "Request On-Field Coverage Pricing",
+                "Book an On-Field Coverage Consultation"
+            ]);
+        }
+        else if (message.includes('performance therapy')) {
+            addBotMessage(window.knowledgeBase.faq.performanceTherapy);
+            addBotMessage(window.knowledgeBase.services.performanceTherapy);
+            showOptions([
+                "Benefits of Performance Therapy",
+                "Performance Therapy Pricing",
+                "Book a Performance Therapy Session"
+            ]);
+        }
+        // Benefits section
+        else if (message.includes('benefits') && message.includes('medical tent')) {
+            addBotMessage(window.knowledgeBase.programs.medicalTentBenefits);
+        }
+        else if (message.includes('benefits') && (message.includes('on-field') || message.includes('on field'))) {
+            addBotMessage(window.knowledgeBase.programs.onFieldBenefits);
+        }
+        else if (message.includes('benefits') && message.includes('performance therapy')) {
+            addBotMessage(window.knowledgeBase.programs.performanceTherapyBenefits);
         }
         else if (message.includes('athletic training')) {
             addBotMessage(window.knowledgeBase.services.athleticTraining);
         }
-        else if (message.includes('services') || message.includes('what do you offer')) {
-            addBotMessage(window.knowledgeBase.services.general);
-            addBotMessage("• <a href='athletic-training.html'>Athletic Training</a><br>• <a href='sports-performance.html'>Sports Performance</a><br>• <a href='team-services.html'>Team Services</a><br>• <a href='event-coverage.html'>Event Coverage</a><br>• <a href='performance-therapy.html'>Performance Therapy</a>");
-        }
-        else if (message.includes('sports performance')) {
-            addBotMessage(window.knowledgeBase.services.sportsPerformance);
-        }
-        else if (message.includes('team services')) {
-            addBotMessage(window.knowledgeBase.services.teamServices);
-        }
-        else if (message.includes('event coverage')) {
-            addBotMessage(window.knowledgeBase.services.eventCoverage);
-        }
-        else if (message.includes('performance therapy')) {
-            addBotMessage(window.knowledgeBase.services.performanceTherapy);
-        }
-        else if (message.includes('performance') || message.includes('enhancement')) {
-            addBotMessage(window.knowledgeBase.services.performanceEnhancement);
-        }
-        else if (message.includes('programs')) {
-            addBotMessage(window.knowledgeBase.programs.general);
-            addBotMessage("You can learn more about our athletic training services in the Services dropdown menu on our website.");
-        }
-        else if (message.includes('return to sport')) {
-            addBotMessage(window.knowledgeBase.programs.returnToSport);
-        }
-        else if (message.includes('performance optimization')) {
-            addBotMessage(window.knowledgeBase.programs.performanceOptimization);
-        }
         else if (message.includes('injury prevention')) {
-            addBotMessage(window.knowledgeBase.programs.injuryPrevention);
+            addBotMessage(window.knowledgeBase.services.injuryPrevention);
+        }
+        else if (message.includes('performance enhancement')) {
+            addBotMessage(window.knowledgeBase.services.performanceEnhancement);
         }
         else if (message.includes('book') || message.includes('appointment') || message.includes('schedule') || message.includes('free intro') || message.includes('consultation')) {
             addBotMessage(window.knowledgeBase.booking.methods);
@@ -484,21 +505,55 @@ function initChatbot() {
             addBotMessage("• Performance Therapy Session (60 min)");
             addBotMessage("<a href='book-online.html#performance-therapy-content' target='_blank'>Click here to book a Performance Therapy session</a>");
         }
-        else if (message.includes('price') || message.includes('cost') || message.includes('fee') || message.includes('request pricing')) {
+        // Pricing information
+        else if (message.includes('pricing information') || message.includes('price') || message.includes('cost') || message.includes('fee') || message.includes('request pricing')) {
+            addBotMessage(window.knowledgeBase.faq.pricing);
+            addBotMessage("You can visit our <a href='pricing-request.html' target='_blank'>pricing page</a> for more information or contact us directly at <a href='tel:(801) 797-4043'>(801) 797-4043</a> or <a href='mailto:desertsportsmed@gmail.com'>desertsportsmed@gmail.com</a>.");
+            // Show pricing options with more descriptive text
+            showOptions([
+                "Medical Tent Pricing",
+                "On-Field Coverage Pricing",
+                "Performance Therapy Pricing",
+                "Request Custom Quote"
+            ]);
+        }
+        else if (message.includes('medical tent') && (message.includes('pricing') || message.includes('cost'))) {
+            addBotMessage(window.knowledgeBase.pricing.medicalTents);
+            addBotMessage("Visit our <a href='pricing-request.html' target='_blank'>pricing page</a> or contact us at <a href='tel:(801) 797-4043'>(801) 797-4043</a> for a custom quote.");
+            showPricingRequestForm();
+        }
+        else if ((message.includes('on-field') || message.includes('on field')) && (message.includes('pricing') || message.includes('cost'))) {
+            addBotMessage(window.knowledgeBase.pricing.onFieldCoverage);
+            addBotMessage("Visit our <a href='pricing-request.html' target='_blank'>pricing page</a> or contact us at <a href='tel:(801) 797-4043'>(801) 797-4043</a> for a custom quote.");
+            showPricingRequestForm();
+        }
+        else if (message.includes('performance therapy') && (message.includes('pricing') || message.includes('cost'))) {
+            addBotMessage(window.knowledgeBase.pricing.performanceTherapy);
+            addBotMessage("Visit our <a href='pricing-request.html' target='_blank'>pricing page</a> or contact us at <a href='tel:(801) 797-4043'>(801) 797-4043</a> for current rates.");
+            showPricingRequestForm();
+        }
+        else if (message.includes('custom quote') || message.includes('request quote')) {
+            addBotMessage("We'd be happy to provide a custom quote for your specific needs.");
+            addBotMessage("Visit our <a href='pricing-request.html' target='_blank'>pricing page</a> or contact us directly at <a href='tel:(801) 797-4043'>(801) 797-4043</a> or <a href='mailto:desertsportsmed@gmail.com'>desertsportsmed@gmail.com</a>.");
             showPricingRequestForm();
         }
         else if (message.includes('insurance')) {
             addBotMessage(window.knowledgeBase.pricing.insurance);
         }
+        // Contact information
         else if (message.includes('location') || message.includes('address') || message.includes('where')) {
             addBotMessage(`We're located in St. George: <a href="https://maps.google.com/?q=${encodeURIComponent(window.knowledgeBase.contact.address)}" target="_blank">${window.knowledgeBase.contact.address}</a>`);
         }
         else if (message.includes('hours') || message.includes('when are you open')) {
             addBotMessage("Hours: " + window.knowledgeBase.contact.hours.replace(/\n/g, '<br>'));
         }
-        else if (message.includes('contact') || message.includes('talk to someone') || message.includes('speak') || message.includes('contact you directly') || message.includes('contact information')) {
+        else if (message.includes('contact') || message.includes('talk to someone') || message.includes('speak') || message.includes('contact information')) {
             addBotMessage(`Contact us:<br>• Phone: <a href="tel:${window.knowledgeBase.contact.phone}">${window.knowledgeBase.contact.phone}</a><br>• Email: <a href="mailto:${window.knowledgeBase.contact.email}">${window.knowledgeBase.contact.email}</a>`);
-            addBotMessage("<a href='free-intro.html' target='_blank'>Book a free consultation</a>");
+            showOptions([
+                "Book a Free Consultation",
+                "Request Pricing Information",
+                "View Services"
+            ]);
         }
         else if (message.includes('thank')) {
             addBotMessage("You're welcome! Is there anything else I can help you with today?");
@@ -569,14 +624,34 @@ function initChatbot() {
             addBotMessage("During an Athletic Training Assessment, our certified athletic trainer will:");
             addBotMessage("• Review your health and activity history<br>• Assess your movement patterns<br>• Identify potential injury risks<br>• Create a personalized plan<br>• Provide immediate recommendations");
         }
-        else {
-            addBotMessage("I'm not sure I understand. Could you please choose from one of these options or rephrase your question?");
-            // Keep showing options only for the fallback response
+        // FAQ about certified athletic trainers
+        else if (message.includes('certified athletic trainer') || message.includes('why choose certified')) {
+            addBotMessage(window.knowledgeBase.faq.athleticTrainer);
             showOptions([
-                "What services do you offer?",
-                "Book a Free Athletic Training Consultation",
-                "Request pricing information",
-                "Contact information"
+                "Medical Tent Services",
+                "On-Field Coverage Services",
+                "Book a Consultation"
+            ]);
+        }
+        // Booking process
+        else if (message.includes('booking process') || message.includes('how to book')) {
+            addBotMessage(window.knowledgeBase.faq.bookingProcess);
+            showOptions([
+                "Book a Free Consultation",
+                "View All Services",
+                "Contact Us"
+            ]);
+        }
+        // Fallback response
+        else {
+            addBotMessage("I'm not sure I understand. How can I help you today?");
+            // Show main options for fallback response
+            showOptions([
+                "Our Services",
+                "Pricing Information",
+                "Book a Consultation",
+                "Contact Us",
+                "Why Choose Certified Athletic Trainers?"
             ]);
         }
     }
@@ -603,24 +678,28 @@ function initChatbot() {
             <div class="chatbot-form-field">
                 <label>Services of Interest (select all that apply)</label>
                 <div>
-                    <input type="checkbox" id="pricing-athletic" value="Athletic Training">
-                    <label for="pricing-athletic" style="display:inline;">Athletic Training</label>
+                    <input type="checkbox" id="pricing-medical-tents" value="Medical Tents">
+                    <label for="pricing-medical-tents" style="display:inline;">Medical Tents</label>
                 </div>
                 <div>
-                    <input type="checkbox" id="pricing-sports" value="Sports Performance">
-                    <label for="pricing-sports" style="display:inline;">Sports Performance</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="pricing-team" value="Team Services">
-                    <label for="pricing-team" style="display:inline;">Team Services</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="pricing-event" value="Event Coverage">
-                    <label for="pricing-event" style="display:inline;">Event Coverage</label>
+                    <input type="checkbox" id="pricing-on-field" value="On-Field Coverage">
+                    <label for="pricing-on-field" style="display:inline;">On-Field Coverage</label>
                 </div>
                 <div>
                     <input type="checkbox" id="pricing-therapy" value="Performance Therapy">
                     <label for="pricing-therapy" style="display:inline;">Performance Therapy</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="pricing-single-event" value="Single Event">
+                    <label for="pricing-single-event" style="display:inline;">Single Event</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="pricing-multiple-events" value="Multiple Events">
+                    <label for="pricing-multiple-events" style="display:inline;">Multiple Events</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="pricing-seasonal" value="Seasonal Contract">
+                    <label for="pricing-seasonal" style="display:inline;">Seasonal Contract</label>
                 </div>
             </div>
             <button class="chatbot-form-submit" id="pricing-submit">Request Pricing</button>
@@ -647,15 +726,24 @@ function initChatbot() {
 
             // Get selected services
             const services = [];
-            if (document.getElementById('pricing-athletic').checked) services.push('Athletic Training');
-            if (document.getElementById('pricing-sports').checked) services.push('Sports Performance');
-            if (document.getElementById('pricing-team').checked) services.push('Team Services');
-            if (document.getElementById('pricing-event').checked) services.push('Event Coverage');
+            if (document.getElementById('pricing-medical-tents').checked) services.push('Medical Tents');
+            if (document.getElementById('pricing-on-field').checked) services.push('On-Field Coverage');
             if (document.getElementById('pricing-therapy').checked) services.push('Performance Therapy');
+            if (document.getElementById('pricing-single-event').checked) services.push('Single Event');
+            if (document.getElementById('pricing-multiple-events').checked) services.push('Multiple Events');
+            if (document.getElementById('pricing-seasonal').checked) services.push('Seasonal Contract');
 
             // Process form submission
             addUserMessage(`Requested pricing information for: ${services.join(', ')}`);
             addBotMessage("Thank you for your request! We'll send detailed pricing information to you shortly. A member of our team will contact you within 24 business hours.");
+            addBotMessage("In the meantime, you can visit our <a href='pricing-request.html' target='_blank'>pricing page</a> for more information or contact us directly at <a href='tel:(801) 797-4043'>(801) 797-4043</a>.");
+
+            // Show follow-up options
+            showOptions([
+                "View Services",
+                "Book a Consultation",
+                "Contact Us"
+            ]);
         });
     }
 

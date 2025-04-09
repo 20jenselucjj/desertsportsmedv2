@@ -42,10 +42,8 @@
                     <li class="dropdown">
                         <a href="#">Services</a>
                         <ul class="dropdown-menu">
-                            <li><a href="athletic-training.html">Athletic Training</a></li>
-                            <li><a href="sports-performance.html">Sports Performance</a></li>
-                            <li><a href="team-services.html">Team Services</a></li>
-                            <li><a href="event-coverage.html">Event Coverage</a></li>
+                            <li><a href="medical-tents.html">Medical Tents</a></li>
+                            <li><a href="on-field-coverage.html">On-Field Medical Coverage</a></li>
                             <li><a href="performance-therapy.html">Performance Therapy</a></li>
                         </ul>
                     </li>
@@ -79,19 +77,19 @@
                 <div class="pricing-benefits">
                     <div class="benefit-item">
                         <i class="fas fa-check-circle"></i>
-                        <span>Personalized athletic training pricing based on your specific needs</span>
+                        <span>Single event medical coverage with certified athletic trainers</span>
                     </div>
                     <div class="benefit-item">
                         <i class="fas fa-check-circle"></i>
-                        <span>Flexible athletic training packages and team service options</span>
+                        <span>Seasonal contracts for ongoing medical coverage needs</span>
                     </div>
                     <div class="benefit-item">
                         <i class="fas fa-check-circle"></i>
-                        <span>Event coverage and team service pricing available</span>
+                        <span>Medical tents and on-field coverage options available</span>
                     </div>
                     <div class="benefit-item">
                         <i class="fas fa-check-circle"></i>
-                        <span>No obligation consultation with a certified athletic trainer included</span>
+                        <span>Performance therapy services for injury recovery and prevention</span>
                     </div>
                 </div>
 
@@ -117,20 +115,16 @@
                     <div class="form-group checkbox-group">
                         <p class="interest-label">I'm interested in:</p>
                         <div class="checkbox-item">
-                            <input type="checkbox" id="athletic-training" name="interest" value="Athletic Training">
-                            <label for="athletic-training">Athletic Training</label>
+                            <input type="checkbox" id="single-event" name="interest" value="Single Event">
+                            <label for="single-event">Single Event</label>
                         </div>
                         <div class="checkbox-item">
-                            <input type="checkbox" id="sports-performance" name="interest" value="Sports Performance">
-                            <label for="sports-performance">Sports Performance</label>
+                            <input type="checkbox" id="multiple-events" name="interest" value="Multiple Events">
+                            <label for="multiple-events">Multiple Events</label>
                         </div>
                         <div class="checkbox-item">
-                            <input type="checkbox" id="team-services" name="interest" value="Team Services">
-                            <label for="team-services">Team Services</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="event-coverage" name="interest" value="Event Coverage">
-                            <label for="event-coverage">Event Coverage</label>
+                            <input type="checkbox" id="seasonal-contract" name="interest" value="Seasonal Contract">
+                            <label for="seasonal-contract">Seasonal Contract</label>
                         </div>
                         <div class="checkbox-item">
                             <input type="checkbox" id="performance-therapy" name="interest" value="Performance Therapy">
@@ -141,7 +135,7 @@
                     <div class="form-group checkbox-group terms-group">
                         <div class="checkbox-item">
                             <input type="checkbox" id="terms" name="terms" required>
-                            <label for="terms">I agree to <a href="#" class="terms-link">terms & conditions</a> provided by Desert Sports Med. By providing my phone number, I agree to receive text messages.</label>
+                            <label for="terms">I agree to <a href="terms-conditions.html" class="terms-link">terms & conditions</a> provided by Desert Sports Med. By providing my phone number, I agree to receive text messages.</label>
                         </div>
                     </div>
 
@@ -176,7 +170,7 @@
                     <div class="footer-logo">
                         <img src="Logo.png" alt="Desert Sports Med Logo">
                     </div>
-                    <p>Desert Sports Med provides expert athletic training services in St. George, Utah. Our certified athletic trainers help athletes and teams prevent injuries, enhance performance, and provide professional medical coverage for events.</p>
+                    <p>Event Medical Group is committed to providing quality services to our neighborhoods and their athletic events. We specialize in providing first aid tents, on-field medical coverage, and performance therapy services.</p>
                     <div class="social-links">
                         <a href="https://www.instagram.com/desertsportsmed/" target="_blank" rel="noopener noreferrer" aria-label="Visit our Instagram page"><i class="fab fa-instagram"></i></a>
                     </div>
@@ -191,16 +185,15 @@
                         <li><a href="pricing-request.html">Pricing</a></li>
                         <li><a href="book-online.html">Book Online</a></li>
                         <li><a href="free-intro.html">Free Intro</a></li>
+                        <li><a href="terms-conditions.html">Terms & Conditions</a></li>
                     </ul>
                 </div>
 
                 <div class="footer-links">
                     <h3>Services</h3>
                     <ul>
-                        <li><a href="athletic-training.html">Athletic Training</a></li>
-                        <li><a href="sports-performance.html">Sports Performance</a></li>
-                        <li><a href="team-services.html">Team Services</a></li>
-                        <li><a href="event-coverage.html">Event Coverage</a></li>
+                        <li><a href="medical-tents.html">Medical Tents</a></li>
+                        <li><a href="on-field-coverage.html">On-Field Medical Coverage</a></li>
                         <li><a href="performance-therapy.html">Performance Therapy</a></li>
                     </ul>
                 </div>
@@ -256,10 +249,8 @@
 
             // Get selected interests
             const interests = [];
-            if (document.getElementById('athletic-training').checked) interests.push('Athletic Training');
-            if (document.getElementById('sports-performance').checked) interests.push('Sports Performance');
-            if (document.getElementById('team-services').checked) interests.push('Team Services');
-            if (document.getElementById('event-coverage').checked) interests.push('Event Coverage');
+            if (document.getElementById('single-event').checked) interests.push('Single Event');
+            if (document.getElementById('seasonal-contract').checked) interests.push('Seasonal Contract');
             if (document.getElementById('performance-therapy').checked) interests.push('Performance Therapy');
 
             // Here you would typically send this data to your server or email service

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Online | Desert Sports Med</title>
-    <meta name="description" content="Schedule your appointment with Desert Sports Med. We offer athletic training, sports performance, team services, and event coverage in St. George, Utah.">
+    <meta name="description" content="Schedule your appointment with Desert Sports Med. We offer medical tents, on-field medical coverage, and performance therapy services in St. George, Utah.">
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="Logo.png" type="image/x-icon">
@@ -299,10 +299,8 @@
                     <li class="dropdown">
                         <a href="#">Services</a>
                         <ul class="dropdown-menu">
-                            <li><a href="athletic-training.html">Athletic Training</a></li>
-                            <li><a href="sports-performance.html">Sports Performance</a></li>
-                            <li><a href="team-services.html">Team Services</a></li>
-                            <li><a href="event-coverage.html">Event Coverage</a></li>
+                            <li><a href="medical-tents.html">Medical Tents</a></li>
+                            <li><a href="on-field-coverage.html">On-Field Medical Coverage</a></li>
                             <li><a href="performance-therapy.html">Performance Therapy</a></li>
                         </ul>
                     </li>
@@ -333,25 +331,15 @@
 
             <!-- Booking Tabs -->
             <div class="booking-tabs">
-                <div class="booking-tab active" data-tab="athletic-training">
+                <div class="booking-tab active" data-tab="medical-tents">
+                    <i class="fas fa-first-aid"></i>
+                    <h3>Medical Tents</h3>
+                    <p>Professional medical tents for sporting events and competitions</p>
+                </div>
+                <div class="booking-tab" data-tab="on-field-coverage">
                     <i class="fas fa-running"></i>
-                    <h3>Athletic Training</h3>
-                    <p>Expert care from certified athletic trainers for injury prevention and performance</p>
-                </div>
-                <div class="booking-tab" data-tab="sports-performance">
-                    <i class="fas fa-dumbbell"></i>
-                    <h3>Sports Performance</h3>
-                    <p>Specialized training to enhance athletic performance and skills</p>
-                </div>
-                <div class="booking-tab" data-tab="team-services">
-                    <i class="fas fa-users"></i>
-                    <h3>Team Services</h3>
-                    <p>Athletic training services for teams and organizations</p>
-                </div>
-                <div class="booking-tab" data-tab="event-coverage">
-                    <i class="fas fa-calendar-check"></i>
-                    <h3>Event Coverage</h3>
-                    <p>Professional medical coverage for sporting events</p>
+                    <h3>On-Field Coverage</h3>
+                    <p>Professional medical coverage right on the sidelines</p>
                 </div>
                 <div class="booking-tab" data-tab="performance-therapy">
                     <i class="fas fa-hand-holding-medical"></i>
@@ -361,52 +349,20 @@
             </div>
 
             <!-- Booking Content -->
-            <div class="booking-content active" id="athletic-training-content">
+            <div class="booking-content active" id="medical-tents-content">
                 <div class="cal-embed-container">
-                    <h4 style="margin-bottom: 15px; padding: 10px; background-color: rgba(255, 107, 0, 0.1); border-radius: 5px;">Athletic Training Assessment (60 min)</h4>
+                    <h4 style="margin-bottom: 15px; padding: 10px; background-color: rgba(255, 107, 0, 0.1); border-radius: 5px;">Medical Tent Consultation (30 min)</h4>
                     <!-- Cal inline embed code begins -->
-                    <div style="width:100%;height:500px;overflow:hidden;border-radius:8px;" id="cal-athletic-assessment"></div>
-                    <!-- Cal inline embed code ends -->
-                </div>
-
-                <div class="cal-embed-container">
-                    <h4 style="margin-bottom: 15px; padding: 10px; background-color: rgba(255, 107, 0, 0.1); border-radius: 5px;">Athletic Training Session (45 min)</h4>
-                    <!-- Cal inline embed code begins -->
-                    <div style="width:100%;height:500px;overflow:hidden;border-radius:8px;" id="cal-athletic-session"></div>
+                    <div style="width:100%;height:500px;overflow:hidden;border-radius:8px;" id="cal-medical-tent-consultation"></div>
                     <!-- Cal inline embed code ends -->
                 </div>
             </div>
 
-            <div class="booking-content" id="sports-performance-content">
-                <div class="cal-embed-container" style="margin-bottom: 20px;">
-                    <h4 style="margin-bottom: 15px; padding: 10px; background-color: rgba(255, 107, 0, 0.1); border-radius: 5px;">Sports Performance Assessment (60 min)</h4>
-                    <!-- Cal inline embed code begins -->
-                    <div style="width:100%;height:500px;overflow:hidden;border-radius:8px;" id="cal-performance-assessment"></div>
-                    <!-- Cal inline embed code ends -->
-                </div>
-
+            <div class="booking-content" id="on-field-coverage-content">
                 <div class="cal-embed-container">
-                    <h4 style="margin-bottom: 15px; padding: 10px; background-color: rgba(255, 107, 0, 0.1); border-radius: 5px;">Performance Training Session (60 min)</h4>
+                    <h4 style="margin-bottom: 15px; padding: 10px; background-color: rgba(255, 107, 0, 0.1); border-radius: 5px;">On-Field Coverage Consultation (30 min)</h4>
                     <!-- Cal inline embed code begins -->
-                    <div style="width:100%;height:500px;overflow:hidden;border-radius:8px;" id="cal-performance-session"></div>
-                    <!-- Cal inline embed code ends -->
-                </div>
-            </div>
-
-            <div class="booking-content" id="team-services-content">
-                <div class="cal-embed-container">
-                    <h4 style="margin-bottom: 15px; padding: 10px; background-color: rgba(255, 107, 0, 0.1); border-radius: 5px;">Team Services Consultation (45 min)</h4>
-                    <!-- Cal inline embed code begins -->
-                    <div style="width:100%;height:500px;overflow:hidden;border-radius:8px;" id="cal-team-consultation"></div>
-                    <!-- Cal inline embed code ends -->
-                </div>
-            </div>
-
-            <div class="booking-content" id="event-coverage-content">
-                <div class="cal-embed-container">
-                    <h4 style="margin-bottom: 15px; padding: 10px; background-color: rgba(255, 107, 0, 0.1); border-radius: 5px;">Event Coverage Consultation (30 min)</h4>
-                    <!-- Cal inline embed code begins -->
-                    <div style="width:100%;height:500px;overflow:hidden;border-radius:8px;" id="cal-event-consultation"></div>
+                    <div style="width:100%;height:500px;overflow:hidden;border-radius:8px;" id="cal-on-field-consultation"></div>
                     <!-- Cal inline embed code ends -->
                 </div>
             </div>
@@ -438,7 +394,7 @@
                     <div class="footer-logo">
                         <img src="Logo.png" alt="Desert Sports Med Logo">
                     </div>
-                    <p>Desert Sports Med provides expert athletic training services in St. George, Utah. Our certified athletic trainers help athletes and teams prevent injuries, enhance performance, and provide professional medical coverage for events.</p>
+                    <p>Desert Sports Med is committed to providing quality services to our neighborhoods and their athletic events. We specialize in providing first aid tents, on-field medical coverage, and performance therapy services.</p>
                     <div class="social-links">
                         <a href="https://www.instagram.com/desertsportsmed/" target="_blank" rel="noopener noreferrer" aria-label="Visit our Instagram page"><i class="fab fa-instagram"></i></a>
                     </div>
@@ -449,20 +405,18 @@
                     <ul>
                         <li><a href="index.html">Home</a></li>
                         <li><a href="about.html">About</a></li>
-                        <li><a href="athletic-training.html">Athletic Training</a></li>
                         <li><a href="pricing-request.html">Pricing</a></li>
                         <li><a href="book-online.html">Book Online</a></li>
                         <li><a href="free-intro.html">Free Intro</a></li>
+                        <li><a href="terms-conditions.html">Terms & Conditions</a></li>
                     </ul>
                 </div>
 
                 <div class="footer-links">
                     <h3>Services</h3>
                     <ul>
-                        <li><a href="athletic-training.html">Athletic Training</a></li>
-                        <li><a href="sports-performance.html">Sports Performance</a></li>
-                        <li><a href="team-services.html">Team Services</a></li>
-                        <li><a href="event-coverage.html">Event Coverage</a></li>
+                        <li><a href="medical-tents.html">Medical Tents</a></li>
+                        <li><a href="on-field-coverage.html">On-Field Medical Coverage</a></li>
                         <li><a href="performance-therapy.html">Performance Therapy</a></li>
                     </ul>
                 </div>
@@ -498,7 +452,7 @@
         <div class="chatbot-messages">
             <div class="message bot">
                 <div class="message-content">
-                    <p>👋 Hi there! I'm the Desert Sports Med virtual assistant. How can I help you today?</p>
+                    <p>👋 How can I help you today?</p>
                 </div>
             </div>
         </div>
@@ -646,8 +600,42 @@
                 }
             });
 
+            // Medical Tent Consultation
+            Cal("init", "medical-tent", {origin: "https://cal.com"});
+            Cal.ns["medical-tent"]("inline", {
+                elementOrSelector: "#cal-medical-tent-consultation",
+                calLink: "lucas-jensen-rlhgc8/medical-tent-consultation",
+                config: {layout: "month_view"}
+            });
+
+            Cal.ns["medical-tent"]("ui", {
+                hideEventTypeDetails: false,
+                layout: "month_view",
+                theme: "dark",
+                styles: {
+                    branding: { brandColor: "#ff6b00" }
+                }
+            });
+
+            // On-Field Coverage Consultation
+            Cal("init", "on-field", {origin: "https://cal.com"});
+            Cal.ns["on-field"]("inline", {
+                elementOrSelector: "#cal-on-field-consultation",
+                calLink: "lucas-jensen-rlhgc8/on-field-coverage-consultation",
+                config: {layout: "month_view"}
+            });
+
+            Cal.ns["on-field"]("ui", {
+                hideEventTypeDetails: false,
+                layout: "month_view",
+                theme: "dark",
+                styles: {
+                    branding: { brandColor: "#ff6b00" }
+                }
+            });
+
             // Add error handling for each calendar
-            const namespaces = ["initial-evaluation", "therapy-60", "therapy-30", "corrective-movement", "virtual-assessment", "virtual-followup"];
+            const namespaces = ["initial-evaluation", "therapy-60", "therapy-30", "corrective-movement", "virtual-assessment", "virtual-followup", "medical-tent", "on-field"];
             namespaces.forEach(namespace => {
                 Cal.ns[namespace]("on", {
                     action: "error",

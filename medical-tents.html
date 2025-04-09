@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Tents | Desert Sports Med</title>
+    <meta name="description" content="Desert Sports Med provides professional medical tents for sporting events, tournaments, and competitions to ensure participant safety and immediate care.">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="Logo.png" type="image/x-icon">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/main.css">
+
+    <!-- EmailJS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <!-- Chatbot Position Fix - Ensures consistent positioning across all pages -->
+    <script src="assets/js/chatbot-position-fix.js"></script>
+
+    <!-- Inline styles for process steps text color -->
+    <style>
+        .process-steps .process-step-content h3,
+        .process-steps .process-step-content p,
+        .section.light-bg.dark-bg .section-title h2,
+        .section.light-bg.dark-bg .process-step-content h3,
+        .section.light-bg.dark-bg .process-step-content p {
+            color: #ffffff !important;
+        }
+
+        .process-steps {
+            background-color: rgba(30, 30, 30, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .section.light-bg.dark-bg {
+            background-color: #1a1a1a !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="Logo.png" alt="Event Medical Group Logo">
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li class="dropdown">
+                        <a href="#">Services</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="medical-tents.html" class="active">Medical Tents</a></li>
+                            <li><a href="on-field-coverage.html">On-Field Medical Coverage</a></li>
+                            <li><a href="performance-therapy.html">Performance Therapy</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="pricing-request.html">Pricing</a></li>
+                    <li><a href="book-online.html">Book Online</a></li>
+                </ul>
+
+                <div class="mobile-toggle">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <a href="free-intro.html" class="btn btn-book-now">FREE INTRO</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header" style="background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1599058917212-d750089bc07e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80'); background-size: cover; background-position: center;">
+        <div class="container">
+            <h1>Medical Tents</h1>
+            <p>Professional medical services for sporting events and competitions</p>
+        </div>
+    </section>
+
+    <!-- Medical Tents Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Medical Tent Services</h2>
+            </div>
+
+            <div class="service-detail">
+                <div class="service-detail-content">
+                    <h3>Professional Medical Tent Coverage</h3>
+                    <p>Medical Tents serve as centralized treatment facilities at your event - mini field hospitals strategically positioned to serve all participants with the equipment to handle multiple injuries simultaneously.</p>
+
+                    <h3>Our Services Include:</h3>
+                    <div class="service-features-container" style="margin-top: 20px;">
+                        <ul class="service-features" style="list-style: none; padding: 0;">
+                            <li style="margin-bottom: 15px; display: flex; align-items: flex-start;">
+                                <div style="min-width: 30px; margin-right: 10px; color: #ff6b00;">
+                                    <i class="fas fa-check-circle fa-lg"></i>
+                                </div>
+                                <div>
+                                    <strong style="font-size: 17px; display: block; margin-bottom: 5px;">Professional Setup:</strong>
+                                    <span style="display: block; padding-left: 5px;">Treatment tables, privacy screens, and proper lighting</span>
+                                </div>
+                            </li>
+                            <li style="margin-bottom: 15px; display: flex; align-items: flex-start;">
+                                <div style="min-width: 30px; margin-right: 10px; color: #ff6b00;">
+                                    <i class="fas fa-check-circle fa-lg"></i>
+                                </div>
+                                <div>
+                                    <strong style="font-size: 17px; display: block; margin-bottom: 5px;">Certified Athletic Trainers:</strong>
+                                    <span style="display: block; padding-left: 5px;">Licensed professionals with specialized training</span>
+                                </div>
+                            </li>
+                            <li style="margin-bottom: 15px; display: flex; align-items: flex-start;">
+                                <div style="min-width: 30px; margin-right: 10px; color: #ff6b00;">
+                                    <i class="fas fa-check-circle fa-lg"></i>
+                                </div>
+                                <div>
+                                    <strong style="font-size: 17px; display: block; margin-bottom: 5px;">Essential Equipment:</strong>
+                                    <span style="display: block; padding-left: 5px;">AEDs, spine boards, and advanced first aid supplies</span>
+                                </div>
+                            </li>
+                            <li style="margin-bottom: 15px; display: flex; align-items: flex-start;">
+                                <div style="min-width: 30px; margin-right: 10px; color: #ff6b00;">
+                                    <i class="fas fa-check-circle fa-lg"></i>
+                                </div>
+                                <div>
+                                    <strong style="font-size: 17px; display: block; margin-bottom: 5px;">Complete Supplies:</strong>
+                                    <span style="display: block; padding-left: 5px;">Taping, wound care, ice therapy, and OTC medications</span>
+                                </div>
+                            </li>
+                            <li style="margin-bottom: 15px; display: flex; align-items: flex-start;">
+                                <div style="min-width: 30px; margin-right: 10px; color: #ff6b00;">
+                                    <i class="fas fa-check-circle fa-lg"></i>
+                                </div>
+                                <div>
+                                    <strong style="font-size: 17px; display: block; margin-bottom: 5px;">Emergency Planning:</strong>
+                                    <span style="display: block; padding-left: 5px;">Venue-specific protocols with EMS coordination</span>
+                                </div>
+                            </li>
+                            <li style="margin-bottom: 15px; display: flex; align-items: flex-start;">
+                                <div style="min-width: 30px; margin-right: 10px; color: #ff6b00;">
+                                    <i class="fas fa-check-circle fa-lg"></i>
+                                </div>
+                                <div>
+                                    <strong style="font-size: 17px; display: block; margin-bottom: 5px;">Documentation:</strong>
+                                    <span style="display: block; padding-left: 5px;">Detailed treatment records and incident reports</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="service-detail-image">
+                    <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Medical Tent">
+                </div>
+            </div>
+
+            <div class="service-benefits">
+                <h3>Benefits of Medical Tent Services</h3>
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-hospital"></i>
+                        </div>
+                        <h4>Centralized Treatment Facility</h4>
+                        <p>Fully-equipped treatment centers that handle multiple patients simultaneously in a controlled environment.</p>
+                    </div>
+
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h4>Comprehensive Care</h4>
+                        <p>Wider range of treatment options than mobile coverage, with more equipment and privacy.</p>
+                    </div>
+
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <h4>Liability Protection</h4>
+                        <p>Reduce your organization's liability with proper medical coverage from licensed professionals.</p>
+                    </div>
+
+                    <div class="benefit-card">
+                        <div class="benefit-icon">
+                            <i class="fas fa-certificate"></i>
+                        </div>
+                        <h4>Event Credibility</h4>
+                        <p>Meet requirements for sanctioned events and demonstrate commitment to participant safety.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Planning Process Section -->
+    <section class="section light-bg dark-bg" style="background-color: #1a1a1a !important;">
+        <div class="container">
+            <div class="section-title">
+                <h2 style="color: #ffffff !important;">Our Medical Tent Process</h2>
+            </div>
+
+            <div class="process-steps" style="background-color: rgba(30, 30, 30, 0.8); padding: 30px; border-radius: 10px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);">
+                <div class="process-step">
+                    <div class="process-step-number">1</div>
+                    <div class="process-step-content">
+                        <h3 style="color: #ffffff !important;">Initial Consultation</h3>
+                        <p style="color: #ffffff !important;">Discussion about your event type, participants, venue, and medical needs.</p>
+                    </div>
+                </div>
+
+                <div class="process-step">
+                    <div class="process-step-number">2</div>
+                    <div class="process-step-content">
+                        <h3 style="color: #ffffff !important;">Coverage Plan</h3>
+                        <p style="color: #ffffff !important;">Development of staffing, equipment, and emergency action plans.</p>
+                    </div>
+                </div>
+
+                <div class="process-step">
+                    <div class="process-step-number">3</div>
+                    <div class="process-step-content">
+                        <h3 style="color: #ffffff !important;">Event Setup</h3>
+                        <p style="color: #ffffff !important;">Early arrival to set up the medical tent with all necessary equipment.</p>
+                    </div>
+                </div>
+
+                <div class="process-step">
+                    <div class="process-step-number">4</div>
+                    <div class="process-step-content">
+                        <h3 style="color: #ffffff !important;">Post-Event Summary</h3>
+                        <p style="color: #ffffff !important;">Detailed report of services provided and injuries treated.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Section -->
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Why Choose Certified Athletic Trainers?</h2>
+            </div>
+
+            <div class="why-choose-content">
+                <div class="trainer-benefits" style="background-color: #333; padding: 25px; border-radius: 10px; margin: 30px 0; border-left: 5px solid #ff6b00;">
+                    <div class="benefits-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                        <div style="margin-bottom: 15px;">
+                            <p style="margin: 0; padding-left: 30px; position: relative;">
+                                <i class="fas fa-check-circle" style="color: #ff6b00; position: absolute; left: 0; top: 3px; font-size: 18px;"></i>
+                                <strong style="color: #fff; font-size: 16px;">Expert Injury Management</strong>
+                            </p>
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <p style="margin: 0; padding-left: 30px; position: relative;">
+                                <i class="fas fa-check-circle" style="color: #ff6b00; position: absolute; left: 0; top: 3px; font-size: 18px;"></i>
+                                <strong style="color: #fff; font-size: 16px;">Emergency Care Specialists</strong>
+                            </p>
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <p style="margin: 0; padding-left: 30px; position: relative;">
+                                <i class="fas fa-check-circle" style="color: #ff6b00; position: absolute; left: 0; top: 3px; font-size: 18px;"></i>
+                                <strong style="color: #fff; font-size: 16px;">Return-to-Play Authority</strong>
+                            </p>
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <p style="margin: 0; padding-left: 30px; position: relative;">
+                                <i class="fas fa-check-circle" style="color: #ff6b00; position: absolute; left: 0; top: 3px; font-size: 18px;"></i>
+                                <strong style="color: #fff; font-size: 16px;">Liability Reduction</strong>
+                            </p>
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <p style="margin: 0; padding-left: 30px; position: relative;">
+                                <i class="fas fa-check-circle" style="color: #ff6b00; position: absolute; left: 0; top: 3px; font-size: 18px;"></i>
+                                <strong style="color: #fff; font-size: 16px;">University Education</strong>
+                            </p>
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <p style="margin: 0; padding-left: 30px; position: relative;">
+                                <i class="fas fa-check-circle" style="color: #ff6b00; position: absolute; left: 0; top: 3px; font-size: 18px;"></i>
+                                <strong style="color: #fff; font-size: 16px;">State Licensed Professionals</strong>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section cta">
+        <div class="container">
+            <h2>Ready to Secure Medical Tent Coverage for Your Event?</h2>
+            <p>Contact us to discuss your event details and how our certified athletic trainers can help ensure the safety of your participants.</p>
+            <div class="cta-buttons">
+                <a href="book-online.html" class="btn">Request Medical Tent Coverage</a>
+                <a href="pricing-request.html" class="btn btn-secondary">Get Event Pricing</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-about">
+                    <div class="footer-logo">
+                        <img src="Logo.png" alt="Desert Sports Med Logo">
+                    </div>
+                    <p>Desert Sports Med is committed to providing quality services to our neighborhoods and their athletic events. We specialize in providing first aid tents, on-field medical coverage, and performance therapy services.</p>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/desertsportsmed/" target="_blank" rel="noopener noreferrer" aria-label="Visit our Instagram page"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="pricing-request.html">Pricing</a></li>
+                        <li><a href="book-online.html">Book Online</a></li>
+                        <li><a href="free-intro.html">Free Intro</a></li>
+                        <li><a href="terms-conditions.html">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h3>Services</h3>
+                    <ul>
+                        <li><a href="medical-tents.html">Medical Tents</a></li>
+                        <li><a href="on-field-coverage.html">On-Field Medical Coverage</a></li>
+                        <li><a href="performance-therapy.html">Performance Therapy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-contact">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> St. George, UT 84770</p>
+                    <p><i class="fas fa-phone"></i> (801) 797-4043</p>
+                    <p><i class="fas fa-envelope"></i> desertsportsmed@gmail.com</p>
+                    <p><i class="fas fa-clock"></i> Mon-Fri: 7am-7pm, Sat: 8am-2pm</p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 Desert Sports Med. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chatbot -->
+    <div class="chatbot-toggle">
+        <i class="fas fa-comments"></i>
+    </div>
+
+    <div class="chatbot-container">
+        <div class="chatbot-header">
+            <h3>Desert Sports Med Assistant</h3>
+            <div class="chatbot-close">
+                <i class="fas fa-times"></i>
+            </div>
+        </div>
+        <div class="chatbot-messages"></div>
+        <div class="chatbot-input">
+            <input type="text" placeholder="Type your message...">
+            <button><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/chatbot.js"></script>
+    <script src="assets/js/emailjs.js"></script>
+    <!-- Chatbot Position Fix - Ensures consistent positioning across all pages -->
+    <script src="assets/js/chatbot-position-fix.js"></script>
+    <!-- Background Brightness Fix - Makes background images easier to see -->
+    <script src="assets/js/background-brightness-fix.js"></script>
+    <!-- Card Text Visibility Fix - Ensures text is visible on all backgrounds -->
+    <script src="assets/js/card-text-visibility-fix.js"></script>
+</body>
+</html>
