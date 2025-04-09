@@ -230,11 +230,11 @@ function showWelcomePopup() {
                 setTimeout(() => {
                     addBotMessage("👋 How can I help you today?");
                     showOptions([
-                        "Tell me about athletic training",
-                        "What services do you offer?",
-                        "How can I book an appointment?",
-                        "Request pricing information",
-                        "Where are you located?"
+                        "Athletic training",
+                        "Services",
+                        "Book appointment",
+                        "Pricing",
+                        "Location"
                     ]);
                 }, 500);
             }
@@ -265,11 +265,11 @@ function initChatbot() {
                 setTimeout(() => {
                     addBotMessage("👋 How can I help you today?");
                     showOptions([
-                        "Tell me about athletic training",
-                        "What services do you offer?",
-                        "How can I book an appointment?",
-                        "Request pricing information",
-                        "Where are you located?"
+                        "Athletic training",
+                        "Services",
+                        "Book appointment",
+                        "Pricing",
+                        "Location"
                     ]);
                 }, 500);
             }
@@ -416,7 +416,7 @@ function initChatbot() {
             ]);
         }
         // Services section
-        else if (message.includes('services') || message.includes('what do you offer')) {
+        else if (message.includes('services') || message.includes('what do you offer') || message === 'services') {
             addBotMessage(window.knowledgeBase.services.general);
             showOptions([
                 "Tell me about Medical Tents",
@@ -461,7 +461,7 @@ function initChatbot() {
         else if (message.includes('benefits') && message.includes('performance therapy')) {
             addBotMessage(window.knowledgeBase.programs.performanceTherapyBenefits);
         }
-        else if (message.includes('athletic training')) {
+        else if (message.includes('athletic training') || message === 'athletic training') {
             addBotMessage(window.knowledgeBase.services.athleticTraining);
         }
         else if (message.includes('injury prevention')) {
@@ -470,7 +470,7 @@ function initChatbot() {
         else if (message.includes('performance enhancement')) {
             addBotMessage(window.knowledgeBase.services.performanceEnhancement);
         }
-        else if (message.includes('book') || message.includes('appointment') || message.includes('schedule') || message.includes('free intro') || message.includes('consultation')) {
+        else if (message.includes('book') || message.includes('appointment') || message.includes('schedule') || message.includes('free intro') || message.includes('consultation') || message === 'book appointment') {
             addBotMessage(window.knowledgeBase.booking.methods);
             addBotMessage("<a href='book-online.html' target='_blank'>Click here to view all booking options</a>");
         }
@@ -506,7 +506,7 @@ function initChatbot() {
             addBotMessage("<a href='book-online.html#performance-therapy-content' target='_blank'>Click here to book a Performance Therapy session</a>");
         }
         // Pricing information
-        else if (message.includes('pricing information') || message.includes('price') || message.includes('cost') || message.includes('fee') || message.includes('request pricing')) {
+        else if (message.includes('pricing information') || message.includes('price') || message.includes('cost') || message.includes('fee') || message.includes('request pricing') || message === 'pricing') {
             addBotMessage(window.knowledgeBase.faq.pricing);
             addBotMessage("You can visit our <a href='pricing-request.html' target='_blank'>pricing page</a> for more information or contact us directly at <a href='tel:(801) 797-4043'>(801) 797-4043</a> or <a href='mailto:desertsportsmed@gmail.com'>desertsportsmed@gmail.com</a>.");
             // Show pricing options with more descriptive text
@@ -541,7 +541,7 @@ function initChatbot() {
             addBotMessage(window.knowledgeBase.pricing.insurance);
         }
         // Contact information
-        else if (message.includes('location') || message.includes('address') || message.includes('where')) {
+        else if (message.includes('location') || message.includes('address') || message.includes('where') || message === 'location') {
             addBotMessage(`We're located in St. George: <a href="https://maps.google.com/?q=${encodeURIComponent(window.knowledgeBase.contact.address)}" target="_blank">${window.knowledgeBase.contact.address}</a>`);
         }
         else if (message.includes('hours') || message.includes('when are you open')) {
