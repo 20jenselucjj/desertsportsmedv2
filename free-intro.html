@@ -59,7 +59,7 @@
         .step {
             margin-bottom: 40px;
             display: flex;
-            align-items: flex-start;
+            align-items: center;
             position: relative;
         }
 
@@ -73,7 +73,7 @@
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            margin-right: 25px;
+            margin-right: 50px; /* Increased spacing between number and text */
             flex-shrink: 0;
             font-size: 22px; /* Larger font size for better visibility */
             z-index: 2; /* Ensure it's above other elements */
@@ -84,7 +84,6 @@
 
         .step-content {
             flex: 1;
-            padding-left: 10px; /* Add padding to create more space between number and content */
         }
 
         .step-title {
@@ -178,15 +177,29 @@
                 font-size: 2.2rem;
             }
 
+            .step {
+                align-items: flex-start; /* Change to flex-start for mobile */
+                position: relative; /* For absolute positioning */
+                padding-left: 65px; /* Make room for the number on the left */
+                margin-bottom: 30px; /* Reduce spacing between steps on mobile */
+            }
+
             .step-number {
                 width: 45px;
                 height: 45px;
                 font-size: 20px;
-                margin-right: 15px;
+                position: absolute; /* Position absolutely */
+                left: 0; /* Align to the left */
+                top: 0; /* Align with the top of the text */
             }
 
             .step-title {
                 font-size: 1.2rem;
+                margin-top: 0;
+            }
+
+            .step-content {
+                width: 100%;
             }
 
             .step-description {
