@@ -7,10 +7,39 @@ if (typeof window.chatbotInitialized === 'undefined') {
     document.addEventListener('DOMContentLoaded', function() {
         initChatbot();
 
-        // Show welcome popup after 1 second
-        setTimeout(function() {
-            showWelcomePopup();
-        }, 1000);
+        // Check if the URL contains a parameter to open the chatbot automatically
+        const urlParams = new URLSearchParams(window.location.search);
+        const openChatbot = urlParams.get('chatbot');
+
+        if (openChatbot === 'open') {
+            // Open the chatbot automatically
+            const chatbotContainer = document.querySelector('.chatbot-container');
+            const chatbotToggle = document.querySelector('.chatbot-toggle');
+
+            if (chatbotContainer && chatbotToggle) {
+                chatbotContainer.classList.add('active');
+                chatbotToggle.classList.add('active');
+
+                // Set flag to prevent welcome bubble
+                sessionStorage.setItem('welcomeBubbleShown', 'true');
+
+                // Remove any existing welcome bubble
+                const welcomeBubble = document.querySelector('.welcome-bubble');
+                if (welcomeBubble) {
+                    welcomeBubble.classList.remove('active');
+                    setTimeout(() => {
+                        if (welcomeBubble.parentNode) {
+                            welcomeBubble.remove();
+                        }
+                    }, 300);
+                }
+            }
+        } else {
+            // Show welcome popup after 1 second if chatbot is not auto-opened
+            setTimeout(function() {
+                showWelcomePopup();
+            }, 1000);
+        }
     });
 }
 
@@ -137,17 +166,16 @@ function typeText(element, text, cursor, index, speed) {
 
 // Function to show welcome bubble
 function showWelcomePopup() {
-    // Clear any existing welcome bubble flag to ensure it shows up
-    sessionStorage.removeItem('welcomeBubbleShown');
+    // Don't show welcome bubble if chatbot is already open
+    const chatbotContainer = document.querySelector('.chatbot-container');
+    if (chatbotContainer && chatbotContainer.classList.contains('active')) {
+        return;
+    }
 
-    // For testing purposes, always show the welcome bubble
-    // In production, you can uncomment the check below
-    /*
     // Check if user has already seen the bubble (using sessionStorage to show once per session)
     if (sessionStorage.getItem('welcomeBubbleShown')) {
         return;
     }
-    */
 
     // Create welcome bubble elements
     const welcomeBubble = document.createElement('div');
@@ -257,9 +285,40 @@ function initChatbot() {
 
     // Toggle chatbot visibility
     chatbotToggle.addEventListener('click', function() {
+        // Add clicked class for button animation
+        chatbotToggle.classList.add('clicked');
+
+        // Remove the clicked class after animation completes
+        setTimeout(() => {
+            chatbotToggle.classList.remove('clicked');
+        }, 500);
+
+        // Toggle chatbot visibility
         chatbotContainer.classList.toggle('active');
+
+        // Toggle active class on the button for icon animation
+        chatbotToggle.classList.toggle('active');
+
+        // Remove welcome bubble if it exists
+        const welcomeBubble = document.querySelector('.welcome-bubble');
+        if (welcomeBubble) {
+            welcomeBubble.classList.remove('active');
+            setTimeout(() => {
+                if (welcomeBubble.parentNode) {
+                    welcomeBubble.remove();
+                }
+            }, 300);
+
+            // Set flag in sessionStorage to prevent it from showing again in this session
+            sessionStorage.setItem('welcomeBubbleShown', 'true');
+        }
+
         if (chatbotContainer.classList.contains('active')) {
-            chatbotInput.focus();
+            // Focus on input after animation completes
+            setTimeout(() => {
+                chatbotInput.focus();
+            }, 500);
+
             if (chatbotMessages.children.length === 0) {
                 // Send welcome message if it's the first time opening
                 setTimeout(() => {
@@ -271,7 +330,7 @@ function initChatbot() {
                         "Pricing",
                         "Location"
                     ]);
-                }, 500);
+                }, 800); // Slightly longer delay for better user experience
             }
         }
     });
@@ -279,7 +338,31 @@ function initChatbot() {
     // Close chatbot
     if (chatbotClose) {
         chatbotClose.addEventListener('click', function() {
-            chatbotContainer.classList.remove('active');
+            // Add a smooth closing animation
+            chatbotContainer.style.opacity = '0';
+            chatbotContainer.style.transform = 'scale(0.8) translateY(20px)';
+
+            // Remove active class after animation completes
+            setTimeout(() => {
+                chatbotContainer.classList.remove('active');
+                // Reset styles for next opening
+                chatbotContainer.style.opacity = '';
+                chatbotContainer.style.transform = '';
+
+                // Remove active class from toggle button
+                chatbotToggle.classList.remove('active');
+
+                // Remove welcome bubble if it exists
+                const welcomeBubble = document.querySelector('.welcome-bubble');
+                if (welcomeBubble) {
+                    welcomeBubble.classList.remove('active');
+                    setTimeout(() => {
+                        if (welcomeBubble.parentNode) {
+                            welcomeBubble.remove();
+                        }
+                    }, 300);
+                }
+            }, 300);
         });
     }
 
@@ -296,6 +379,53 @@ function initChatbot() {
             }
         });
     }
+
+    // Add document click listener to close chatbot when clicking outside
+    document.addEventListener('click', function(e) {
+        if (
+            chatbotContainer.classList.contains('active') &&
+            !chatbotContainer.contains(e.target) &&
+            e.target !== chatbotToggle &&
+            !chatbotToggle.contains(e.target)
+        ) {
+            // Add a smooth closing animation
+            chatbotContainer.style.opacity = '0';
+            chatbotContainer.style.transform = 'scale(0.8) translateY(20px)';
+
+            // Optimize for mobile - add hardware acceleration for smoother animation
+            if (window.innerWidth <= 767) {
+                chatbotContainer.style.willChange = 'transform, opacity';
+                chatbotContainer.style.webkitBackfaceVisibility = 'hidden';
+                chatbotContainer.style.backfaceVisibility = 'hidden';
+            }
+
+            // Use shorter animation time on mobile for better responsiveness
+            const animationTime = window.innerWidth <= 767 ? 250 : 300;
+
+            // Remove active class after animation completes
+            setTimeout(() => {
+                chatbotContainer.classList.remove('active');
+                // Reset styles for next opening
+                chatbotContainer.style.opacity = '';
+                chatbotContainer.style.transform = '';
+                chatbotContainer.style.willChange = '';
+
+                // Remove active class from toggle button
+                chatbotToggle.classList.remove('active');
+
+                // Remove welcome bubble if it exists
+                const welcomeBubble = document.querySelector('.welcome-bubble');
+                if (welcomeBubble) {
+                    welcomeBubble.classList.remove('active');
+                    setTimeout(() => {
+                        if (welcomeBubble.parentNode) {
+                            welcomeBubble.remove();
+                        }
+                    }, animationTime - 50);
+                }
+            }, animationTime);
+        }
+    });
 
     // Function to send user message
     function sendMessage() {

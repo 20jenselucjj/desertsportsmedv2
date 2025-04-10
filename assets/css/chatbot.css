@@ -15,7 +15,12 @@
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 999;
-  transition: all 0.3s ease;
+  transition: all 0.4s ease;
+  will-change: transform, background-color;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
 .chatbot-toggle:hover {
@@ -23,8 +28,31 @@
   transform: scale(1.1);
 }
 
+/* Animation for the toggle button when clicked */
+@keyframes togglePulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.85);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.chatbot-toggle.clicked {
+  animation: togglePulse 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
 .chatbot-toggle i {
   font-size: 24px;
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  will-change: transform;
+}
+
+.chatbot-toggle.active i {
+  transform: rotate(360deg);
 }
 
 .chatbot-container {
@@ -38,13 +66,22 @@
   box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
   z-index: 998;
   overflow: hidden;
-  display: none;
+  display: flex;
   flex-direction: column;
-  transition: all 0.3s ease;
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.8) translateY(20px);
+  transform-origin: bottom right;
+  will-change: transform, opacity;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 .chatbot-container.active {
-  display: flex;
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1) translateY(0);
 }
 
 .chatbot-header {
@@ -54,6 +91,21 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  animation: slideInDown 0.5s ease-out forwards;
+  transform: translateY(-20px);
+  opacity: 0;
+  animation-delay: 0.1s;
+}
+
+@keyframes slideInDown {
+  0% {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .chatbot-header h3 {
@@ -71,11 +123,38 @@
   flex: 1;
   padding: 20px;
   overflow-y: auto;
+  animation: fadeIn 0.8s ease-out forwards;
+  opacity: 0;
+  animation-delay: 0.3s;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .message {
   margin-bottom: 15px;
   display: flex;
+  animation: messageAppear 0.5s ease-out forwards;
+  opacity: 0;
+  transform: translateY(10px);
+  will-change: transform, opacity;
+}
+
+@keyframes messageAppear {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .message.bot {
@@ -108,6 +187,21 @@
   display: flex;
   padding: 10px;
   border-top: 1px solid #eee;
+  animation: slideInUp 0.5s ease-out forwards;
+  transform: translateY(20px);
+  opacity: 0;
+  animation-delay: 0.2s;
+}
+
+@keyframes slideInUp {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .chatbot-input input {
@@ -184,7 +278,7 @@
   border-radius: 50%;
   display: inline-block;
   margin-right: 5px;
-  animation: typing 1s infinite;
+  animation: typing 1.5s infinite;
 }
 
 .typing-indicator span:nth-child(2) {
@@ -226,6 +320,9 @@
   justify-content: space-between;
   color: #333; /* Ensure text is visible on white background */
   cursor: pointer;
+  will-change: transform, opacity;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 .welcome-bubble:before {
@@ -243,7 +340,7 @@
 .welcome-bubble.active {
   opacity: 1;
   transform: translateY(0);
-  animation: popupBubble 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  animation: popupBubble 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 /* Popup Animation */
@@ -252,14 +349,15 @@
     opacity: 0;
     transform: scale(0.5) translateY(10px);
   }
-  50% {
-    opacity: 1;
+  40% {
+    opacity: 0.8;
     transform: scale(1.1) translateY(-5px);
   }
   70% {
     transform: scale(0.95) translateY(2px);
   }
   100% {
+    opacity: 1;
     transform: scale(1) translateY(0);
   }
 }
@@ -268,7 +366,7 @@
   margin-right: 10px;
   color: var(--primary-color);
   font-size: 18px;
-  animation: pulseIcon 1.5s ease-in-out infinite;
+  animation: pulseIcon 2s ease-in-out infinite;
 }
 
 @keyframes pulseIcon {
@@ -298,7 +396,7 @@
   height: 14px;
   background-color: var(--primary-color);
   margin-left: 2px;
-  animation: blink 1s infinite;
+  animation: blink 1.2s infinite;
   vertical-align: middle;
 }
 
