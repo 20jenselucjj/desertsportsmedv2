@@ -68,9 +68,6 @@
   border-radius: 8px;
   box-shadow: var(--box-shadow);
   transition: all 0.8s ease;
-  will-change: transform, box-shadow;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
 }
 
 .program-image-container img {
@@ -78,9 +75,6 @@
   height: 400px;
   object-fit: cover;
   transition: transform 1.2s ease;
-  will-change: transform;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
 }
 
 .modern-program-item:hover .program-image-container img {
@@ -171,11 +165,6 @@
 .modern-program-item {
   opacity: 0;
   animation: fadeInUp 1.5s ease-out forwards;
-  will-change: transform, opacity;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
 }
 
 .modern-program-item:nth-child(1) {

@@ -317,19 +317,7 @@ function initProgramsAnimations() {
     programItems.forEach(item => {
         item.style.opacity = '0';
         item.style.transform = 'translateY(30px)';
-
-        // Check if we're on mobile for optimized animations
-        if (window.innerWidth <= 767) {
-            // Use slightly faster animations on mobile for better performance
-            item.style.transition = 'opacity 1s ease-out, transform 1s ease-out';
-            // Add hardware acceleration for mobile
-            item.style.willChange = 'transform, opacity';
-            item.style.webkitBackfaceVisibility = 'hidden';
-            item.style.backfaceVisibility = 'hidden';
-        } else {
-            // Desktop animations
-            item.style.transition = 'opacity 1.5s ease-out, transform 1.5s ease-out';
-        }
+        item.style.transition = 'opacity 1.5s ease-out, transform 1.5s ease-out';
     });
 
     // Create intersection observer
@@ -337,13 +325,10 @@ function initProgramsAnimations() {
         entries.forEach((entry, index) => {
             if (entry.isIntersecting) {
                 // Add delay based on item index
-                // Use shorter delays on mobile for more responsive feel
-                const delay = window.innerWidth <= 767 ? index * 150 : index * 300;
-
                 setTimeout(() => {
                     entry.target.style.opacity = '1';
                     entry.target.style.transform = 'translateY(0)';
-                }, delay);
+                }, index * 300);
 
                 // Unobserve after animation
                 observer.unobserve(entry.target);

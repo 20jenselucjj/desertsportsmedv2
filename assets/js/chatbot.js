@@ -392,23 +392,12 @@ function initChatbot() {
             chatbotContainer.style.opacity = '0';
             chatbotContainer.style.transform = 'scale(0.8) translateY(20px)';
 
-            // Optimize for mobile - add hardware acceleration for smoother animation
-            if (window.innerWidth <= 767) {
-                chatbotContainer.style.willChange = 'transform, opacity';
-                chatbotContainer.style.webkitBackfaceVisibility = 'hidden';
-                chatbotContainer.style.backfaceVisibility = 'hidden';
-            }
-
-            // Use shorter animation time on mobile for better responsiveness
-            const animationTime = window.innerWidth <= 767 ? 250 : 300;
-
             // Remove active class after animation completes
             setTimeout(() => {
                 chatbotContainer.classList.remove('active');
                 // Reset styles for next opening
                 chatbotContainer.style.opacity = '';
                 chatbotContainer.style.transform = '';
-                chatbotContainer.style.willChange = '';
 
                 // Remove active class from toggle button
                 chatbotToggle.classList.remove('active');
@@ -421,9 +410,9 @@ function initChatbot() {
                         if (welcomeBubble.parentNode) {
                             welcomeBubble.remove();
                         }
-                    }, animationTime - 50);
+                    }, 300);
                 }
-            }, animationTime);
+            }, 300);
         }
     });
 

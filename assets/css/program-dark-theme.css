@@ -109,7 +109,6 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  will-change: transform, box-shadow;
 }
 
 .highlight-item:hover {
@@ -321,9 +320,6 @@
   border: 1px solid rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  will-change: transform, box-shadow;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
 }
 
 .technique-card::before,
@@ -760,11 +756,6 @@
 .for-whom-card {
   animation: fadeInUp 1.2s ease-out forwards;
   opacity: 0;
-  will-change: transform, opacity;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
 }
 
 .highlight-item:nth-child(2),

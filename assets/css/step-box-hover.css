@@ -16,11 +16,6 @@
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     position: relative;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    will-change: transform, box-shadow;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
 }
 
 .step-box:hover {
