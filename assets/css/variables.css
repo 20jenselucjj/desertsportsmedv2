@@ -9,9 +9,11 @@
   --light-color: #ffebcc; /* Light orange for backgrounds */
   --dark-color: #4a0072; /* Deep purple from logo */
   --text-color: #ffffff; /* White for better visibility */
+  --text-color-rgb: 255, 255, 255; /* RGB values for text color */
   --light-text: #ffffff;
   --background-color: #121212; /* Dark background */
   --card-background: #1e1e1e; /* Slightly lighter than background */
+  --card-background-rgb: 30, 30, 30; /* RGB values for card background */
   --footer-color: #0a0a0a; /* Very dark for footer */
   --success-color: #28a745;
   --warning-color: #ffc107;

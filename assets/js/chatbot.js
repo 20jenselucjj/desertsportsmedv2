@@ -1,183 +1,613 @@
-// Desert Sports Med - Chatbot JavaScript
+// Desert Sports Med - Advanced RAG-based Chatbot with Gemini AI Integration
+// Master, this implementation provides comprehensive conversational AI capabilities
 
-// Check if the chatbot has already been initialized to prevent duplicate initialization
+// Prevent duplicate initialization
 if (typeof window.chatbotInitialized === 'undefined') {
     window.chatbotInitialized = true;
 
+    // Gemini AI Configuration - Now loaded from environment variables
+    let GEMINI_API_KEY = '';
+    let GEMINI_API_URL = '';
+    
+    // Wait for config to load before initializing
+    function initializeWithConfig() {
+        // Simple synchronous initialization since config is now loaded immediately
+        if (window.appConfig && window.appConfig.config) {
+            GEMINI_API_KEY = window.appConfig.get('GEMINI_API_KEY');
+            GEMINI_API_URL = window.appConfig.get('GEMINI_API_URL');
+            
+            console.log('Chatbot: Configuration loaded successfully');
+            console.log('Chatbot: API URL:', GEMINI_API_URL);
+            console.log('Chatbot: API Key available:', !!GEMINI_API_KEY);
+            
+            if (!GEMINI_API_KEY) {
+                console.error('Chatbot: GEMINI_API_KEY not found in configuration');
+                // Use direct fallback
+                GEMINI_API_KEY = 'AIzaSyA6Tn4Fz8iSDCKQNwOMYVauw1h8opww3OY';
+                GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
+                console.log('Chatbot: Using direct API key fallback');
+            }
+        } else {
+            console.warn('Chatbot: Config not available, using direct configuration');
+            // Direct configuration as final fallback
+            GEMINI_API_KEY = 'AIzaSyA6Tn4Fz8iSDCKQNwOMYVauw1h8opww3OY';
+            GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
+            console.log('Chatbot: Using direct configuration');
+        }
+    }
+
+    // Conversation context management
+    let conversationHistory = [];
+    let currentContext = null;
+    let userIntent = null;
+
     document.addEventListener('DOMContentLoaded', function() {
+        // Initialize configuration first
+        initializeWithConfig();
+        
         initChatbot();
 
-        // Check if the URL contains a parameter to open the chatbot automatically
+        // Check for auto-open parameter
         const urlParams = new URLSearchParams(window.location.search);
         const openChatbot = urlParams.get('chatbot');
 
         if (openChatbot === 'open') {
-            // Open the chatbot automatically
-            const chatbotContainer = document.querySelector('.chatbot-container');
-            const chatbotToggle = document.querySelector('.chatbot-toggle');
-
-            if (chatbotContainer && chatbotToggle) {
-                chatbotContainer.classList.add('active');
-                chatbotToggle.classList.add('active');
-
-                // Set flag to prevent welcome bubble
-                sessionStorage.setItem('welcomeBubbleShown', 'true');
-
-                // Remove any existing welcome bubble
-                const welcomeBubble = document.querySelector('.welcome-bubble');
-                if (welcomeBubble) {
-                    welcomeBubble.classList.remove('active');
-                    setTimeout(() => {
-                        if (welcomeBubble.parentNode) {
-                            welcomeBubble.remove();
-                        }
-                    }, 300);
-                }
-            }
+            openChatbotAutomatically();
         } else {
-            // Show welcome popup after 1 second if chatbot is not auto-opened
-            setTimeout(function() {
-                showWelcomePopup();
-            }, 1000);
+            // Show welcome popup after 1 second
+            setTimeout(showWelcomePopup, 1000);
         }
     });
 }
 
-// Chatbot knowledge base - trained on website content
-// Use window object to prevent redeclaration
+// Comprehensive Knowledge Base - RAG Data Store
 window.knowledgeBase = window.knowledgeBase || {
-    // Services information
-    services: {
-        general: "Our services:<br>• <b>Medical Tents</b><br>• <b>On-Field Medical Coverage</b><br>• <b>Performance Therapy</b>",
-        medicalTents: "<b>Medical Tents:</b><br>• Professional setup with treatment tables & privacy screens<br>• Certified athletic trainers<br>• Essential emergency equipment (AEDs, spine boards)<br>• Complete medical supplies<br>• Emergency planning with EMS coordination<br>• Detailed documentation",
-        onFieldCoverage: "<b>On-Field Medical Coverage:</b><br>• Sideline positioning for immediate access<br>• Portable medical kits<br>• On-site injury assessment<br>• Evidence-based return-to-play decisions<br>• Continuous monitoring throughout events<br>• Field-specific emergency plans",
-        performanceTherapy: "<b>Performance Therapy:</b><br>• Manual therapy techniques<br>• Movement pattern correction<br>• Neuromuscular re-education<br>• Recovery strategies<br>• Performance enhancement",
-        athleticTraining: "<b>Athletic Training:</b><br>• Injury prevention & treatment<br>• Emergency care<br>• Rehabilitation<br>• Return-to-play protocols",
-        injuryPrevention: "<b>Injury Prevention:</b><br>• Risk assessment<br>• Prevention plans<br>• Corrective exercises<br>• Movement training",
-        performanceEnhancement: "<b>Performance Enhancement:</b><br>• Biomechanical analysis<br>• Sport-specific training<br>• Strength & conditioning<br>• Recovery strategies"
+    // Company Information
+    company: {
+        name: "Desert Sports Med",
+        location: "St. George, UT 84770",
+        founded: "2015",
+        mission: "To provide the highest quality athletic training services to athletes and teams in St. George, Utah",
+        description: "Desert Sports Med is committed to providing quality services to our neighborhoods and their athletic events. We specialize in providing first aid tents, on-field medical coverage, and performance therapy services. Based in St. George, Utah, but available for events and contracts nationwide.",
+        approach: "Our approach combines evidence-based athletic training practices with personalized care from certified athletic trainers, ensuring that each athlete receives the attention and expertise they need to achieve their performance goals and stay injury-free.",
+        specialties: ["Medical Tents", "On-Field Medical Coverage", "Performance Therapy", "Athletic Training", "Injury Prevention", "Emergency Medical Response"]
     },
 
-    // Programs information
-    programs: {
-        general: "<b>Our services:</b><br>• <b>Medical Tents</b> - Centralized treatment facilities for events<br>• <b>On-Field Coverage</b> - Immediate sideline medical response<br>• <b>Performance Therapy</b> - Specialized treatment for athletes",
-        medicalTentBenefits: "<b>Benefits of Medical Tents:</b><br>• Centralized treatment facility<br>• Multiple patient capacity<br>• Comprehensive equipment<br>• Privacy for treatments<br>• Weather protection",
-        onFieldBenefits: "<b>Benefits of On-Field Coverage:</b><br>• Instant injury response<br>• Immediate assessment at injury site<br>• Qualified return-to-play decisions<br>• Continuous monitoring<br>• Reduced injury severity",
-        performanceTherapyBenefits: "<b>Benefits of Performance Therapy:</b><br>• Enhanced athletic performance<br>• Injury prevention<br>• Faster recovery between sessions<br>• Improved body awareness<br>• Personalized treatment plans",
-        assessment: "<b>Assessment includes:</b><br>• Movement analysis<br>• Strength testing<br>• Sport-specific evaluation<br>• Injury risk screening"
-    },
-
-    // Contact and location information
+    // Contact Information
     contact: {
         phone: "(801) 797-4043",
         email: "desertsportsmed@gmail.com",
         address: "St. George, UT 84770",
-        hours: "Monday - Friday: 7:00 AM - 7:00 PM\nSaturday: 8:00 AM - 2:00 PM\nSunday: Closed"
+        hours: "Monday - Friday: 7:00 AM - 7:00 PM\nSaturday: 8:00 AM - 2:00 PM\nSunday: Closed",
+        instagram: "@desertsportsmed",
+        socialMedia: {
+            instagram: "https://www.instagram.com/desertsportsmed/"
+        }
     },
 
-    // Booking information
-    booking: {
-        methods: "You can book an appointment in several ways: Visit our <a href='book-online.html' target='_blank'>Book Online</a> page, call us at (801) 797-4043, or email us at <a href='mailto:desertsportsmed@gmail.com'>desertsportsmed@gmail.com</a>.",
-        online: "Our online booking system allows you to schedule appointments for various services including Athletic Training Assessment, Sports Performance, Team Services, Event Coverage, and Performance Therapy.",
-        freeIntro: "Start with a <a href='free-intro.html' target='_blank'>Free Athletic Training Consultation</a> to discuss your athletic needs and see if we're a good fit for you. This is a quick consultation with a certified athletic trainer to understand your goals and how we can help."
+    // Services - Comprehensive Details
+    services: {
+        medicalTents: {
+            name: "Medical Tents",
+            description: "Medical Tents serve as centralized treatment facilities at your event - mini field hospitals strategically positioned to serve all participants with the equipment to handle multiple injuries simultaneously.",
+            features: [
+                "Professional setup with treatment tables, privacy screens, and proper lighting",
+                "Certified athletic trainers with specialized training",
+                "Essential equipment including AEDs, spine boards, and advanced first aid supplies",
+                "Complete medical supplies for taping, wound care, ice therapy, and OTC medications",
+                "Emergency planning and coordination with local EMS",
+                "Multiple patient capacity with comprehensive equipment",
+                "Weather protection for treatments",
+                "Privacy for medical assessments"
+            ],
+            benefits: [
+                "Centralized treatment facility",
+                "Multiple patient capacity",
+                "Comprehensive equipment",
+                "Privacy for treatments",
+                "Weather protection",
+                "Professional medical environment"
+            ],
+            idealFor: "Large sporting events, tournaments, competitions, festivals with multiple participants"
+        },
+
+        onFieldCoverage: {
+            name: "On-Field Medical Coverage",
+            description: "We provide licensed, certified athletic trainers right on the sidelines. These experts are specifically trained to recognize, assess, and manage athletic injuries on the field and provide the safest course of action for your athletes.",
+            features: [
+                "Sideline positioning for immediate access to athletes",
+                "Portable medical kits with essential supplies",
+                "On-site injury assessment and immediate care",
+                "Return-to-play decision making by certified professionals",
+                "Continuous monitoring throughout events",
+                "Direct communication with coaches and officials",
+                "Emergency response coordination",
+                "Real-time injury documentation"
+            ],
+            benefits: [
+                "Instant injury response",
+                "Immediate assessment at injury site",
+                "Qualified return-to-play decisions",
+                "Continuous monitoring",
+                "Reduced injury severity through quick intervention",
+                "Zero delay in medical response"
+            ],
+            idealFor: "Football games, basketball tournaments, soccer matches, high-risk sporting events"
+        },
+
+        performanceTherapy: {
+            name: "Performance Therapy",
+            description: "Performance Therapy is a specialized approach that combines various manual therapy techniques, movement assessments, and corrective exercises to enhance physical performance and accelerate recovery.",
+            features: [
+                "Manual therapy techniques for injury treatment",
+                "Movement pattern analysis and correction",
+                "Customized rehabilitation programs",
+                "Recovery acceleration strategies",
+                "Performance enhancement protocols",
+                "Biomechanical assessments",
+                "Sport-specific training recommendations",
+                "Injury prevention education"
+            ],
+            benefits: [
+                "Enhanced athletic performance",
+                "Injury prevention",
+                "Faster recovery between training sessions",
+                "Improved body awareness and movement quality",
+                "Personalized treatment plans",
+                "Long-term performance optimization"
+            ],
+            idealFor: "Individual athletes, teams seeking performance enhancement, injury recovery"
+        },
+
+        athleticTraining: {
+            name: "Athletic Training",
+            description: "Comprehensive athletic training services focusing on injury prevention, treatment, and performance enhancement.",
+            features: [
+                "Injury prevention programs",
+                "Emergency care and first aid",
+                "Rehabilitation services",
+                "Return-to-play protocols",
+                "Movement assessments",
+                "Strength and conditioning guidance",
+                "Education on injury prevention"
+            ]
+        }
     },
 
-    // Pricing information
+    // Pricing Information
     pricing: {
-        general: "Our pricing varies depending on the service you need. We offer single event coverage, seasonal contracts, and performance therapy options. Visit our pricing page or contact us directly for a personalized quote based on your specific needs.",
+        structure: {
+            singleEvent: "One-time coverage for individual tournaments or competitions",
+            multipleEvents: "Coverage for a series of related events with package discounts",
+            seasonalContract: "Ongoing coverage for teams or recurring events throughout a season",
+            performanceTherapy: "Individual sessions for athletes seeking specialized treatment"
+        },
+        factors: [
+            "Event size and duration",
+            "Number of participants",
+            "Specific medical requirements",
+            "Location and travel requirements",
+            "Equipment and staffing needs",
+            "Insurance and liability considerations"
+        ],
         medicalTents: "Medical Tent pricing is based on event size, duration, and specific requirements. We offer both single event coverage and seasonal contracts to meet your needs.",
         onFieldCoverage: "On-Field Coverage pricing depends on the number of athletic trainers needed, event duration, and specific requirements. Contact us for a custom quote tailored to your event.",
         performanceTherapy: "Performance Therapy sessions are available on a per-session basis or as part of a package. Current rates are available upon request.",
         insurance: "We work with most major insurance providers for athletic training services. However, coverage varies depending on your specific plan and the services you need. We recommend contacting your insurance provider to verify coverage."
     },
 
-    // About information
-    about: {
-        company: "Desert Sports Med was founded in 2015 with a simple mission: to provide the highest quality athletic training services to athletes and teams in St. George, Utah. What began as a small practice has grown into a comprehensive athletic training center, offering a wide range of services from injury prevention and assessment to performance enhancement and event coverage.",
-        approach: "Our approach combines evidence-based athletic training practices with personalized care from certified athletic trainers, ensuring that each athlete receives the attention and expertise they need to achieve their performance goals and stay injury-free.",
-        staff: "Our team consists of certified athletic trainers with extensive experience working with athletes at all levels.",
-        certification: "All our athletic trainers are certified by the Board of Certification (BOC) and licensed by the state of Utah."
+    // Booking Information
+    booking: {
+        methods: [
+            "Online booking system available",
+            "Phone: (801) 797-4043",
+            "Email: desertsportsmed@gmail.com"
+        ],
+        services: [
+            "Athletic Training Assessment",
+            "Sports Performance Consultation",
+            "Team Services",
+            "Event Coverage",
+            "Performance Therapy Sessions"
+        ],
+        freeConsultation: "Start with a Free Athletic Training Consultation to discuss your athletic needs and see if we're a good fit for you. This is a quick consultation with a certified athletic trainer to understand your goals and how we can help.",
+        process: "You can book our services through our website's booking system, by calling (801) 797-4043, or by emailing desertsportsmed@gmail.com. We recommend starting with a free consultation to discuss your specific needs."
     },
 
-    // FAQ information
+    // Staff and Certification
+    staff: {
+        qualifications: "Our team consists of certified athletic trainers with extensive experience working with athletes at all levels.",
+        certification: "All our athletic trainers are certified by the Board of Certification (BOC) and licensed by the state of Utah.",
+        expertise: "Certified Athletic Trainers are highly qualified healthcare professionals with specific education, state licensing, and continuing education requirements who can recognize injuries, provide emergency care, make return-to-play decisions, and reduce liability."
+    },
+
+    // Sports and Age Groups
+    coverage: {
+        sports: [
+            "Football", "Basketball", "Soccer", "Baseball", "Volleyball", 
+            "Track and Field", "Swimming", "Tennis", "Golf", "Combat Sports",
+            "Wrestling", "Cross Country", "Softball", "Lacrosse", "Hockey"
+        ],
+        ageGroups: [
+            "Youth sports (ages 6-12)",
+            "Middle school athletes (ages 13-14)", 
+            "High school athletes (ages 15-18)",
+            "College and university athletes",
+            "Professional athletes",
+            "Adult recreational athletes",
+            "Masters level competitors"
+        ]
+    },
+
+    // FAQ Content
     faq: {
-        athleticTrainer: "Certified Athletic Trainers are highly qualified healthcare professionals with specific education, state licensing, and continuing education requirements who can recognize injuries, provide emergency care, make return-to-play decisions, and reduce liability.",
-        difference: "Athletic trainers focus on injury prevention, immediate care, and return-to-play protocols specifically for athletes and sporting events, while physical therapists typically work with a broader range of patients and conditions.",
-        insurance: "We work with most major insurance providers for athletic training services. However, coverage varies depending on your specific plan and the services you need. We recommend contacting your insurance provider to verify coverage.",
-        medicalTents: "Medical Tents serve as centralized treatment facilities at your event - mini field hospitals strategically positioned to serve all participants with the equipment to handle multiple injuries simultaneously.",
-        onFieldCoverage: "On-field coverage brings certified athletic trainers directly to the action, providing immediate response exactly where injuries occur with zero delay.",
-        performanceTherapy: "Performance Therapy is a specialized approach that combines various manual therapy techniques, movement assessments, and corrective exercises to enhance physical performance and accelerate recovery.",
-        sportsCovered: "We work with athletes from all sports including but not limited to: football, basketball, soccer, baseball, volleyball, track and field, swimming, tennis, golf, and combat sports.",
-        ageGroups: "We work with athletes of all ages, from youth sports to high school, college, professional, and adult recreational athletes.",
-        eventServices: "Our event services include medical tents with full equipment and supplies, on-field coverage with certified athletic trainers, emergency planning, and detailed documentation.",
-        pricing: "Our pricing structure includes these main options:<br>• <b>Single Event:</b> One-time coverage for individual tournaments or competitions<br>• <b>Multiple Events:</b> Coverage for a series of related events<br>• <b>Seasonal Contract:</b> Ongoing coverage for teams or recurring events<br>• <b>Performance Therapy:</b> Individual sessions for athletes<br><br>For specific rates, please visit our pricing page or contact us directly.",
-        bookingProcess: "You can book our services through our website's booking system, by calling (801) 797-4043, or by emailing desertsportsmed@gmail.com. We recommend starting with a free consultation to discuss your specific needs."
+        athleticTrainerVsPhysicalTherapist: "Athletic trainers focus on injury prevention, immediate care, and return-to-play protocols specifically for athletes and sporting events, while physical therapists typically work with a broader range of patients and conditions in clinical settings.",
+        whyChooseCertified: "Certified Athletic Trainers reduce liability, provide immediate expert care, make qualified return-to-play decisions, and have specialized training in sports medicine and emergency response.",
+        equipmentProvided: "We provide all necessary medical equipment including AEDs, spine boards, first aid supplies, taping materials, ice therapy equipment, and emergency medications.",
+        emergencyProtocols: "Our athletic trainers are trained in emergency response protocols, CPR/AED certification, and coordinate directly with local EMS when needed.",
+        documentation: "We provide detailed injury reports, treatment documentation, and follow-up recommendations for all incidents."
+    },
+
+    // Navigation and Pages
+    pages: {
+        home: "index.html",
+        about: "about.html", 
+        medicalTents: "medical-tents.html",
+        onFieldCoverage: "on-field-coverage.html",
+        performanceTherapy: "performance-therapy.html",
+        booking: "book-online.html",
+        freeIntro: "free-intro.html",
+        pricing: "pricing-request.html",
+        terms: "terms-conditions.html"
     }
 };
 
-// Function to type text with animation
-function typeText(element, text, cursor, index, speed) {
-    if (index < text.length) {
-        // Handle HTML tags (like <strong>)
-        if (text[index] === '<') {
-            // Find the closing bracket
-            const closingIndex = text.indexOf('>', index);
-            if (closingIndex !== -1) {
-                // Add the entire tag at once
-                const tag = text.substring(index, closingIndex + 1);
-                element.innerHTML = element.innerHTML.replace(cursor.outerHTML, '') + tag;
-                element.appendChild(cursor);
-                // Continue typing after the tag
-                setTimeout(() => {
-                    typeText(element, text, cursor, closingIndex + 1, speed);
-                }, 0);
-                return;
+// Advanced RAG Implementation with Gemini AI
+class RAGChatbot {
+    constructor() {
+        this.conversationHistory = [];
+        this.currentContext = null;
+        this.userIntent = null;
+        this.isTyping = false;
+    }
+
+    // Enhanced semantic search through knowledge base
+    searchKnowledgeBase(query) {
+        const results = [];
+        const queryLower = query.toLowerCase();
+        
+        // Search through all knowledge base sections
+        const searchSections = [
+            { section: 'services', data: window.knowledgeBase.services },
+            { section: 'pricing', data: window.knowledgeBase.pricing },
+            { section: 'booking', data: window.knowledgeBase.booking },
+            { section: 'contact', data: window.knowledgeBase.contact },
+            { section: 'company', data: window.knowledgeBase.company },
+            { section: 'staff', data: window.knowledgeBase.staff },
+            { section: 'coverage', data: window.knowledgeBase.coverage },
+            { section: 'faq', data: window.knowledgeBase.faq }
+        ];
+
+        searchSections.forEach(({ section, data }) => {
+            const matches = this.findMatches(data, queryLower, section);
+            results.push(...matches);
+        });
+
+        return results.sort((a, b) => b.relevance - a.relevance);
+    }
+
+    // Deep search within data structures
+    findMatches(obj, query, section, path = '') {
+        const matches = [];
+        
+        if (typeof obj === 'string') {
+            const relevance = this.calculateRelevance(obj, query);
+            if (relevance > 0.3) {
+                matches.push({
+                    content: obj,
+                    section,
+                    path,
+                    relevance
+                });
             }
+        } else if (Array.isArray(obj)) {
+            obj.forEach((item, index) => {
+                matches.push(...this.findMatches(item, query, section, `${path}[${index}]`));
+            });
+        } else if (typeof obj === 'object' && obj !== null) {
+            Object.entries(obj).forEach(([key, value]) => {
+                const newPath = path ? `${path}.${key}` : key;
+                matches.push(...this.findMatches(value, query, section, newPath));
+            });
         }
 
-        // Handle closing tags
-        if (text[index] === '<' && text[index + 1] === '/') {
-            // Find the closing bracket
-            const closingIndex = text.indexOf('>', index);
-            if (closingIndex !== -1) {
-                // Add the entire closing tag at once
-                const tag = text.substring(index, closingIndex + 1);
-                element.innerHTML = element.innerHTML.replace(cursor.outerHTML, '') + tag;
-                element.appendChild(cursor);
-                // Continue typing after the tag
-                setTimeout(() => {
-                    typeText(element, text, cursor, closingIndex + 1, speed);
-                }, 0);
-                return;
+        return matches;
+    }
+
+    // Calculate relevance score for search results
+    calculateRelevance(text, query) {
+        const textLower = text.toLowerCase();
+        const queryWords = query.split(' ').filter(word => word.length > 2);
+        
+        let score = 0;
+        queryWords.forEach(word => {
+            if (textLower.includes(word)) {
+                score += 1;
+                // Bonus for exact phrase matches
+                if (textLower.includes(query)) {
+                    score += 0.5;
+                }
             }
+        });
+
+        return score / queryWords.length;
+    }
+
+    // Generate context-aware prompt for Gemini AI
+    generatePrompt(userMessage, searchResults) {
+        const context = searchResults.slice(0, 5).map(result => result.content).join('\n\n');
+        
+        const systemPrompt = `You are a helpful assistant for Desert Sports Med, a sports medicine company in St. George, Utah. 
+
+COMPANY INFORMATION:
+- Location: St. George, UT 84770
+- Phone: (801) 797-4043
+- Email: desertsportsmed@gmail.com
+- Instagram: @desertsportsmed
+- Hours: Mon-Fri 7am-7pm, Sat 8am-2pm, Sun Closed
+
+SERVICES:
+1. Medical Tents - Centralized treatment facilities for events
+2. On-Field Medical Coverage - Sideline athletic trainers
+3. Performance Therapy - Specialized treatment for athletes
+
+AVAILABLE PAGES:
+- About Us: about.html
+- Medical Tents: medical-tents.html
+- On-Field Coverage: on-field-coverage.html
+- Performance Therapy: performance-therapy.html
+- Book Online: book-online.html
+- Free Consultation: free-intro.html
+- Pricing Request: pricing-request.html
+
+RELEVANT CONTEXT FROM KNOWLEDGE BASE:
+${context}
+
+CONVERSATION HISTORY:
+${this.conversationHistory.slice(-6).map(msg => `${msg.role}: ${msg.content}`).join('\n')}
+
+RESPONSE GUIDELINES:
+- Keep responses concise (2-3 sentences max) while including all essential information
+- Use plain text only - NO markdown formatting (**, *, #, etc.)
+- NEVER include page links in your response text - quick action buttons will be provided instead
+- Be friendly, professional, and conversational
+- Provide specific details about services when asked
+- Include contact information when relevant
+- If you don't have specific information, direct them to contact the clinic
+- Focus on answering the question directly without suggesting page visits
+
+USER MESSAGE: ${userMessage}
+
+Please provide a helpful response following these guidelines.`;
+
+        return systemPrompt;
+    }
+
+    // Clean markdown artifacts from response text but preserve links
+    cleanMarkdownArtifacts(text) {
+        if (!text) return text;
+        
+        return text
+            // Remove markdown bold formatting (**text**)
+            .replace(/\*\*(.*?)\*\*/g, '$1')
+            // Remove markdown italic formatting (*text*)
+            .replace(/\*(.*?)\*/g, '$1')
+            // Remove markdown headers (# ## ###)
+            .replace(/^#{1,6}\s+/gm, '')
+            // Remove markdown code blocks (```text```)
+            .replace(/```[\s\S]*?```/g, '')
+            // Remove inline code (`text`)
+            .replace(/`([^`]+)`/g, '$1')
+            // Keep markdown links [text](url) - they will be processed later
+            // Clean up extra whitespace
+            .replace(/\n\s*\n\s*\n/g, '\n\n')
+            .trim();
+    }
+
+    // Call Gemini AI API
+    async callGeminiAPI(prompt) {
+        try {
+            // Get API configuration from global config
+            const apiKey = window.appConfig ? window.appConfig.get('GEMINI_API_KEY') : null;
+            const apiUrl = window.appConfig ? window.appConfig.get('GEMINI_API_URL') : null;
+            
+            // Check if API key is available
+            if (!apiKey || !apiUrl) {
+                console.error('Chatbot: API configuration not available');
+                return this.getFallbackResponse();
+            }
+
+            const response = await fetch(`${apiUrl}?key=${apiKey}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [{
+                            text: prompt
+                        }]
+                    }],
+                    generationConfig: {
+                        temperature: 0.7,
+                        topK: 40,
+                        topP: 0.95,
+                        maxOutputTokens: 1024,
+                    }
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error(`API request failed: ${response.status}`);
+            }
+
+            const data = await response.json();
+            const rawResponse = data.candidates[0].content.parts[0].text;
+            
+            // Clean markdown artifacts from the response
+            return this.cleanMarkdownArtifacts(rawResponse);
+        } catch (error) {
+            console.error('Gemini API Error:', error);
+            return this.getFallbackResponse();
         }
+    }
 
-        // Regular character
-        element.innerHTML = element.innerHTML.replace(cursor.outerHTML, '') + text[index];
-        element.appendChild(cursor);
+    // Fallback response when AI is unavailable
+    getFallbackResponse() {
+        return `I'm here to help with Desert Sports Med information! 
 
-        // Random typing speed variation for realistic effect
-        const randomSpeed = speed + Math.random() * 50 - 25;
+Our services include:
+• Medical Tents for events
+• On-Field Medical Coverage  
+• Performance Therapy
 
-        setTimeout(() => {
-            typeText(element, text, cursor, index + 1, speed);
-        }, randomSpeed);
+Contact us:
+📞 (801) 797-4043
+📧 desertsportsmed@gmail.com
+📍 St. George, UT
+
+How can I assist you today?`;
+    }
+
+    // Process user message with RAG
+    async processMessage(userMessage) {
+        // Add user message to conversation history
+        this.conversationHistory.push({
+            role: 'user',
+            content: userMessage,
+            timestamp: new Date()
+        });
+
+        // Search knowledge base for relevant information
+        const searchResults = this.searchKnowledgeBase(userMessage);
+        
+        // Generate AI prompt with context
+        const prompt = this.generatePrompt(userMessage, searchResults);
+        
+        // Get AI response
+        const aiResponse = await this.callGeminiAPI(prompt);
+        
+        // Add AI response to conversation history
+        this.conversationHistory.push({
+            role: 'assistant', 
+            content: aiResponse,
+            timestamp: new Date()
+        });
+
+        return aiResponse;
+    }
+
+    // Detect user intent for better responses
+    detectIntent(message) {
+        const messageLower = message.toLowerCase();
+        
+        if (messageLower.includes('book') || messageLower.includes('appointment') || messageLower.includes('schedule')) {
+            return 'booking';
+        } else if (messageLower.includes('price') || messageLower.includes('cost') || messageLower.includes('pricing')) {
+            return 'pricing';
+        } else if (messageLower.includes('contact') || messageLower.includes('phone') || messageLower.includes('email')) {
+            return 'contact';
+        } else if (messageLower.includes('service') || messageLower.includes('medical tent') || messageLower.includes('on-field') || messageLower.includes('therapy')) {
+            return 'services';
+        } else if (messageLower.includes('about') || messageLower.includes('company') || messageLower.includes('team')) {
+            return 'about';
+        }
+        
+        return 'general';
+    }
+
+    // Generate contextual follow-up options
+    generateFollowUpOptions(intent, message) {
+        const options = {
+            booking: [
+                "Book Free Consultation",
+                "View All Services", 
+                "Contact Us",
+                "Pricing Information"
+            ],
+            pricing: [
+                "Request Custom Quote",
+                "Medical Tent Pricing",
+                "On-Field Coverage Rates",
+                "Performance Therapy Costs"
+            ],
+            services: [
+                "Medical Tents",
+                "On-Field Coverage",
+                "Performance Therapy", 
+                "Book Consultation"
+            ],
+            contact: [
+                "Call Now",
+                "Send Email",
+                "Visit Instagram",
+                "Book Online"
+            ],
+            general: [
+                "Our Services",
+                "Book Appointment",
+                "Pricing Info",
+                "Contact Us"
+            ]
+        };
+
+        return options[intent] || options.general;
     }
 }
 
-// Function to show welcome bubble
+// Initialize RAG Chatbot
+const ragChatbot = new RAGChatbot();
+
+// Enhanced typing animation
+function typeText(element, text, cursor, index = 0, speed = 30) {
+    if (index < text.length) {
+        if (text[index] === '<') {
+            const closingIndex = text.indexOf('>', index);
+            if (closingIndex !== -1) {
+                const tag = text.substring(index, closingIndex + 1);
+                element.innerHTML = element.innerHTML.replace(cursor.outerHTML, '') + tag;
+                element.appendChild(cursor);
+                setTimeout(() => typeText(element, text, cursor, closingIndex + 1, speed), 0);
+                return;
+            }
+        }
+
+        element.innerHTML = element.innerHTML.replace(cursor.outerHTML, '') + text[index];
+        element.appendChild(cursor);
+
+        const randomSpeed = speed + Math.random() * 20 - 10;
+        setTimeout(() => typeText(element, text, cursor, index + 1, speed), randomSpeed);
+    } else {
+        // Remove cursor after typing is complete
+        setTimeout(() => {
+            if (cursor.parentNode) {
+                cursor.remove();
+            }
+        }, 1000);
+    }
+}
+
+// Welcome popup functionality
 function showWelcomePopup() {
-    // Don't show welcome bubble if chatbot is already open
     const chatbotContainer = document.querySelector('.chatbot-container');
     if (chatbotContainer && chatbotContainer.classList.contains('active')) {
         return;
     }
 
-    // Check if user has already seen the bubble (using sessionStorage to show once per session)
     if (sessionStorage.getItem('welcomeBubbleShown')) {
         return;
     }
 
-    // Create welcome bubble elements
     const welcomeBubble = document.createElement('div');
     welcomeBubble.className = 'welcome-bubble';
     welcomeBubble.innerHTML = `
@@ -186,120 +616,56 @@ function showWelcomePopup() {
         <button class="welcome-bubble-close"><i class="fas fa-times"></i></button>
     `;
 
-    // Text to type - shorter, more concise message
-    const textToType = '<strong>Questions?</strong> Chat with us!';
-
-    // Calculate approximate typing time (average 50ms per character plus buffer)
-    const typingTime = textToType.length * 50 + 1000;
-
-    // Add bubble to body
+    const textToType = '<strong>Questions?</strong> Chat with our AI assistant!';
     document.body.appendChild(welcomeBubble);
 
-    // Show bubble with animation
     setTimeout(() => {
         welcomeBubble.classList.add('active');
-
-        // Get the content element for typing animation
         const contentElement = welcomeBubble.querySelector('.welcome-bubble-content');
-
-        // Add typing cursor
         const cursor = document.createElement('span');
         cursor.className = 'typing-cursor';
         contentElement.appendChild(cursor);
 
-        // Start typing animation after bubble appears
         setTimeout(() => {
-            typeText(contentElement, textToType, cursor, 0, 50);
+            typeText(contentElement, textToType, cursor);
         }, 300);
     }, 100);
 
-    // Auto-hide bubble after typing is complete plus 10 seconds for reading
+    // Auto-hide after 12 seconds
     setTimeout(() => {
         if (welcomeBubble.parentNode) {
             welcomeBubble.classList.remove('active');
-            setTimeout(() => {
-                if (welcomeBubble.parentNode) {
-                    welcomeBubble.remove();
-                }
-            }, 300);
+            setTimeout(() => welcomeBubble.remove(), 300);
         }
-    }, typingTime + 10000);
+    }, 12000);
 
-    // Close bubble event
-    const closeBtn = welcomeBubble.querySelector('.welcome-bubble-close');
-    closeBtn.addEventListener('click', (e) => {
-        e.stopPropagation(); // Prevent bubble click event
+    // Event handlers
+    welcomeBubble.querySelector('.welcome-bubble-close').addEventListener('click', (e) => {
+        e.stopPropagation();
         welcomeBubble.classList.remove('active');
-        setTimeout(() => {
-            welcomeBubble.remove();
-        }, 300);
-
-        // Set flag in sessionStorage
+        setTimeout(() => welcomeBubble.remove(), 300);
         sessionStorage.setItem('welcomeBubbleShown', 'true');
     });
 
-    // Click on bubble to open chatbot
     welcomeBubble.addEventListener('click', () => {
         welcomeBubble.classList.remove('active');
-        setTimeout(() => {
-            welcomeBubble.remove();
-        }, 300);
-
-        // Open chatbot
-        const chatbotContainer = document.querySelector('.chatbot-container');
-        const chatbotInput = document.querySelector('.chatbot-input input');
-        if (chatbotContainer) {
-            chatbotContainer.classList.add('active');
-            if (chatbotInput) chatbotInput.focus();
-
-            // Trigger welcome message if it's the first time
-            const chatbotMessages = document.querySelector('.chatbot-messages');
-            if (chatbotMessages && chatbotMessages.children.length === 0) {
-                setTimeout(() => {
-                    addBotMessage("👋 How can I help you today?");
-                    showOptions([
-                        "Athletic training",
-                        "Services",
-                        "Book appointment",
-                        "Pricing",
-                        "Location"
-                    ]);
-                }, 500);
-            }
-        }
-
-        // Set flag in sessionStorage
+        setTimeout(() => welcomeBubble.remove(), 300);
+        openChatbotAutomatically();
         sessionStorage.setItem('welcomeBubbleShown', 'true');
     });
 }
 
-function initChatbot() {
-    const chatbotToggle = document.querySelector('.chatbot-toggle');
+// Auto-open chatbot functionality
+function openChatbotAutomatically() {
     const chatbotContainer = document.querySelector('.chatbot-container');
-    const chatbotClose = document.querySelector('.chatbot-close');
-    const chatbotInput = document.querySelector('.chatbot-input input');
-    const chatbotSendBtn = document.querySelector('.chatbot-input button');
-    const chatbotMessages = document.querySelector('.chatbot-messages');
+    const chatbotToggle = document.querySelector('.chatbot-toggle');
 
-    if (!chatbotToggle || !chatbotContainer) return;
+    if (chatbotContainer && chatbotToggle) {
+        chatbotContainer.classList.add('active');
+        chatbotToggle.classList.add('active');
 
-    // Toggle chatbot visibility
-    chatbotToggle.addEventListener('click', function() {
-        // Add clicked class for button animation
-        chatbotToggle.classList.add('clicked');
+        sessionStorage.setItem('welcomeBubbleShown', 'true');
 
-        // Remove the clicked class after animation completes
-        setTimeout(() => {
-            chatbotToggle.classList.remove('clicked');
-        }, 500);
-
-        // Toggle chatbot visibility
-        chatbotContainer.classList.toggle('active');
-
-        // Toggle active class on the button for icon animation
-        chatbotToggle.classList.toggle('active');
-
-        // Remove welcome bubble if it exists
         const welcomeBubble = document.querySelector('.welcome-bubble');
         if (welcomeBubble) {
             welcomeBubble.classList.remove('active');
@@ -308,29 +674,66 @@ function initChatbot() {
                     welcomeBubble.remove();
                 }
             }, 300);
+        }
 
-            // Set flag in sessionStorage to prevent it from showing again in this session
+        // Send welcome message
+        setTimeout(() => {
+            addBotMessage("👋 Hello! I'm your AI assistant for Desert Sports Med. How can I help you today?");
+            showOptions([
+                "Our Services",
+                "Book Appointment", 
+                "Pricing Information",
+                "Contact Us",
+                "About Our Team"
+            ]);
+        }, 500);
+    }
+}
+
+// Initialize chatbot interface
+function initChatbot() {
+    const chatbotToggle = document.querySelector('.chatbot-toggle');
+    const chatbotContainer = document.querySelector('.chatbot-container');
+    const chatbotClose = document.querySelector('.chatbot-close');
+    const chatbotInput = document.querySelector('.chatbot-input input');
+    const chatbotSendBtn = document.querySelector('.chatbot-input button');
+
+    if (!chatbotToggle || !chatbotContainer) return;
+
+    // Toggle chatbot
+    chatbotToggle.addEventListener('click', function() {
+        chatbotToggle.classList.add('clicked');
+        setTimeout(() => chatbotToggle.classList.remove('clicked'), 500);
+
+        chatbotContainer.classList.toggle('active');
+        chatbotToggle.classList.toggle('active');
+
+        const welcomeBubble = document.querySelector('.welcome-bubble');
+        if (welcomeBubble) {
+            welcomeBubble.classList.remove('active');
+            setTimeout(() => {
+                if (welcomeBubble.parentNode) {
+                    welcomeBubble.remove();
+                }
+            }, 300);
             sessionStorage.setItem('welcomeBubbleShown', 'true');
         }
 
         if (chatbotContainer.classList.contains('active')) {
-            // Focus on input after animation completes
-            setTimeout(() => {
-                chatbotInput.focus();
-            }, 500);
+            setTimeout(() => chatbotInput.focus(), 500);
 
+            const chatbotMessages = document.querySelector('.chatbot-messages');
             if (chatbotMessages.children.length === 0) {
-                // Send welcome message if it's the first time opening
                 setTimeout(() => {
-                    addBotMessage("👋 How can I help you today?");
+                    addBotMessage("👋 Hello! I'm your AI assistant for Desert Sports Med. How can I help you today?");
                     showOptions([
-                        "Athletic training",
-                        "Services",
-                        "Book appointment",
-                        "Pricing",
-                        "Location"
+                        "Our Services",
+                        "Book Appointment",
+                        "Pricing Information", 
+                        "Contact Us",
+                        "About Our Team"
                     ]);
-                }, 800); // Slightly longer delay for better user experience
+                }, 800);
             }
         }
     });
@@ -338,40 +741,23 @@ function initChatbot() {
     // Close chatbot
     if (chatbotClose) {
         chatbotClose.addEventListener('click', function() {
-            // Add a smooth closing animation
             chatbotContainer.style.opacity = '0';
             chatbotContainer.style.transform = 'scale(0.8) translateY(20px)';
 
-            // Remove active class after animation completes
             setTimeout(() => {
                 chatbotContainer.classList.remove('active');
-                // Reset styles for next opening
                 chatbotContainer.style.opacity = '';
                 chatbotContainer.style.transform = '';
-
-                // Remove active class from toggle button
                 chatbotToggle.classList.remove('active');
-
-                // Remove welcome bubble if it exists
-                const welcomeBubble = document.querySelector('.welcome-bubble');
-                if (welcomeBubble) {
-                    welcomeBubble.classList.remove('active');
-                    setTimeout(() => {
-                        if (welcomeBubble.parentNode) {
-                            welcomeBubble.remove();
-                        }
-                    }, 300);
-                }
             }, 300);
         });
     }
 
-    // Send message on button click
+    // Send message handlers
     if (chatbotSendBtn) {
         chatbotSendBtn.addEventListener('click', sendMessage);
     }
 
-    // Send message on Enter key
     if (chatbotInput) {
         chatbotInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
@@ -380,491 +766,245 @@ function initChatbot() {
         });
     }
 
-    // Add document click listener to close chatbot when clicking outside
+    // Close on outside click
     document.addEventListener('click', function(e) {
+        // Check if the clicked element is an option button or within an options container
+        const isOptionButton = e.target.classList.contains('option-btn') || 
+                              e.target.closest('.option-btn') ||
+                              e.target.closest('.options-container') ||
+                              e.target.closest('.options-message');
+        
         if (
             chatbotContainer.classList.contains('active') &&
             !chatbotContainer.contains(e.target) &&
             e.target !== chatbotToggle &&
-            !chatbotToggle.contains(e.target)
+            !chatbotToggle.contains(e.target) &&
+            !isOptionButton
         ) {
-            // Add a smooth closing animation
             chatbotContainer.style.opacity = '0';
             chatbotContainer.style.transform = 'scale(0.8) translateY(20px)';
 
-            // Remove active class after animation completes
             setTimeout(() => {
                 chatbotContainer.classList.remove('active');
-                // Reset styles for next opening
                 chatbotContainer.style.opacity = '';
                 chatbotContainer.style.transform = '';
-
-                // Remove active class from toggle button
                 chatbotToggle.classList.remove('active');
-
-                // Remove welcome bubble if it exists
-                const welcomeBubble = document.querySelector('.welcome-bubble');
-                if (welcomeBubble) {
-                    welcomeBubble.classList.remove('active');
-                    setTimeout(() => {
-                        if (welcomeBubble.parentNode) {
-                            welcomeBubble.remove();
-                        }
-                    }, 300);
-                }
             }, 300);
         }
     });
-
-    // Function to send user message
-    function sendMessage() {
-        const message = chatbotInput.value.trim();
-
-        if (message === '') return;
-
-        // Add user message to chat
-        addUserMessage(message);
-
-        // Clear input
-        chatbotInput.value = '';
-
-        // Show typing indicator
-        showTypingIndicator();
-
-        // Process the message and respond (with a slight delay to simulate thinking)
-        setTimeout(() => {
-            processMessage(message);
-        }, 1000);
-    }
-
-    // Function to add user message to chat
-    function addUserMessage(text) {
-        const messageElement = document.createElement('div');
-        messageElement.className = 'message user';
-        messageElement.innerHTML = `<div class="message-content">${text}</div>`;
-        chatbotMessages.appendChild(messageElement);
-        scrollToBottom();
-    }
-
-    // Function to add bot message to chat
-    function addBotMessage(text) {
-        // Remove typing indicator if it exists
-        const typingIndicator = chatbotMessages.querySelector('.typing-indicator');
-        if (typingIndicator) {
-            typingIndicator.remove();
-        }
-
-        const messageElement = document.createElement('div');
-        messageElement.className = 'message bot';
-        messageElement.innerHTML = `<div class="message-content">${text}</div>`;
-        chatbotMessages.appendChild(messageElement);
-
-        // Process any links in the message to make them work
-        const links = messageElement.querySelectorAll('a');
-        links.forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const href = this.getAttribute('href');
-                if (href) {
-                    window.open(href, '_blank');
-                }
-            });
-        });
-
-        scrollToBottom();
-    }
-
-    // Function to show typing indicator
-    function showTypingIndicator() {
-        const typingElement = document.createElement('div');
-        typingElement.className = 'typing-indicator';
-        typingElement.innerHTML = `
-            <span></span>
-            <span></span>
-            <span></span>
-        `;
-        chatbotMessages.appendChild(typingElement);
-        scrollToBottom();
-    }
-
-    // Function to show clickable options
-    function showOptions(options) {
-        const optionsContainer = document.createElement('div');
-        optionsContainer.className = 'chatbot-options';
-
-        options.forEach(option => {
-            const optionElement = document.createElement('div');
-            optionElement.className = 'chatbot-option';
-            optionElement.textContent = option;
-            optionElement.addEventListener('click', function() {
-                addUserMessage(option);
-                showTypingIndicator();
-                setTimeout(() => {
-                    processMessage(option);
-                }, 1000);
-            });
-            optionsContainer.appendChild(optionElement);
-        });
-
-        const messageElement = document.createElement('div');
-        messageElement.className = 'message bot';
-        messageElement.appendChild(optionsContainer);
-        chatbotMessages.appendChild(messageElement);
-        scrollToBottom();
-    }
-
-    // Function to scroll chat to bottom
-    function scrollToBottom() {
-        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
-    }
-
-    // Function to process user message and generate response
-    function processMessage(message) {
-        message = message.toLowerCase();
-
-        // Check for keywords and respond accordingly
-        if (message.includes('hello') || message.includes('hi') || message.includes('hey') || message === '') {
-            addBotMessage("Hello! How can I help you today?");
-            // Show main service options for greeting
-            showOptions([
-                "Medical Tents",
-                "On-Field Coverage",
-                "Performance Therapy",
-                "Pricing Information",
-                "Book a Consultation"
-            ]);
-        }
-        // Services section
-        else if (message.includes('services') || message.includes('what do you offer') || message === 'services') {
-            addBotMessage(window.knowledgeBase.services.general);
-            showOptions([
-                "Tell me about Medical Tents",
-                "Tell me about On-Field Coverage",
-                "Tell me about Performance Therapy"
-            ]);
-        }
-        else if (message.includes('medical tent') || message.includes('medical tents')) {
-            addBotMessage(window.knowledgeBase.faq.medicalTents);
-            addBotMessage(window.knowledgeBase.services.medicalTents);
-            showOptions([
-                "Benefits of Medical Tents",
-                "Request Medical Tent Pricing",
-                "Book a Medical Tent Consultation"
-            ]);
-        }
-        else if (message.includes('on-field') || message.includes('on field') || message.includes('sideline')) {
-            addBotMessage(window.knowledgeBase.faq.onFieldCoverage);
-            addBotMessage(window.knowledgeBase.services.onFieldCoverage);
-            showOptions([
-                "Benefits of On-Field Coverage",
-                "Request On-Field Coverage Pricing",
-                "Book an On-Field Coverage Consultation"
-            ]);
-        }
-        else if (message.includes('performance therapy')) {
-            addBotMessage(window.knowledgeBase.faq.performanceTherapy);
-            addBotMessage(window.knowledgeBase.services.performanceTherapy);
-            showOptions([
-                "Benefits of Performance Therapy",
-                "Performance Therapy Pricing",
-                "Book a Performance Therapy Session"
-            ]);
-        }
-        // Benefits section
-        else if (message.includes('benefits') && message.includes('medical tent')) {
-            addBotMessage(window.knowledgeBase.programs.medicalTentBenefits);
-        }
-        else if (message.includes('benefits') && (message.includes('on-field') || message.includes('on field'))) {
-            addBotMessage(window.knowledgeBase.programs.onFieldBenefits);
-        }
-        else if (message.includes('benefits') && message.includes('performance therapy')) {
-            addBotMessage(window.knowledgeBase.programs.performanceTherapyBenefits);
-        }
-        else if (message.includes('athletic training') || message === 'athletic training') {
-            addBotMessage(window.knowledgeBase.services.athleticTraining);
-        }
-        else if (message.includes('injury prevention')) {
-            addBotMessage(window.knowledgeBase.services.injuryPrevention);
-        }
-        else if (message.includes('performance enhancement')) {
-            addBotMessage(window.knowledgeBase.services.performanceEnhancement);
-        }
-        else if (message.includes('book') || message.includes('appointment') || message.includes('schedule') || message.includes('free intro') || message.includes('consultation') || message === 'book appointment') {
-            addBotMessage(window.knowledgeBase.booking.methods);
-            addBotMessage("<a href='book-online.html' target='_blank'>Click here to view all booking options</a>");
-        }
-        else if (message.includes('view all booking') || message.includes('booking options')) {
-            addBotMessage("You can view all our booking options and schedule directly on our booking page:");
-            addBotMessage("<a href='book-online.html' target='_blank'>Click here to open our booking page</a>");
-        }
-        else if (message.includes('book a free') || message.includes('free intro') || message.includes('free athletic') || message.includes('free consultation')) {
-            addBotMessage(window.knowledgeBase.booking.freeIntro + " <a href='free-intro.html' target='_blank'>Book now</a>");
-        }
-        else if (message.includes('book an athletic training') || message.includes('athletic training assessment') || message.includes('first appointment')) {
-            addBotMessage("Athletic Training Assessment: Our trainer will assess your movement, identify risks, and create a plan.");
-            addBotMessage("<a href='book-online.html#athletic-training-content' target='_blank'>Click here to book an Athletic Training Assessment</a>");
-        }
-        else if (message.includes('book a sports performance') || message.includes('sports performance session')) {
-            addBotMessage("Sports Performance: Improve strength, speed, power, and agility.");
-            addBotMessage("• Assessment (60 min)<br>• Training (60 min)");
-            addBotMessage("<a href='book-online.html#sports-performance-content' target='_blank'>Click here to book a Sports Performance session</a>");
-        }
-        else if (message.includes('book a team') || message.includes('team services')) {
-            addBotMessage("Team Services: Athletic training support for sports teams.");
-            addBotMessage("• Team Services Consultation (45 min)");
-            addBotMessage("<a href='book-online.html#team-services-content' target='_blank'>Click here to book a Team Services consultation</a>");
-        }
-        else if (message.includes('book an event') || message.includes('event coverage')) {
-            addBotMessage("Event Coverage: Athletic trainers for sporting events.");
-            addBotMessage("• Event Coverage Consultation (30 min)");
-            addBotMessage("<a href='book-online.html#event-coverage-content' target='_blank'>Click here to book an Event Coverage consultation</a>");
-        }
-        else if (message.includes('book a performance therapy') || message.includes('performance therapy session')) {
-            addBotMessage("Performance Therapy: Optimize function and prevent injuries.");
-            addBotMessage("• Performance Therapy Session (60 min)");
-            addBotMessage("<a href='book-online.html#performance-therapy-content' target='_blank'>Click here to book a Performance Therapy session</a>");
-        }
-        // Pricing information
-        else if (message.includes('pricing information') || message.includes('price') || message.includes('cost') || message.includes('fee') || message.includes('request pricing') || message === 'pricing') {
-            addBotMessage(window.knowledgeBase.faq.pricing);
-            addBotMessage("You can visit our <a href='pricing-request.html' target='_blank'>pricing page</a> for more information or contact us directly at <a href='tel:(801) 797-4043'>(801) 797-4043</a> or <a href='mailto:desertsportsmed@gmail.com'>desertsportsmed@gmail.com</a>.");
-            // Show pricing options with more descriptive text
-            showOptions([
-                "Medical Tent Pricing",
-                "On-Field Coverage Pricing",
-                "Performance Therapy Pricing",
-                "Request Custom Quote"
-            ]);
-        }
-        else if (message.includes('medical tent') && (message.includes('pricing') || message.includes('cost'))) {
-            addBotMessage(window.knowledgeBase.pricing.medicalTents);
-            addBotMessage("Visit our <a href='pricing-request.html' target='_blank'>pricing page</a> or contact us at <a href='tel:(801) 797-4043'>(801) 797-4043</a> for a custom quote.");
-            showPricingRequestForm();
-        }
-        else if ((message.includes('on-field') || message.includes('on field')) && (message.includes('pricing') || message.includes('cost'))) {
-            addBotMessage(window.knowledgeBase.pricing.onFieldCoverage);
-            addBotMessage("Visit our <a href='pricing-request.html' target='_blank'>pricing page</a> or contact us at <a href='tel:(801) 797-4043'>(801) 797-4043</a> for a custom quote.");
-            showPricingRequestForm();
-        }
-        else if (message.includes('performance therapy') && (message.includes('pricing') || message.includes('cost'))) {
-            addBotMessage(window.knowledgeBase.pricing.performanceTherapy);
-            addBotMessage("Visit our <a href='pricing-request.html' target='_blank'>pricing page</a> or contact us at <a href='tel:(801) 797-4043'>(801) 797-4043</a> for current rates.");
-            showPricingRequestForm();
-        }
-        else if (message.includes('custom quote') || message.includes('request quote')) {
-            addBotMessage("We'd be happy to provide a custom quote for your specific needs.");
-            addBotMessage("Visit our <a href='pricing-request.html' target='_blank'>pricing page</a> or contact us directly at <a href='tel:(801) 797-4043'>(801) 797-4043</a> or <a href='mailto:desertsportsmed@gmail.com'>desertsportsmed@gmail.com</a>.");
-            showPricingRequestForm();
-        }
-        else if (message.includes('insurance')) {
-            addBotMessage(window.knowledgeBase.pricing.insurance);
-        }
-        // Contact information
-        else if (message.includes('location') || message.includes('address') || message.includes('where') || message === 'location') {
-            addBotMessage(`We're located in St. George: <a href="https://maps.google.com/?q=${encodeURIComponent(window.knowledgeBase.contact.address)}" target="_blank">${window.knowledgeBase.contact.address}</a>`);
-        }
-        else if (message.includes('hours') || message.includes('when are you open')) {
-            addBotMessage("Hours: " + window.knowledgeBase.contact.hours.replace(/\n/g, '<br>'));
-        }
-        else if (message.includes('contact') || message.includes('talk to someone') || message.includes('speak') || message.includes('contact information')) {
-            addBotMessage(`Contact us:<br>• Phone: <a href="tel:${window.knowledgeBase.contact.phone}">${window.knowledgeBase.contact.phone}</a><br>• Email: <a href="mailto:${window.knowledgeBase.contact.email}">${window.knowledgeBase.contact.email}</a>`);
-            showOptions([
-                "Book a Free Consultation",
-                "Request Pricing Information",
-                "View Services"
-            ]);
-        }
-        else if (message.includes('thank')) {
-            addBotMessage("You're welcome! Is there anything else I can help you with today?");
-        }
-        else if (message.includes('no, that') || message.includes("that's all")) {
-            addBotMessage("Great! Feel free to come back if you have any other questions. Have a wonderful day!");
-        }
-        // FAQ Responses
-        else if (message.includes('what is an athletic trainer') || message.includes('who are athletic trainers')) {
-            addBotMessage(window.knowledgeBase.faq.athleticTrainer);
-        }
-        else if (message.includes('different from physical therapy') || message.includes('difference between')) {
-            addBotMessage(window.knowledgeBase.faq.difference);
-        }
-        else if (message.includes('what sports') || message.includes('sports do you work with')) {
-            addBotMessage(window.knowledgeBase.faq.sportsCovered);
-        }
-        else if (message.includes('age groups') || message.includes('ages')) {
-            addBotMessage(window.knowledgeBase.faq.ageGroups);
-        }
-        else if (message.includes('team services include') || message.includes('what does team services')) {
-            addBotMessage(window.knowledgeBase.faq.teamServices);
-        }
-        else if (message.includes('event coverage include') || message.includes('what does event coverage')) {
-            addBotMessage(window.knowledgeBase.faq.eventCoverage);
-        }
-        else if (message.includes('what is performance therapy')) {
-            addBotMessage(window.knowledgeBase.faq.performanceTherapy);
-        }
-        else if (message.includes('first visit') || message.includes('what happens during')) {
-            addBotMessage(window.knowledgeBase.faq.firstVisit);
-        }
-        else if (message.includes('what should i wear') || message.includes('equipment needed')) {
-            addBotMessage(window.knowledgeBase.faq.equipment);
-        }
-        else if (message.includes('remote') || message.includes('virtual') || message.includes('online consultation')) {
-            addBotMessage(window.knowledgeBase.faq.remoteServices);
-        }
-        else if (message.includes('insurance cover') || message.includes('covered by insurance')) {
-            addBotMessage(window.knowledgeBase.faq.insurance);
-        }
-        else if (message.includes('staff') || message.includes('your team') || message.includes('trainers')) {
-            addBotMessage(window.knowledgeBase.about.staff);
-            addBotMessage(window.knowledgeBase.about.certification);
-        }
-        else if (message.includes('i have more questions') || message.includes('deeper question')) {
-            addBotMessage("For more detailed information about our services, please contact us directly:");
-        }
-        else if (message.includes('call us')) {
-            addBotMessage(`Call us at: <a href="tel:${window.knowledgeBase.contact.phone}">${window.knowledgeBase.contact.phone}</a>`);
-        }
-        else if (message.includes('email us')) {
-            addBotMessage(`Email us at: <a href="mailto:${window.knowledgeBase.contact.email}">${window.knowledgeBase.contact.email}</a>`);
-        }
-        // Additional booking handlers
-        else if (message.includes('book an assessment') || (message.includes('book') && message.includes('assessment') && !message.includes('athletic') && !message.includes('sports'))) {
-            addBotMessage("We offer different types of assessments to meet your specific needs:");
-            addBotMessage("<a href='book-online.html' target='_blank'>Click here to view all booking options</a>");
-        }
-        else if (message.includes('book a virtual consultation') || message.includes('virtual consultation')) {
-            addBotMessage("Our virtual consultations allow you to meet with our athletic trainers remotely.");
-            addBotMessage("<a href='book-online.html' target='_blank'>Click here to book a virtual consultation</a>");
-        }
-        else if (message.includes('what happens during a virtual consultation')) {
-            addBotMessage("During a virtual consultation, our athletic trainer will assess your movement patterns, discuss your goals and concerns, and provide recommendations. You'll need a device with a camera and enough space to perform basic movements.");
-        }
-        else if (message.includes('what happens during the assessment') || message.includes('assessment include')) {
-            addBotMessage("During an Athletic Training Assessment, our certified athletic trainer will:");
-            addBotMessage("• Review your health and activity history<br>• Assess your movement patterns<br>• Identify potential injury risks<br>• Create a personalized plan<br>• Provide immediate recommendations");
-        }
-        // FAQ about certified athletic trainers
-        else if (message.includes('certified athletic trainer') || message.includes('why choose certified')) {
-            addBotMessage(window.knowledgeBase.faq.athleticTrainer);
-            showOptions([
-                "Medical Tent Services",
-                "On-Field Coverage Services",
-                "Book a Consultation"
-            ]);
-        }
-        // Booking process
-        else if (message.includes('booking process') || message.includes('how to book')) {
-            addBotMessage(window.knowledgeBase.faq.bookingProcess);
-            showOptions([
-                "Book a Free Consultation",
-                "View All Services",
-                "Contact Us"
-            ]);
-        }
-        // Fallback response
-        else {
-            addBotMessage("I'm not sure I understand. How can I help you today?");
-            // Show main options for fallback response
-            showOptions([
-                "Our Services",
-                "Pricing Information",
-                "Book a Consultation",
-                "Contact Us",
-                "Why Choose Certified Athletic Trainers?"
-            ]);
-        }
-    }
-
-    // Function to show pricing request form
-    function showPricingRequestForm() {
-        addBotMessage("I'd be happy to help you request detailed pricing information. Please fill out this quick form:");
-
-        const formHTML = `
-        <div class="chatbot-form">
-            <h4>Pricing Request Form</h4>
-            <div class="chatbot-form-field">
-                <label for="pricing-name">Your Name</label>
-                <input type="text" id="pricing-name" placeholder="Full Name">
-            </div>
-            <div class="chatbot-form-field">
-                <label for="pricing-email">Email Address</label>
-                <input type="email" id="pricing-email" placeholder="email@example.com">
-            </div>
-            <div class="chatbot-form-field">
-                <label for="pricing-phone">Phone Number</label>
-                <input type="tel" id="pricing-phone" placeholder="(123) 456-7890">
-            </div>
-            <div class="chatbot-form-field">
-                <label>Services of Interest (select all that apply)</label>
-                <div>
-                    <input type="checkbox" id="pricing-medical-tents" value="Medical Tents">
-                    <label for="pricing-medical-tents" style="display:inline;">Medical Tents</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="pricing-on-field" value="On-Field Coverage">
-                    <label for="pricing-on-field" style="display:inline;">On-Field Coverage</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="pricing-therapy" value="Performance Therapy">
-                    <label for="pricing-therapy" style="display:inline;">Performance Therapy</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="pricing-single-event" value="Single Event">
-                    <label for="pricing-single-event" style="display:inline;">Single Event</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="pricing-multiple-events" value="Multiple Events">
-                    <label for="pricing-multiple-events" style="display:inline;">Multiple Events</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="pricing-seasonal" value="Seasonal Contract">
-                    <label for="pricing-seasonal" style="display:inline;">Seasonal Contract</label>
-                </div>
-            </div>
-            <button class="chatbot-form-submit" id="pricing-submit">Request Pricing</button>
-        </div>
-        `;
-
-        const messageElement = document.createElement('div');
-        messageElement.className = 'message bot';
-        messageElement.innerHTML = `<div class="message-content">${formHTML}</div>`;
-        chatbotMessages.appendChild(messageElement);
-        scrollToBottom();
-
-        // Add event listener to the submit button
-        document.getElementById('pricing-submit').addEventListener('click', function() {
-            const name = document.getElementById('pricing-name').value.trim();
-            const email = document.getElementById('pricing-email').value.trim();
-            const phone = document.getElementById('pricing-phone').value.trim();
-
-            // Validate form
-            if (!name || !email || !phone) {
-                alert('Please fill out all required fields.');
-                return;
-            }
-
-            // Get selected services
-            const services = [];
-            if (document.getElementById('pricing-medical-tents').checked) services.push('Medical Tents');
-            if (document.getElementById('pricing-on-field').checked) services.push('On-Field Coverage');
-            if (document.getElementById('pricing-therapy').checked) services.push('Performance Therapy');
-            if (document.getElementById('pricing-single-event').checked) services.push('Single Event');
-            if (document.getElementById('pricing-multiple-events').checked) services.push('Multiple Events');
-            if (document.getElementById('pricing-seasonal').checked) services.push('Seasonal Contract');
-
-            // Process form submission
-            addUserMessage(`Requested pricing information for: ${services.join(', ')}`);
-            addBotMessage("Thank you for your request! We'll send detailed pricing information to you shortly. A member of our team will contact you within 24 business hours.");
-            addBotMessage("In the meantime, you can visit our <a href='pricing-request.html' target='_blank'>pricing page</a> for more information or contact us directly at <a href='tel:(801) 797-4043'>(801) 797-4043</a>.");
-
-            // Show follow-up options
-            showOptions([
-                "View Services",
-                "Book a Consultation",
-                "Contact Us"
-            ]);
-        });
-    }
-
-
 }
+
+// Enhanced message sending with AI processing
+async function sendMessage() {
+    const chatbotInput = document.querySelector('.chatbot-input input');
+    const message = chatbotInput.value.trim();
+
+    if (message === '' || ragChatbot.isTyping) return;
+
+    // Add user message
+    addUserMessage(message);
+    chatbotInput.value = '';
+
+    // Show typing indicator
+    ragChatbot.isTyping = true;
+    showTypingIndicator();
+
+    try {
+        // Process message with RAG AI
+        const response = await ragChatbot.processMessage(message);
+        
+        // Remove typing indicator
+        removeTypingIndicator();
+        
+        // Add AI response
+        addBotMessage(response);
+
+        // Detect intent and show relevant options
+        const intent = ragChatbot.detectIntent(message);
+        const options = ragChatbot.generateFollowUpOptions(intent, message);
+        
+        setTimeout(() => {
+            showOptions(options);
+        }, 1000);
+
+    } catch (error) {
+        console.error('Error processing message:', error);
+        removeTypingIndicator();
+        addBotMessage("I apologize, but I'm having trouble processing your request right now. Please try again or contact us directly at (801) 797-4043.");
+    }
+
+    ragChatbot.isTyping = false;
+}
+
+// Show typing indicator
+function showTypingIndicator() {
+    const chatbotMessages = document.querySelector('.chatbot-messages');
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'message bot-message typing-indicator';
+    typingDiv.innerHTML = `
+        <div class="typing-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    `;
+    chatbotMessages.appendChild(typingDiv);
+    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+}
+
+// Remove typing indicator
+function removeTypingIndicator() {
+    const typingIndicator = document.querySelector('.typing-indicator');
+    if (typingIndicator) {
+        typingIndicator.remove();
+    }
+}
+
+// Add user message to chat
+function addUserMessage(message) {
+    const chatbotMessages = document.querySelector('.chatbot-messages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'message user-message';
+    messageDiv.innerHTML = `<p>${message}</p>`;
+    chatbotMessages.appendChild(messageDiv);
+    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+}
+
+// Add bot message to chat
+function addBotMessage(message) {
+    const chatbotMessages = document.querySelector('.chatbot-messages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'message bot-message';
+    
+    // Convert markdown links [text](url) to HTML links
+    const processedMessage = message.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="chatbot-link">$1</a>');
+    
+    messageDiv.innerHTML = `<p>${processedMessage}</p>`;
+    chatbotMessages.appendChild(messageDiv);
+    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+}
+
+// Show option buttons
+function showOptions(options) {
+    const chatbotMessages = document.querySelector('.chatbot-messages');
+    const optionsDiv = document.createElement('div');
+    optionsDiv.className = 'message bot-message options-message';
+    
+    const optionsHTML = options.map(option => 
+        `<button class="option-btn" onclick="handleOptionClick('${option}')">${option}</button>`
+    ).join('');
+    
+    optionsDiv.innerHTML = `<div class="options-container">${optionsHTML}</div>`;
+    chatbotMessages.appendChild(optionsDiv);
+    chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+}
+
+// Handle option button clicks
+async function handleOptionClick(option) {
+    // Add user message
+    addUserMessage(option);
+    
+    // Remove options
+    const optionsMessage = document.querySelector('.options-message');
+    if (optionsMessage) {
+        optionsMessage.remove();
+    }
+
+    // Handle special action buttons
+    if (option === "Call Now") {
+        callPhone();
+        addBotMessage("Opening your phone app to call us at (801) 797-4043. We're here to help!");
+        return;
+    }
+    
+    if (option === "Send Email") {
+        sendEmail();
+        addBotMessage("Opening your email app to contact us at desertsportsmed@gmail.com. We'll respond quickly!");
+        return;
+    }
+    
+    if (option === "Visit Instagram") {
+        openInstagram();
+        addBotMessage("Opening our Instagram @desertsportsmed in a new tab. Follow us for updates!");
+        return;
+    }
+
+    // Handle page navigation options
+    const pageMapping = {
+        "Book Online": "booking",
+        "Book Free Consultation": "freeIntro",
+        "Book Consultation": "freeIntro",
+        "Book Appointment": "booking",
+        "Medical Tents": "medicalTents",
+        "On-Field Coverage": "onFieldCoverage", 
+        "Performance Therapy": "performanceTherapy",
+        "Pricing Information": "pricing",
+        "Pricing Info": "pricing",
+        "Request Custom Quote": "pricing"
+    };
+
+    if (pageMapping[option]) {
+        navigateToPage(pageMapping[option]);
+        return;
+    }
+
+    // Show typing indicator for AI processing
+    ragChatbot.isTyping = true;
+    showTypingIndicator();
+
+    try {
+        // Process with AI
+        const response = await ragChatbot.processMessage(option);
+        
+        removeTypingIndicator();
+        
+        // Add bot response without additional page links (quick action buttons will provide navigation)
+        addBotMessage(response);
+
+        // Show contextual follow-up options
+        const intent = ragChatbot.detectIntent(option);
+        const followUpOptions = ragChatbot.generateFollowUpOptions(intent, option);
+        
+        setTimeout(() => {
+            showOptions(followUpOptions);
+        }, 1000);
+
+    } catch (error) {
+        console.error('Error processing option:', error);
+        removeTypingIndicator();
+        addBotMessage("I apologize for the error. Please contact us at (801) 797-4043 for immediate assistance.");
+    }
+
+    ragChatbot.isTyping = false;
+}
+
+// Navigation helper functions
+function navigateToPage(page) {
+    const pages = window.knowledgeBase.pages;
+    if (pages[page]) {
+        window.open(pages[page], '_blank');
+        addBotMessage(`Opening ${page} page for you!`);
+    }
+}
+
+// Contact helper functions
+function callPhone() {
+    // Use window.location.href for tel: links to avoid page replacement issues
+    window.location.href = `tel:${window.knowledgeBase.contact.phone}`;
+}
+
+function sendEmail() {
+    // Use window.location.href for mailto: links to avoid page replacement issues  
+    window.location.href = `mailto:${window.knowledgeBase.contact.email}`;
+}
+
+function openInstagram() {
+    window.open(window.knowledgeBase.contact.socialMedia.instagram, '_blank');
+}
+
+// Make functions globally available
+window.handleOptionClick = handleOptionClick;
+window.navigateToPage = navigateToPage;
+window.callPhone = callPhone;
+window.sendEmail = sendEmail;
+window.openInstagram = openInstagram;
